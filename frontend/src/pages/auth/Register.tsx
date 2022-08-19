@@ -76,7 +76,7 @@ const Register = () => {
     >
       <Grid item className='item item-heading'>
         <Typography variant='h3' align='center'>
-          <FaUser /> Register
+          <FaUser /> Регистрация
         </Typography>
       </Grid>
       <Grid item className='item item-name'>
@@ -85,7 +85,7 @@ const Register = () => {
           required
           fullWidth
           name='name'
-          label='Name'
+          label='Имя'
           type='text'
           id='name'
           value={name}
@@ -111,7 +111,7 @@ const Register = () => {
           required
           fullWidth
           name='password'
-          label='Password'
+          label='Пароль'
           type='password'
           id='password'
           value={password}
@@ -124,7 +124,7 @@ const Register = () => {
           required
           fullWidth
           name='password2'
-          label='Confirm password'
+          label='Подтвердить пароль'
           type='password'
           id='password2'
           value={password2}
@@ -138,13 +138,17 @@ const Register = () => {
           variant='contained'
           sx={{ mt: 3, mb: 2 }}
         >
-          Sign Up
+          Зарегистрироваться
         </Button>
       </Grid>
       <Grid item className='item item-auth'>
-        <Link href='/login' variant='body2'>
-          {'Already have an account? Sign In'}
-        </Link>
+        <Grid container justifyContent='center' alignItems='center'>
+          <Grid item>
+            <Link href='/login' variant='body2'>
+              {'Уже зарегестрированы? Вход'}
+            </Link>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

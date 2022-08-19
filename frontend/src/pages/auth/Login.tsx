@@ -69,7 +69,7 @@ const Login = () => {
     >
       <Grid item className='item item-heading'>
         <Typography variant='h3' align='center'>
-          <FaUser /> Login
+          <FaUser /> Вход
         </Typography>
       </Grid>
 
@@ -92,7 +92,7 @@ const Login = () => {
           required
           fullWidth
           name='password'
-          label='Password'
+          label='Пароль'
           type='password'
           id='password'
           value={password}
@@ -107,13 +107,17 @@ const Login = () => {
           variant='contained'
           sx={{ mt: 3, mb: 2 }}
         >
-          Sign In
+          Вход
         </Button>
       </Grid>
       <Grid item className='item item-auth'>
-        <Link href='/register' variant='body2'>
-          {"Don't have an account? Sign up"}
-        </Link>
+        <Grid container justifyContent='center' alignItems='center'>
+          <Grid item>
+            <Link href='/register' variant='body2'>
+              {'Еще не зарегестрирован? Регистрация'}
+            </Link>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

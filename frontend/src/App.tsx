@@ -27,6 +27,7 @@ function App() {
       dispatch(getMe());
     }
   }, [dispatch]);
+
   const theme_state = useAppSelector(
     (state: any) => state.theme_state.is_dark_mode
   );

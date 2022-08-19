@@ -13,9 +13,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Запустились   ffff');
-});
+import authRoutes from './routes/user/authRoutes';
+
+app.use('/api/auth', authRoutes);
 
 //Serve frontend
 if (process.env.NODE_ENV === 'production') {
