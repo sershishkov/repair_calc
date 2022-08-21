@@ -44,7 +44,7 @@ const Register = () => {
     }
 
     if (isSucces || user) {
-      navigate('/');
+      navigate('/dashboard');
     }
 
     dispatch(reset());

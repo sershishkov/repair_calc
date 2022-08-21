@@ -13,7 +13,7 @@ const register = async (
 ): Promise<I_UserAuthResponse | null> => {
   const responseToken = await axios.post(`${API_URL}/register`, userData);
   const token = responseToken.data.token;
-  console.log('token', token);
+  // console.log('token', token);
 
   if (token) {
     localStorage.setItem('token', JSON.stringify(token));

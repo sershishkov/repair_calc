@@ -85,6 +85,19 @@ function NavigationList({ toggleDrawer }: { toggleDrawer: Function }) {
           )}
         </List>
       </Collapse>
+      {user && (
+        <ListItemButton
+          // sx={{ pl: 4 }}
+          component={Link}
+          href='/dashboard'
+          onClick={() => toggleDrawer(false)}
+        >
+          <ListItemIcon>
+            <FaSignInAlt />
+          </ListItemIcon>
+          <ListItemText primary='Навигационная панель' />
+        </ListItemButton>
+      )}
     </List>
   );
 }
