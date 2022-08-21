@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../app/hooks';
+import { RootState } from '../../app/store';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { logout, reset } from '../../features/auth/authSlice';
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import List from '@mui/material/List';
@@ -15,11 +16,10 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
-function NavigationList(props: { toggleDrawer: Function }) {
+function NavigationList({ toggleDrawer }: { toggleDrawer: Function }) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  // const { user } = useAppSelector((state: any) => state.auth);
-  let user = false;
+  const { user } = useAppSelector((state: RootState) => state.auth_state);
   const [openAuth, set__openAuth] = useState<boolean>(false);
 
   const onLogout = () => {
@@ -32,7 +32,7 @@ function NavigationList(props: { toggleDrawer: Function }) {
     <List
       sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
       component='nav'
-      onClick={() => props.toggleDrawer(false)}
+      onClick={() => toggleDrawer(false)}
     >
       <ListItemButton onClick={() => set__openAuth(!openAuth)}>
         <ListItemIcon>
@@ -47,7 +47,7 @@ function NavigationList(props: { toggleDrawer: Function }) {
             <ListItemButton
               sx={{ pl: 4 }}
               onClick={() => {
-                props.toggleDrawer(false);
+                toggleDrawer(false);
                 onLogout();
               }}
             >
@@ -62,7 +62,7 @@ function NavigationList(props: { toggleDrawer: Function }) {
                 sx={{ pl: 4 }}
                 component={Link}
                 href='/register'
-                onClick={() => props.toggleDrawer(false)}
+                onClick={() => toggleDrawer(false)}
               >
                 <ListItemIcon>
                   <FaUser />
@@ -74,7 +74,7 @@ function NavigationList(props: { toggleDrawer: Function }) {
                 sx={{ pl: 4 }}
                 component={Link}
                 href='/login'
-                onClick={() => props.toggleDrawer(false)}
+                onClick={() => toggleDrawer(false)}
               >
                 <ListItemIcon>
                   <FaSignInAlt />

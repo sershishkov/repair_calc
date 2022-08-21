@@ -1,6 +1,7 @@
 import React, { useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from './app/hooks';
+import { RootState } from './app/store';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -29,7 +30,7 @@ function App() {
   }, [dispatch]);
 
   const theme_state = useAppSelector(
-    (state: any) => state.theme_state.is_dark_mode
+    (state: RootState) => state.theme_state.is_dark_mode
   );
   return (
     <ThemeProvider theme={theme_state ? theme_dark : theme_light}>

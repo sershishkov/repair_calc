@@ -1,8 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import authService from './authService';
-import { I_UserAuth } from '../../interfaces/UserInterfaces';
+import {
+  I_UserAuthRequest,
+  I_UserAuthResponse,
+} from '../../interfaces/UserInterfaces';
 
-const initialState = {
+interface I_StateAuth {
+  user: I_UserAuthResponse | null;
+  isError: boolean;
+  isSucces: boolean;
+  isLoading: boolean;
+  message: string;
+}
+
+const initialState: I_StateAuth = {
   user: null,
   isError: false,
   isSucces: false,
@@ -13,7 +24,7 @@ const initialState = {
 //Register user
 export const register = createAsyncThunk(
   'auth/register',
-  async (userData: I_UserAuth, thunkAPI) => {
+  async (userData: I_UserAuthRequest, thunkAPI) => {
     try {
       return await authService.register(userData);
     } catch (error: any) {
@@ -31,7 +42,7 @@ export const register = createAsyncThunk(
 
 export const login = createAsyncThunk(
   'auth/login',
-  async (user: I_UserAuth, thunkAPI) => {
+  async (user: I_UserAuthRequest, thunkAPI) => {
     try {
       return await authService.login(user);
     } catch (error: any) {
@@ -83,7 +94,7 @@ export const auth__Slice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSucces = true;
-        // state.user = action.payload ? action.payload : null;
+        state.user = action.payload ? action.payload : null;
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
@@ -98,7 +109,7 @@ export const auth__Slice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSucces = true;
-        // state.user = action.payload;
+        state.user = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
@@ -113,7 +124,7 @@ export const auth__Slice = createSlice({
       .addCase(getMe.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSucces = true;
-        // state.user = action.payload;
+        state.user = action.payload;
       })
       .addCase(getMe.rejected, (state, action) => {
         state.isLoading = false;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { RootState } from '../../app/store';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FaUser } from 'react-icons/fa';
@@ -10,6 +11,13 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import CircularProgress from '@mui/material/CircularProgress';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
 
 import { login, reset } from '../../features/auth/authSlice';
 
@@ -18,26 +26,27 @@ const Login = () => {
     email: '',
     password: '',
   });
+  const [showPassword, set__showPassword] = useState<boolean>(false);
 
   const { email, password } = formData;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  // const { user, isLoading, isError, isSucces, message } = useAppSelector(
-  //   (state: any) => state.auth
-  // );
+  const { user, isLoading, isError, isSucces, message } = useAppSelector(
+    (state: RootState) => state.auth_state
+  );
 
-  // useEffect(() => {
-  //   if (isError) {
-  //     toast.error(message);
-  //   }
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
 
-  //   if (isSucces || user) {
-  //     navigate('/');
-  //   }
+    if (isSucces || user) {
+      navigate('/');
+    }
 
-  //   dispatch(reset());
-  // }, [user, isError, isSucces, message, navigate, dispatch]);
+    dispatch(reset());
+  }, [user, isError, isSucces, message, navigate, dispatch]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormdata((prevState) => ({
@@ -55,10 +64,19 @@ const Login = () => {
 
     dispatch(login(userData));
   };
+  const handleClickShowPassword = () => {
+    set__showPassword(!showPassword);
+  };
 
-  // if (isLoading) {
-  //   return <CircularProgress />;
-  // }
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
+  if (isLoading) {
+    return <CircularProgress />;
+  }
   return (
     <Grid
       component='form'
@@ -87,17 +105,29 @@ const Login = () => {
         />
       </Grid>
       <Grid item className='item item-password'>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='password'
-          label='Пароль'
-          type='password'
-          id='password'
-          value={password}
-          onChange={onChange}
-        />
+        <FormControl variant='outlined' fullWidth>
+          <InputLabel htmlFor='password'>Пароль</InputLabel>
+          <OutlinedInput
+            id='password'
+            name='password'
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={onChange}
+            endAdornment={
+              <InputAdornment position='end'>
+                <IconButton
+                  aria-label='toggle password visibility'
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge='end'
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label='Пароль'
+          />
+        </FormControl>
       </Grid>
 
       <Grid item className='item item-sibmit'>

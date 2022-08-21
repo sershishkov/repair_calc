@@ -5,6 +5,7 @@ export interface I_UserAuthRequest {
 }
 
 export interface I_UserAuthResponse {
+  _id: string;
   name: string;
   email: string;
   role: string;
