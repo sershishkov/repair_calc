@@ -15,6 +15,7 @@ import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 
 import StartPage from './pages/StartPage';
+import InfoUserPage from './pages/InfoUserPage';
 import NotFound from './pages/NotFound';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
@@ -58,10 +59,24 @@ function App() {
               {user && (
                 <>
                   <Route
-                    path='/dashboard'
-                    element={<PrivateRoute role={user.role} roles={['user']} />}
+                    element={
+                      <PrivateRoute
+                        role={user.role}
+                        roles={['manager', 'admin']}
+                      />
+                    }
                   >
                     <Route path='/dashboard' element={<Dashboard />} />
+                  </Route>
+                  <Route
+                    element={
+                      <PrivateRoute
+                        role={user.role}
+                        roles={['user', 'manager', 'admin']}
+                      />
+                    }
+                  >
+                    <Route path='/infouser' element={<InfoUserPage />} />
                   </Route>
                 </>
               )}

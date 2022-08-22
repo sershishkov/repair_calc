@@ -127,7 +127,7 @@ const Register = () => {
         />
       </Grid>
       <Grid item className='item item-password'>
-        <FormControl variant='outlined' fullWidth>
+        <FormControl variant='outlined' fullWidth margin='normal'>
           <InputLabel htmlFor='password'>Пароль</InputLabel>
           <OutlinedInput
             id='password'
@@ -152,10 +152,10 @@ const Register = () => {
         </FormControl>
       </Grid>
       <Grid item className='item item-password'>
-        <FormControl variant='outlined' fullWidth>
-          <InputLabel htmlFor='password'>Подтвердить пароль</InputLabel>
+        <FormControl variant='outlined' fullWidth margin='normal'>
+          <InputLabel htmlFor='password2'>Подтвердить пароль</InputLabel>
           <OutlinedInput
-            id='password'
+            id='password2'
             name='password2'
             type={showPassword2 ? 'text' : 'password'}
             value={password2}

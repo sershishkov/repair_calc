@@ -105,7 +105,7 @@ const Login = () => {
         />
       </Grid>
       <Grid item className='item item-password'>
-        <FormControl variant='outlined' fullWidth>
+        <FormControl variant='outlined' fullWidth margin='normal'>
           <InputLabel htmlFor='password'>Пароль</InputLabel>
           <OutlinedInput
             id='password'

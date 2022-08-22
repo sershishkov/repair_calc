@@ -89,6 +89,19 @@ function NavigationList({ toggleDrawer }: { toggleDrawer: Function }) {
         <ListItemButton
           // sx={{ pl: 4 }}
           component={Link}
+          href='/infouser'
+          onClick={() => toggleDrawer(false)}
+        >
+          <ListItemIcon>
+            <FaSignInAlt />
+          </ListItemIcon>
+          <ListItemText primary='Информация' />
+        </ListItemButton>
+      )}
+      {user && (user.role === 'manager' || user.role === 'admin') && (
+        <ListItemButton
+          // sx={{ pl: 4 }}
+          component={Link}
           href='/dashboard'
           onClick={() => toggleDrawer(false)}
         >

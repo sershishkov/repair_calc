@@ -5,12 +5,12 @@ import List from '@mui/material/List';
 
 import ListItem from '@mui/material/ListItem';
 
-function StartPage() {
+function InfoUserPage() {
   return (
     <Grid container direction='column'>
       <Grid item>
         <Typography variant='h3' align='center'>
-          Компания Олимп
+          Информация для клиентов
         </Typography>
         <Typography variant='h5' align='center'>
           Наша компания осуществляет услуги по ремонтам для ОСББ, так же мы
@@ -267,4 +267,4 @@ function StartPage() {
   );
 }
 
-export default StartPage;
+export default InfoUserPage;
