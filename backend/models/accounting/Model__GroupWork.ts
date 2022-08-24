@@ -6,6 +6,7 @@ const group_work__Schema = new Schema<I_GroupWork>({
   groupWorkName: {
     type: String,
     required: [true, 'Please add a group_work name'],
+    unique: true,
   },
 });
 

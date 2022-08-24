@@ -6,6 +6,7 @@ const contract_type__Schema = new Schema<I_ContractType>({
   contractTypeName: {
     type: String,
     required: [true, 'Please add a contract_type name'],
+    unique: true,
   },
 });
 

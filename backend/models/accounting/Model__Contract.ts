@@ -16,6 +16,7 @@ const contract__Schema = new Schema<I_Contract>({
   contractNumber: {
     type: String,
     required: [true, 'Please add a contractNumber'],
+    unique: true,
   },
   contractDate: {
     type: Date,

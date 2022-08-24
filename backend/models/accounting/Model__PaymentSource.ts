@@ -6,6 +6,7 @@ const payment_source__Schema = new Schema<I_PaymentSource>({
   paymentSourceName: {
     type: String,
     required: [true, 'Please add a payment_source name'],
+    unique: true,
   },
 });
 

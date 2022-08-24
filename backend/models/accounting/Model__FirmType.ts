@@ -6,6 +6,7 @@ const firm_type__Schema = new Schema<I_firmType>({
   nameTypeLong: {
     type: String,
     required: [true, 'Please add a firm_type name'],
+    unique: true,
   },
   nameTypeShort: {
     type: String,

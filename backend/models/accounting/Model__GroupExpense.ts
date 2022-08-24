@@ -6,6 +6,7 @@ const group_expense__Schema = new Schema<I_GroupExpense>({
   groupExpenseName: {
     type: String,
     required: [true, 'Please add a group_expense name'],
+    unique: true,
   },
 });
 

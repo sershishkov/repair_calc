@@ -6,6 +6,7 @@ const product__Schema = new Schema<I_Product>({
   productName: {
     type: String,
     required: [true, 'Please add a unit name'],
+    unique: true,
   },
   unit: {
     type: Schema.Types.ObjectId,

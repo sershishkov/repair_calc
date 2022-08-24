@@ -6,6 +6,7 @@ const client__Schema = new Schema<I_Client>({
   nameClientLong: {
     type: String,
     required: [true, 'Please add a client name'],
+    unique: true,
   },
   nameClientShort: {
     type: String,
@@ -19,6 +20,7 @@ const client__Schema = new Schema<I_Client>({
   postIndex: {
     type: Number,
     required: [true, 'Please add a post index'],
+    match: [/\b\d{5}\b/, 'Пожалуйста введите 5 цифр'],
   },
   address: {
     type: String,
@@ -26,18 +28,24 @@ const client__Schema = new Schema<I_Client>({
   },
   edrpou: {
     type: Number,
+    unique: true,
+    match: [/\b\d{8}\b/, 'Пожалуйста введите 8 цифр'],
     // required: [true, 'Please add a client name'],
   },
   inn: {
     type: Number,
+    unique: true,
+    match: [/\b\d{10}\b/, 'Пожалуйста введите 10 цифр'],
     // required: [true, 'Please add a client name'],
   },
   iban: {
     type: Number,
+    unique: true,
     // required: [true, 'Please add a client name'],
   },
   iban_budget: {
     type: Number,
+    unique: true,
     // required: [true, 'Please add a client name'],
   },
   passport: {
@@ -96,6 +104,11 @@ const client__Schema = new Schema<I_Client>({
   },
   email: {
     type: String,
+    unique: true,
+    match: [
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      'Пожалуйста введите корректный email',
+    ],
     // required: [true, 'Please add an email'],
   },
   clientType: {

@@ -6,6 +6,7 @@ const client_type__Schema = new Schema<I_ClientType>({
   clientTypeName: {
     type: String,
     required: [true, 'Please add a client_type name'],
+    unique: true,
   },
 });
 

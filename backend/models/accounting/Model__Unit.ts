@@ -6,6 +6,7 @@ const unit__Schema = new Schema<I_Unit>({
   unitName: {
     type: String,
     required: [true, 'Please add a unit name'],
+    unique: true,
   },
 });
 

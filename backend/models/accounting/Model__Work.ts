@@ -6,6 +6,7 @@ const work__Schema = new Schema<I_Work>({
   workName: {
     type: String,
     required: [true, 'Please add a work name'],
+    unique: true,
   },
   unit: {
     type: Schema.Types.ObjectId,
