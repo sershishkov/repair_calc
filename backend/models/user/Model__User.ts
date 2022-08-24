@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-import { I_UserAuthModel } from '../interfaces/UserInterface';
+import { I_UserAuthModel } from '../../interfaces/UserInterface';
 
 const user__Schema = new Schema<I_UserAuthModel>(
   {
@@ -27,7 +27,18 @@ const user__Schema = new Schema<I_UserAuthModel>(
     },
     role: {
       type: String,
-      enum: ['user', 'manager', 'admin'],
+      enum: [
+        'user',
+        'worker',
+        'client',
+        'partner',
+        'seller',
+        'engineer',
+        'accountant',
+        'manager',
+        'boss',
+        'admin',
+      ],
       default: 'user',
     },
   },

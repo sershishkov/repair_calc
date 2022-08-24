@@ -1,3 +1,34 @@
+export interface I_Unit {
+  _id?: string;
+  unitName: string;
+}
+
+export interface I_firmType {
+  _id?: string;
+  nameTypeLong: string;
+  nameTypeShort: string | null;
+}
+
+export interface I_TaxationType {
+  _id?: string;
+  taxationTypeName: string;
+}
+
+export interface I_GroupWork {
+  _id?: string;
+  groupWorkName: string;
+}
+
+export interface I_GroupProduct {
+  _id?: string;
+  groupProductName: string;
+}
+
+export interface I_WorkerRole {
+  _id?: string;
+  workerRoleName: string;
+}
+
 export interface I_Client {
   _id?: string;
   nameClientLong: string;
@@ -20,39 +51,45 @@ export interface I_Client {
   certificateNumber: string;
   representedBy: string;
   jobTitle: string;
+  tax: number;
   taxationType: string;
   telNumber: string;
   email: string;
 }
 
-export interface I_firmType {
+export interface I_ContractType {
   _id?: string;
-  nameTypeLong: string;
-  nameTypeShort: string | null;
+  contractTypeName: string;
+  // ['Общий',
+  // 'Сумма',
+  // 'Сумма Кошторис',
+  // 'Предоплата',
+  // 'Частичная предоплата',]
+}
+export interface I_PaymentSource {
+  _id?: string;
+  paymentSourceName: string;
+  // ['Собственные',
+  // 'Бюджет',
+  // 'Софинанс',
+  // 'Форма2',]
 }
 
-export interface I_Unit {
+export interface I_GroupExpense {
   _id?: string;
-  unitName: string;
+  groupExpenseName: string;
 }
 
-export interface I_TaxationType {
+export interface I_SalaryPayment {
   _id?: string;
-  taxationTypeName: string;
+  workerLastName: string;
+  paymentSum: number;
+  paymentDate: Date;
+  contractNumber?: string;
 }
 
 export interface I_OurFirm extends I_Client {
   simpleName: string;
-}
-
-export interface I_GroupWork {
-  _id?: string;
-  groupWorkName: string;
-}
-
-export interface I_GroupProduct {
-  _id?: string;
-  groupProductName: string;
 }
 
 export interface I_Work {
@@ -92,11 +129,6 @@ export interface I_Worker {
   birthDay?: Date;
 }
 
-export interface I_WorkerRole {
-  _id?: string;
-  workerRoleName: string;
-}
-
 export interface I_Contract {
   _id?: string;
   ourFirmName: string;
@@ -105,28 +137,6 @@ export interface I_Contract {
   contractDate: Date;
   contractTypeName: string;
   paymentSource: string;
-}
-
-export interface I_ContractType {
-  _id?: string;
-  contractTypeName: string;
-  // ['Общий',
-  // 'Сумма',
-  // 'Предоплата',
-  // 'Частичная предоплата',]
-}
-export interface I_PaymentSource {
-  _id?: string;
-  paymentSourceName: string;
-  // ['Собственные',
-  // 'Бюджет',
-  // 'Софинанс',
-  // 'Форма2',]
-}
-
-export interface I_GroupExpense {
-  _id?: string;
-  groupExpenseName: string;
 }
 
 export interface I_Expense {
@@ -163,12 +173,4 @@ export interface I_BankIncome {
   contractNumber?: string;
   paymentSum: number;
   paymentDate: Date;
-}
-
-export interface I_SalaryPayment {
-  _id?: string;
-  workerLastName: string;
-  paymentSum: number;
-  paymentDate: Date;
-  contractNumber?: string;
 }

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
-import Model__User from '../../models/Model__User';
+import Model__User from '../../models/user/Model__User';
 
 import {
   I_GetUserAuthInfoToRequest,

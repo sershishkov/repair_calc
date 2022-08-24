@@ -1,7 +1,7 @@
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
-import Model__User from '../models/Model__User';
+import Model__User from '../models/user/Model__User';
 import {
   I_JwtPayload,
   I_GetUserAuthInfoToRequest,
