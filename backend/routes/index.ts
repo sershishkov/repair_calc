@@ -12,6 +12,7 @@ import router__ContractType from './accounting/router__ContractType';
 import router__PaymentSource from './accounting/router__PaymentSource';
 import router__GroupExpense from './accounting/router__GroupExpense';
 import router__ClientType from './accounting/router__ClientType';
+import router__Client from './accounting/router__Client';
 
 router.use('/auth', authRoutes);
 
@@ -25,5 +26,7 @@ router.use('/accounting/contracttype', router__ContractType);
 router.use('/accounting/paymentsource', router__PaymentSource);
 router.use('/accounting/groupexpense', router__GroupExpense);
 router.use('/accounting/clienttype', router__ClientType);
+
+router.use('/accounting/clients', router__Client);
 
 export default router;

@@ -5,17 +5,17 @@ import { I_Client } from '../../interfaces/AccountingInterfaces';
 const client__Schema = new Schema<I_Client>({
   nameClientLong: {
     type: String,
-    required: [true, 'Please add a client name'],
+    required: [true, 'Please add a client long name'],
     unique: true,
   },
   nameClientShort: {
     type: String,
-    // required: [true, 'Please add a client name'],
+    required: [true, 'Please add a client short name'],
   },
   firmType: {
     type: Schema.Types.ObjectId,
     ref: 'firm_type',
-    // required: [true, 'Please add a client name'],
+    required: [true, 'Please add a client name'],
   },
   postIndex: {
     type: Number,
@@ -39,12 +39,12 @@ const client__Schema = new Schema<I_Client>({
     // required: [true, 'Please add a client name'],
   },
   iban: {
-    type: Number,
+    type: String,
     unique: true,
     // required: [true, 'Please add a client name'],
   },
   iban_budget: {
-    type: Number,
+    type: String,
     unique: true,
     // required: [true, 'Please add a client name'],
   },
@@ -86,21 +86,31 @@ const client__Schema = new Schema<I_Client>({
     type: String,
     // required: [true, 'Please add a representedBy'],
   },
+  whichActsOnTheBasis: {
+    type: String,
+  },
   jobTitle: {
+    type: String,
+    // required: [true, 'Please add a jobTitle'],
+  },
+  jobTitle_rodit: {
     type: String,
     // required: [true, 'Please add a jobTitle'],
   },
   tax: {
     type: Number,
-    // required: [true, 'Please add a tax'],
+    required: [true, 'Please add a tax'],
   },
   taxationType: {
     type: Schema.Types.ObjectId,
     ref: 'taxation_type',
   },
+  certificate_PDV: {
+    type: String,
+  },
   telNumber: {
     type: String,
-    // required: [true, 'Please add a telNumber'],
+    required: [true, 'Please add a telNumber'],
   },
   email: {
     type: String,
@@ -109,7 +119,7 @@ const client__Schema = new Schema<I_Client>({
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
       'Пожалуйста введите корректный email',
     ],
-    // required: [true, 'Please add an email'],
+    required: [true, 'Please add an email'],
   },
   clientType: {
     type: [Schema.Types.ObjectId],

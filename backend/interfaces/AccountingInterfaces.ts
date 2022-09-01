@@ -63,7 +63,7 @@ export interface I_ClientType {
 export interface I_Client {
   _id?: string;
   nameClientLong: string;
-  nameClientShort?: string;
+  nameClientShort: string;
   firmType?: Types.ObjectId;
   firmTypeLong?: string;
   firmTypeShort?: string;
@@ -71,8 +71,8 @@ export interface I_Client {
   address: string;
   edrpou?: number;
   inn?: number;
-  iban?: number;
-  iban_budget?: number;
+  iban?: string;
+  iban_budget?: string;
   passport?: string;
   firstName_imen: string;
   patronymic_imen: string;
@@ -82,10 +82,13 @@ export interface I_Client {
   lastName_rodit: string;
   certificateNumber?: string;
   representedBy?: string;
+  whichActsOnTheBasis?: string;
   jobTitle?: string;
+  jobTitle_rodit?: string;
   tax?: number;
   taxationType?: Types.ObjectId;
   taxationTypeName?: string;
+  certificate_PDV: string;
   telNumber?: string;
   email?: string;
   clientTypesName?: [string];
