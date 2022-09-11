@@ -111,6 +111,20 @@ export interface I_Contract {
   paymentSource: Types.ObjectId;
 }
 
+export interface I_Worker {
+  _id?: string;
+  firstName: string;
+  patronymic?: string;
+  lastName: string;
+  workerRole: Types.ObjectId;
+  passportSeries?: string;
+  passportNumber?: string;
+  representedBy?: string;
+  whenIssued?: Date;
+  inn?: number;
+  birthDay?: Date;
+}
+
 export interface I_SalaryPayment {
   _id?: string;
   workerLastName?: string;
@@ -147,19 +161,6 @@ export interface I_Product {
   height?: number;
   width?: number;
   length?: number;
-}
-
-export interface I_Worker {
-  _id?: string;
-  firstName: string;
-  patronymic?: string;
-  lastName: string;
-  workerRole: Types.ObjectId;
-  passportSeries?: string;
-  passportNumber?: string;
-  representedBy?: string;
-  whenIssued?: Date;
-  birthDay?: Date;
 }
 
 export interface I_Expense {
