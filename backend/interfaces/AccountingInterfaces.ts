@@ -95,6 +95,22 @@ export interface I_Client {
   clientType?: [Types.ObjectId];
 }
 
+export interface I_Contract {
+  _id?: string;
+  ourFirmName?: string;
+  ourFirm: Types.ObjectId;
+  clientName?: string;
+  client: Types.ObjectId;
+  contractNumber: string;
+  contractDate: Date;
+  contractDescription: string;
+  workAddress: string;
+  contractTypeName?: string;
+  contractType: Types.ObjectId;
+  paymentSourceName?: string;
+  paymentSource: Types.ObjectId;
+}
+
 export interface I_SalaryPayment {
   _id?: string;
   workerLastName?: string;
@@ -144,22 +160,6 @@ export interface I_Worker {
   representedBy?: string;
   whenIssued?: Date;
   birthDay?: Date;
-}
-
-export interface I_Contract {
-  _id?: string;
-  ourFirmName?: string;
-  ourFirm: Types.ObjectId;
-  clientName?: string;
-  client: Types.ObjectId;
-  contractNumber: string;
-  contractDate: Date;
-  contractDescription: string;
-  workAddress: string;
-  contractTypeName?: string;
-  contractType: Types.ObjectId;
-  paymentSourceName?: string;
-  paymentSource: Types.ObjectId;
 }
 
 export interface I_Expense {
