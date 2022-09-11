@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
 
-import { I_BankIncome } from '../../interfaces/AccountingInterfaces';
+import { I_PaymentToSupplier } from '../../interfaces/AccountingInterfaces';
 
-const bank_income__Schema = new Schema<I_BankIncome>({
+const payment_to_supplier__Schema = new Schema<I_PaymentToSupplier>({
   contract: {
     type: Schema.Types.ObjectId,
     ref: 'contract',
@@ -18,4 +18,4 @@ const bank_income__Schema = new Schema<I_BankIncome>({
   },
 });
 
-export default model('bank_income', bank_income__Schema);
+export default model('payment_to_supplier', payment_to_supplier__Schema);

@@ -176,12 +176,14 @@ export interface I_Expense {
 
 export interface I_BankIncome {
   _id?: string;
-  ourFirmName?: string;
-  ourFirm: Types.ObjectId;
-  clientName?: string;
-  client: Types.ObjectId;
-  contractNumber?: string;
-  contract?: Types.ObjectId;
+  contract: Types.ObjectId;
+  paymentSum: number;
+  paymentDate: Date;
+}
+
+export interface I_PaymentToSupplier {
+  _id?: string;
+  contract: Types.ObjectId;
   paymentSum: number;
   paymentDate: Date;
 }
