@@ -15,6 +15,7 @@ import router__ClientType from './accounting/router__ClientType';
 import router__Client from './accounting/router__Client';
 import router__Contract from './accounting/router__Contract';
 import router__Worker from './accounting/router__Worker';
+import router__SalaryPayment from './accounting/router__SalaryPayment';
 
 router.use('/auth', authRoutes);
 
@@ -32,5 +33,6 @@ router.use('/accounting/clienttype', router__ClientType);
 router.use('/accounting/clients', router__Client);
 router.use('/accounting/contract', router__Contract);
 router.use('/accounting/worker', router__Worker);
+router.use('/accounting/salarypayment', router__SalaryPayment);
 
 export default router;
