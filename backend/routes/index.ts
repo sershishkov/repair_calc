@@ -12,10 +12,14 @@ import router__ContractType from './accounting/router__ContractType';
 import router__PaymentSource from './accounting/router__PaymentSource';
 import router__GroupExpense from './accounting/router__GroupExpense';
 import router__ClientType from './accounting/router__ClientType';
+import router__ProductType from './accounting/router__ProductType';
+
 import router__Client from './accounting/router__Client';
 import router__Contract from './accounting/router__Contract';
 import router__Worker from './accounting/router__Worker';
 import router__SalaryPayment from './accounting/router__SalaryPayment';
+import router__Product from './accounting/router__Product';
+import router__ServiceWork from './accounting/router__ServiceWork';
 
 router.use('/auth', authRoutes);
 
@@ -29,10 +33,13 @@ router.use('/accounting/contracttype', router__ContractType);
 router.use('/accounting/paymentsource', router__PaymentSource);
 router.use('/accounting/groupexpense', router__GroupExpense);
 router.use('/accounting/clienttype', router__ClientType);
+router.use('/accounting/producttype', router__ProductType);
 
 router.use('/accounting/clients', router__Client);
 router.use('/accounting/contract', router__Contract);
 router.use('/accounting/worker', router__Worker);
 router.use('/accounting/salarypayment', router__SalaryPayment);
+router.use('/accounting/products', router__Product);
+router.use('/accounting/servicework', router__ServiceWork);
 
 export default router;

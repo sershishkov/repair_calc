@@ -135,15 +135,9 @@ export interface I_SalaryPayment {
   contract: Types.ObjectId;
 }
 
-export interface I_Work {
+export interface I_ProductType {
   _id?: string;
-  workName: string;
-  unitName?: string;
-  unit: Types.ObjectId;
-  groupWorkName?: string;
-  groupWork: Types.ObjectId[];
-  priceWorker: number;
-  priceClient?: number;
+  productTypeName: string;
 }
 
 export interface I_Product {
@@ -152,15 +146,30 @@ export interface I_Product {
   unitName?: string;
   unit: Types.ObjectId;
   groupProductName?: string;
-  groupProduct: Types.ObjectId[];
+  groupProduct?: Types.ObjectId[];
+  productType: Types.ObjectId;
   priceBuy: number;
   priceSell?: number;
-  normPerOne: number;
-  amountInPackage: number;
+  normPerOne?: number;
+  amountInPackage?: number;
   weight?: number;
   height?: number;
   width?: number;
   length?: number;
+}
+
+export interface I_ServiceWork {
+  _id?: string;
+  serviceWorkName: string;
+  unitName?: string;
+  unit: Types.ObjectId;
+  groupWorkName?: string;
+  groupWork: Types.ObjectId[];
+  priceWorker: number;
+  priceClient?: number;
+
+  products?: Types.ObjectId[];
+  equipmentAndTools?: Types.ObjectId[];
 }
 
 export interface I_Expense {
