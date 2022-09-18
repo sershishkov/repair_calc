@@ -21,26 +21,32 @@ import router__Product from './refData/router__Product';
 import router__ServiceWork from './refData/router__ServiceWork';
 
 import router__SalaryPayment from './accounting/router__SalaryPayment';
+import router__Expense from './accounting/router__Expense';
+import router__BankIncome from './accounting/router__BankIncome';
+import router__PaymentToSupplier from './accounting/router__PaymentToSupplier';
 
 router.use('/auth', authRoutes);
 
-router.use('/accounting/unit', router__Unit);
-router.use('/accounting/firmtype', router__FirmType);
-router.use('/accounting/taxationtype', router__TaxationType);
-router.use('/accounting/groupwork', router__GroupWork);
-router.use('/accounting/groupproduct', router__GroupProduct);
-router.use('/accounting/workerrole', router__WorkerRole);
-router.use('/accounting/contracttype', router__ContractType);
-router.use('/accounting/paymentsource', router__PaymentSource);
-router.use('/accounting/groupexpense', router__GroupExpense);
-router.use('/accounting/clienttype', router__ClientType);
-router.use('/accounting/producttype', router__ProductType);
-router.use('/accounting/clients', router__Client);
-router.use('/accounting/contract', router__Contract);
-router.use('/accounting/worker', router__Worker);
-router.use('/accounting/products', router__Product);
-router.use('/accounting/servicework', router__ServiceWork);
+router.use('/refdata/unit', router__Unit);
+router.use('/refdata/firmtype', router__FirmType);
+router.use('/refdata/taxationtype', router__TaxationType);
+router.use('/refdata/groupwork', router__GroupWork);
+router.use('/refdata/groupproduct', router__GroupProduct);
+router.use('/refdata/workerrole', router__WorkerRole);
+router.use('/refdata/contracttype', router__ContractType);
+router.use('/refdata/paymentsource', router__PaymentSource);
+router.use('/refdata/groupexpense', router__GroupExpense);
+router.use('/refdata/clienttype', router__ClientType);
+router.use('/refdata/producttype', router__ProductType);
+router.use('/refdata/clients', router__Client);
+router.use('/refdata/contract', router__Contract);
+router.use('/refdata/worker', router__Worker);
+router.use('/refdata/products', router__Product);
+router.use('/refdata/servicework', router__ServiceWork);
 
 router.use('/accounting/salarypayment', router__SalaryPayment);
+router.use('/accounting/expense', router__Expense);
+router.use('/accounting/bankincome', router__BankIncome);
+router.use('/accounting/paymenttosupplier', router__PaymentToSupplier);
 
 export default router;

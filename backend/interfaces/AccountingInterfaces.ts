@@ -181,6 +181,7 @@ export interface I_Expense {
   expenseDate: Date;
   responsiblePersonLastName?: string;
   responsiblePerson: Types.ObjectId;
+  contract: Types.ObjectId;
 }
 
 export interface I_BankIncome {
@@ -197,17 +198,17 @@ export interface I_PaymentToSupplier {
   paymentDate: Date;
 }
 
-export interface I_Report_Deal {
-  _id?: string;
-  contractNumber: Types.ObjectId;
-  totalSum: number;
-  tax: number;
-  additionalExpense: number;
-  productSum: number;
-  workSum: number;
-  responsiblePersonName?: string;
-  responsiblePerson: Types.ObjectId;
-  workerLastName?: string;
-  worker: Types.ObjectId;
-  income?: number;
-}
+// export interface I_Report_Deal {
+//   _id?: string;
+//   contractNumber: Types.ObjectId;
+//   totalSum: number;
+//   tax: number;
+//   additionalExpense: number;
+//   productSum: number;
+//   workSum: number;
+//   responsiblePersonName?: string;
+//   responsiblePerson: Types.ObjectId;
+//   workerLastName?: string;
+//   worker: Types.ObjectId;
+//   income?: number;
+// }

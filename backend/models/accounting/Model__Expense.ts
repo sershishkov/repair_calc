@@ -25,6 +25,11 @@ const expense__Schema = new Schema<I_Expense>({
     ref: 'worker',
     required: [true, 'Please add a responsiblePerson id'],
   },
+  contract: {
+    type: Schema.Types.ObjectId,
+    ref: 'contract',
+    required: [true, 'Please add a contract id'],
+  },
 });
 
 export default model('expense', expense__Schema);
