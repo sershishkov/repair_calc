@@ -68,11 +68,7 @@ user__Schema.methods.getSignedJwtToken = function (): string {
 user__Schema.methods.matchPassword = async function (
   enteredPassword: string
 ): Promise<boolean> {
-  if (enteredPassword) {
-    return await bcrypt.compare(enteredPassword, this.password);
-  } else {
-    return false;
-  }
+  return await bcrypt.compare(enteredPassword, this.password);
 };
 
 export default model('user', user__Schema);

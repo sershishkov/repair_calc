@@ -1,7 +1,8 @@
 import express from 'express';
 const router = express.Router();
 
-import authRoutes from './user/authRoutes';
+import router__Auth from './user/router__Auth';
+import router__User from './user/router__User';
 
 import router__Unit from './refData/router__Unit';
 import router__FirmType from './refData/router__FirmType';
@@ -25,7 +26,8 @@ import router__Expense from './accounting/router__Expense';
 import router__BankIncome from './accounting/router__BankIncome';
 import router__PaymentToSupplier from './accounting/router__PaymentToSupplier';
 
-router.use('/auth', authRoutes);
+router.use('/auth', router__Auth);
+router.use('/user-admin', router__User);
 
 router.use('/refdata/unit', router__Unit);
 router.use('/refdata/firmtype', router__FirmType);
