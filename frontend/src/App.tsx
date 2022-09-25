@@ -25,8 +25,14 @@ import { getMe } from './features/auth/authSlice';
 
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 const UserEditDetails = React.lazy(
-  () => import('./pages/user/UserEditDetails')
+  () => import('./pages/auth/UserEditDetails')
 );
+
+const AddUser = React.lazy(() => import('./pages/user/AddUser'));
+
+const EditUser = React.lazy(() => import('./pages/user/EditUser'));
+
+const ListUser = React.lazy(() => import('./pages/user/ListUser'));
 
 function App() {
   const dispatch = useAppDispatch();
@@ -62,11 +68,25 @@ function App() {
               {user && (
                 <>
                   <Route path='/user-details' element={<UserEditDetails />} />
+
+                  <Route element={<PrivateRoute roles={['admin']} />}>
+                    <Route path='/user-admin/add' element={<AddUser />} />
+                  </Route>
+
+                  <Route element={<PrivateRoute roles={['admin']} />}>
+                    <Route path='/user-admin/:id' element={<EditUser />} />
+                  </Route>
+
+                  <Route element={<PrivateRoute roles={['admin']} />}>
+                    <Route path='/user-admin' element={<ListUser />} />
+                  </Route>
+
                   <Route
                     element={<PrivateRoute roles={['manager', 'admin']} />}
                   >
                     <Route path='/dashboard' element={<Dashboard />} />
                   </Route>
+
                   <Route
                     element={
                       <PrivateRoute roles={['user', 'manager', 'admin']} />

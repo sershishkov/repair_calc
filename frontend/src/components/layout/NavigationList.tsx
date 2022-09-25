@@ -66,7 +66,7 @@ function NavigationList({ toggleDrawer }: { toggleDrawer: Function }) {
                 <ListItemIcon>
                   <FaUser />
                 </ListItemIcon>
-                <ListItemText primary='Моя страница' />
+                <ListItemText primary={`${user.name}`} />
               </ListItemButton>
             </>
           ) : (
@@ -93,6 +93,45 @@ function NavigationList({ toggleDrawer }: { toggleDrawer: Function }) {
                   <FaSignInAlt />
                 </ListItemIcon>
                 <ListItemText primary='Вход' />
+              </ListItemButton>
+            </>
+          )}
+          {user?.role === 'admin' && (
+            <>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                component={Link}
+                href='/user-admin'
+                onClick={() => toggleDrawer(false)}
+              >
+                <ListItemIcon>
+                  <FaSignInAlt />
+                </ListItemIcon>
+                <ListItemText primary='Пользователи' />
+              </ListItemButton>
+
+              <ListItemButton
+                sx={{ pl: 4 }}
+                component={Link}
+                href='/user-admin/add'
+                onClick={() => toggleDrawer(false)}
+              >
+                <ListItemIcon>
+                  <FaSignInAlt />
+                </ListItemIcon>
+                <ListItemText primary='Add user' />
+              </ListItemButton>
+
+              <ListItemButton
+                sx={{ pl: 4 }}
+                component={Link}
+                href='/user-admin/:id'
+                onClick={() => toggleDrawer(false)}
+              >
+                <ListItemIcon>
+                  <FaSignInAlt />
+                </ListItemIcon>
+                <ListItemText primary='Edit user' />
               </ListItemButton>
             </>
           )}
