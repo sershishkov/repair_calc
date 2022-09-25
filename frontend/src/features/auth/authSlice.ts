@@ -75,6 +75,42 @@ export const logout = createAsyncThunk('auth/logout', async () => {
   await authService.logout();
 });
 
+export const updateDetails = createAsyncThunk(
+  'auth/updateDetails',
+  async (userData: I_UserAuthRequest, thunkAPI) => {
+    try {
+      return await authService.updateDetails(userData);
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const updatePassword = createAsyncThunk(
+  'auth/updatePassword',
+  async (userData: I_UserAuthRequest, thunkAPI) => {
+    try {
+      return await authService.updatePassword(userData);
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const auth__Slice = createSlice({
   name: 'auth',
   initialState,

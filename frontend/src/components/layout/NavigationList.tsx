@@ -44,18 +44,31 @@ function NavigationList({ toggleDrawer }: { toggleDrawer: Function }) {
       <Collapse in={openAuth} timeout='auto' unmountOnExit>
         <List disablePadding>
           {user ? (
-            <ListItemButton
-              sx={{ pl: 4 }}
-              onClick={() => {
-                toggleDrawer(false);
-                onLogout();
-              }}
-            >
-              <ListItemIcon>
-                <FaSignOutAlt />
-              </ListItemIcon>
-              <ListItemText primary='Выход' />
-            </ListItemButton>
+            <>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                onClick={() => {
+                  toggleDrawer(false);
+                  onLogout();
+                }}
+              >
+                <ListItemIcon>
+                  <FaSignOutAlt />
+                </ListItemIcon>
+                <ListItemText primary='Выход' />
+              </ListItemButton>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                component={Link}
+                href='/user-details'
+                onClick={() => toggleDrawer(false)}
+              >
+                <ListItemIcon>
+                  <FaUser />
+                </ListItemIcon>
+                <ListItemText primary='Моя страница' />
+              </ListItemButton>
+            </>
           ) : (
             <>
               <ListItemButton

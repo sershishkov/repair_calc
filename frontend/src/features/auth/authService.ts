@@ -73,11 +73,35 @@ const logout = async () => {
   localStorage.removeItem('token');
 };
 
+// Update user Details
+const updateDetails = async (userData: I_UserAuthRequest) => {
+  const token = JSON.parse(localStorage.getItem('token')!);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  await axios.put(`${API_URL}/updatedetails`, userData, config);
+};
+
+// Update user Details
+const updatePassword = async (userData: I_UserAuthRequest) => {
+  const token = JSON.parse(localStorage.getItem('token')!);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  await axios.put(`${API_URL}/updatepassword`, userData, config);
+};
+
 const authService = {
   register,
   login,
   logout,
   getMe,
+  updateDetails,
+  updatePassword,
 };
 
 export default authService;
