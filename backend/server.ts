@@ -1,5 +1,5 @@
 import path from 'path';
-import express, { Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 
 import { errorHandler } from './middlewares/errorMiddleware';
@@ -10,7 +10,7 @@ dotenv.config();
 connectDB();
 
 const port = process.env.PORT || 5000;
-const app = express();
+const app: Express = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

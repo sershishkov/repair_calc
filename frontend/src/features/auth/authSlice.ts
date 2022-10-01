@@ -1,12 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import authService from './authService';
-import {
-  I_UserAuthRequest,
-  I_UserAuthResponse,
-} from '../../interfaces/UserInterfaces';
+import { I_AuthRequest, I_AuthResponse } from '../../interfaces/UserInterfaces';
 
 interface I_StateAuth {
-  user: I_UserAuthResponse | null;
+  user: I_AuthResponse | null;
   isError: boolean;
   isSucces: boolean;
   isLoading: boolean;
@@ -24,7 +21,7 @@ const initialState: I_StateAuth = {
 //Register user
 export const register = createAsyncThunk(
   'auth/register',
-  async (userData: I_UserAuthRequest, thunkAPI) => {
+  async (userData: I_AuthRequest, thunkAPI) => {
     try {
       return await authService.register(userData);
     } catch (error: any) {
@@ -42,7 +39,7 @@ export const register = createAsyncThunk(
 
 export const login = createAsyncThunk(
   'auth/login',
-  async (user: I_UserAuthRequest, thunkAPI) => {
+  async (user: I_AuthRequest, thunkAPI) => {
     try {
       return await authService.login(user);
     } catch (error: any) {
@@ -77,7 +74,7 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 
 export const updateDetails = createAsyncThunk(
   'auth/updateDetails',
-  async (userData: I_UserAuthRequest, thunkAPI) => {
+  async (userData: I_AuthRequest, thunkAPI) => {
     try {
       return await authService.updateDetails(userData);
     } catch (error: any) {
@@ -95,7 +92,7 @@ export const updateDetails = createAsyncThunk(
 
 export const updatePassword = createAsyncThunk(
   'auth/updatePassword',
-  async (userData: I_UserAuthRequest, thunkAPI) => {
+  async (userData: I_AuthRequest, thunkAPI) => {
     try {
       return await authService.updatePassword(userData);
     } catch (error: any) {

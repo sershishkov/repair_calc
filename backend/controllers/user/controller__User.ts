@@ -65,24 +65,42 @@ export const update__User = asyncHandler(
     });
   }
 );
-
+interface MyRequest {
+  page: string;
+  limit: string;
+}
 //@desc   Get All __Users
 //@route  GET /api/user-admin
 //@access Private
 export const getAll__Users = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__Users = await Model__User.find().sort({
-      name: 1,
-    });
+  async (req: Request<{}, {}, {}, MyRequest>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__User.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
 
-    if (!all__Users) {
+    // console.log(totalPages);
+    const list__User = await Model__User.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        name: 1,
+      });
+
+    if (!list__User) {
       res.status(400);
       throw new Error('На данный момент ничего в базе нет');
     }
 
     res.status(200).json({
       success: true,
-      my_data: all__Users,
+      my_data: {
+        items: list__User,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -120,7 +138,7 @@ export const delete__User = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__User._id,
     });
   }
 );

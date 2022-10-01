@@ -1,16 +1,13 @@
 import axios from 'axios';
 
-import {
-  I_UserAuthRequest,
-  I_UserAuthResponse,
-} from '../../interfaces/UserInterfaces';
+import { I_AuthRequest, I_AuthResponse } from '../../interfaces/UserInterfaces';
 
 const API_URL = '/api/auth';
 
 // Register user
 const register = async (
-  userData: I_UserAuthRequest
-): Promise<I_UserAuthResponse | null> => {
+  userData: I_AuthRequest
+): Promise<I_AuthResponse | null> => {
   const responseToken = await axios.post(`${API_URL}/register`, userData);
   const token = responseToken.data.token;
   // console.log('token', token);
@@ -32,8 +29,8 @@ const register = async (
 };
 
 const login = async (
-  userData: I_UserAuthRequest
-): Promise<I_UserAuthResponse | null> => {
+  userData: I_AuthRequest
+): Promise<I_AuthResponse | null> => {
   const responseToken = await axios.post(`${API_URL}/login`, userData);
   const token = responseToken.data.token;
 
@@ -53,7 +50,7 @@ const login = async (
   return user ? user : null;
 };
 
-const getMe = async (): Promise<I_UserAuthResponse | null> => {
+const getMe = async (): Promise<I_AuthResponse | null> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   // console.log('getMe', token);
 
@@ -74,7 +71,7 @@ const logout = async () => {
 };
 
 // Update user Details
-const updateDetails = async (userData: I_UserAuthRequest) => {
+const updateDetails = async (userData: I_AuthRequest) => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
     headers: {
@@ -85,7 +82,7 @@ const updateDetails = async (userData: I_UserAuthRequest) => {
 };
 
 // Update user Details
-const updatePassword = async (userData: I_UserAuthRequest) => {
+const updatePassword = async (userData: I_AuthRequest) => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
     headers: {
