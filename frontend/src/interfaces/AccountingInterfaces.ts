@@ -1,6 +1,7 @@
-export interface I_Unit {
-  _id?: string;
-  unitName: string;
+import { I_ClientRequest } from './CommonInterfaces';
+
+export interface I_Unit extends I_ClientRequest {
+  unitName?: string;
 }
 
 export interface I_firmType {

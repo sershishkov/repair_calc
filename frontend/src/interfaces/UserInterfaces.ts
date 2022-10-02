@@ -1,13 +1,12 @@
-export interface I_AuthRequest {
-  _id?: string;
+import { I_ClientRequest } from './CommonInterfaces';
+
+export interface I_AuthRequest extends I_ClientRequest {
   name?: string;
   email?: string;
   password?: string;
   role?: string;
   currentPassword?: string;
   newPassword?: string;
-  limit?: string;
-  page?: string;
 }
 
 export interface I_AuthResponse {

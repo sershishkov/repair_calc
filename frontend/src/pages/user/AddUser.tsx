@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-// import Link from '@mui/material/Link';
+
 import CircularProgress from '@mui/material/CircularProgress';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
@@ -159,7 +159,9 @@ function AddUser() {
             onChange={handleChangeRoles}
           >
             {roles.map((item) => (
-              <MenuItem value={item.value}>{item.caption}</MenuItem>
+              <MenuItem key={item.value} value={item.value}>
+                {item.caption}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>

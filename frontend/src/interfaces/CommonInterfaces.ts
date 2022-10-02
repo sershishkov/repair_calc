@@ -5,3 +5,10 @@ export interface I_ServerResponse<T> {
   total?: number;
   totalPages?: number;
 }
+
+export interface I_ClientRequest {
+  _id?: string;
+  limit?: string;
+  page?: string;
+  filter?: Object;
+}
