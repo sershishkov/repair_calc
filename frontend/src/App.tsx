@@ -82,14 +82,39 @@ function App() {
                   </Route>
 
                   <Route
-                    element={<PrivateRoute roles={['manager', 'admin']} />}
+                    element={
+                      <PrivateRoute
+                        roles={[
+                          'user',
+                          'seller',
+                          'engineer',
+                          'accountant',
+                          'manager',
+                          'boss',
+                          'admin',
+                        ]}
+                      />
+                    }
                   >
                     <Route path='/dashboard' element={<Dashboard />} />
                   </Route>
 
                   <Route
                     element={
-                      <PrivateRoute roles={['user', 'manager', 'admin']} />
+                      <PrivateRoute
+                        roles={[
+                          'user',
+                          'worker',
+                          'client',
+                          'partner',
+                          'seller',
+                          'engineer',
+                          'accountant',
+                          'manager',
+                          'boss',
+                          'admin',
+                        ]}
+                      />
                     }
                   >
                     <Route path='/infouser' element={<InfoUserPage />} />

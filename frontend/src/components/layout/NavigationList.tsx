@@ -109,30 +109,6 @@ function NavigationList({ toggleDrawer }: { toggleDrawer: Function }) {
                 </ListItemIcon>
                 <ListItemText primary='Пользователи' />
               </ListItemButton>
-
-              <ListItemButton
-                sx={{ pl: 4 }}
-                component={Link}
-                href='/user-admin/add'
-                onClick={() => toggleDrawer(false)}
-              >
-                <ListItemIcon>
-                  <FaSignInAlt />
-                </ListItemIcon>
-                <ListItemText primary='Add user' />
-              </ListItemButton>
-
-              <ListItemButton
-                sx={{ pl: 4 }}
-                component={Link}
-                href='/user-admin/:id'
-                onClick={() => toggleDrawer(false)}
-              >
-                <ListItemIcon>
-                  <FaSignInAlt />
-                </ListItemIcon>
-                <ListItemText primary='Edit user' />
-              </ListItemButton>
             </>
           )}
         </List>
