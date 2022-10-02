@@ -112,12 +112,14 @@ function TableSimple({
   current__state,
   headerFields,
   tableFields,
+  editLink,
 }: {
   get__all: any;
   delete__one: any;
   current__state: any;
   headerFields: string[];
   tableFields: string[];
+  editLink: string;
 }) {
   const dispatch = useAppDispatch();
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -180,9 +182,7 @@ function TableSimple({
                   {item}
                 </TableCell>
               ))}
-            {/* <TableCell align='center'>Name</TableCell>
-            <TableCell align='center'>email</TableCell>
-            <TableCell align='center'>role</TableCell> */}
+
             <TableCell style={{ width: 25 }} align='center'>
               edit
             </TableCell>
@@ -203,7 +203,7 @@ function TableSimple({
                   ))}
 
                 <TableCell align='center'>
-                  <IconButton component={Link} href={`/user-admin/${row._id}`}>
+                  <IconButton component={Link} href={`${editLink}/${row._id}`}>
                     <EditIcon color='primary' />
                   </IconButton>
                 </TableCell>
@@ -222,9 +222,12 @@ function TableSimple({
         </TableBody>
         <TableFooter>
           <TableRow>
-            <Typography variant='h6' sx={{ pt: 1, pl: 5 }}>
-              Всего страниц: {`${totalPages}`}
-            </Typography>
+            <TableCell>
+              <Typography variant='h6' sx={{ pt: 1, pl: 5 }}>
+                Всего страниц: {`${totalPages}`}
+              </Typography>
+            </TableCell>
+
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, 100, 500, 1000]}
               colSpan={3}

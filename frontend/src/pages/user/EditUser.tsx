@@ -8,7 +8,6 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-// import Link from '@mui/material/Link';
 import CircularProgress from '@mui/material/CircularProgress';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
@@ -35,7 +34,7 @@ function EditUser() {
     password: '',
   });
   const [showPassword, set__showPassword] = useState<boolean>(false);
-  const [role, set__role] = useState('');
+  const [role, set__role] = useState<string>('');
 
   const { name, email, password } = formData;
   const navigate = useNavigate();
@@ -182,7 +181,9 @@ function EditUser() {
             onChange={handleChangeRoles}
           >
             {roles.map((item) => (
-              <MenuItem value={item.value}>{item.caption}</MenuItem>
+              <MenuItem key={item.value} value={item.value}>
+                {item.caption}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>

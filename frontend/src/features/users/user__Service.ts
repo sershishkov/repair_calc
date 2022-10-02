@@ -85,7 +85,7 @@ const user__get_all = async (
       Authorization: `Bearer ${token}`,
     },
   };
-  console.log(user__Data);
+  // console.log(user__Data);
 
   const response = await axios.get(
     `${API_URL}/?page=${user__Data?.page}&limit=${user__Data?.limit}`,

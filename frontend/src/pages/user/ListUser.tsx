@@ -10,6 +10,8 @@ import {
   user__delete_one,
 } from '../../features/users/user__Slice';
 
+const editLink = `/user-admin`;
+
 const ListUser = () => {
   const current__state = useAppSelector(
     (state: RootState) => state.user__state
@@ -18,7 +20,7 @@ const ListUser = () => {
   const tableFields = ['name', 'email', 'role'];
   return (
     <>
-      <MyIconButtonAdd href={`/user-admin/add`} />
+      <MyIconButtonAdd href={`${editLink}/add`} />
 
       <TableSimple
         get__all={user__get_all}
@@ -26,6 +28,7 @@ const ListUser = () => {
         current__state={current__state}
         headerFields={headerFields}
         tableFields={tableFields}
+        editLink={editLink}
       />
     </>
   );
