@@ -21,6 +21,7 @@ function NavigationList({ toggleDrawer }: { toggleDrawer: Function }) {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state: RootState) => state.auth_state);
   const [openAuth, set__openAuth] = useState<boolean>(false);
+  const [open__RefData, set__open__RefData] = useState<boolean>(false);
 
   const onLogout = () => {
     dispatch(logout());
@@ -138,6 +139,32 @@ function NavigationList({ toggleDrawer }: { toggleDrawer: Function }) {
           </ListItemIcon>
           <ListItemText primary='Навигационная панель' />
         </ListItemButton>
+      )}
+      {user && ['admin', 'accountant'].includes(user.role) && (
+        <>
+          <ListItemButton onClick={() => set__open__RefData(!open__RefData)}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary='Справочники' />
+            {open__RefData ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={open__RefData} timeout='auto' unmountOnExit>
+            <List disablePadding>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                component={Link}
+                href='/refdata/unit'
+                onClick={() => toggleDrawer(false)}
+              >
+                <ListItemIcon>
+                  <InboxIcon />
+                </ListItemIcon>
+                <ListItemText primary='Units' />
+              </ListItemButton>
+            </List>
+          </Collapse>
+        </>
       )}
     </List>
   );

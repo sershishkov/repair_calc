@@ -29,10 +29,18 @@ const UserEditDetails = React.lazy(
 );
 
 const AddUser = React.lazy(() => import('./pages/user/AddUser'));
-
 const EditUser = React.lazy(() => import('./pages/user/EditUser'));
-
 const ListUser = React.lazy(() => import('./pages/user/ListUser'));
+
+const AddUnit = React.lazy(
+  () => import('./pages/accounting/refData/unit/AddUnit')
+);
+const EditUnit = React.lazy(
+  () => import('./pages/accounting/refData/unit/EditUnit')
+);
+const ListUnit = React.lazy(
+  () => import('./pages/accounting/refData/unit/ListUnit')
+);
 
 function App() {
   const dispatch = useAppDispatch();
@@ -118,6 +126,51 @@ function App() {
                     }
                   >
                     <Route path='/infouser' element={<InfoUserPage />} />
+                  </Route>
+                  <Route
+                    element={
+                      <PrivateRoute
+                        roles={[
+                          'engineer',
+                          'accountant',
+                          'manager',
+                          'boss',
+                          'admin',
+                        ]}
+                      />
+                    }
+                  >
+                    <Route path='/refdata/unit' element={<ListUnit />} />
+                  </Route>
+                  <Route
+                    element={
+                      <PrivateRoute
+                        roles={[
+                          'engineer',
+                          'accountant',
+                          'manager',
+                          'boss',
+                          'admin',
+                        ]}
+                      />
+                    }
+                  >
+                    <Route path='/refdata/unit/add' element={<AddUnit />} />
+                  </Route>
+                  <Route
+                    element={
+                      <PrivateRoute
+                        roles={[
+                          'engineer',
+                          'accountant',
+                          'manager',
+                          'boss',
+                          'admin',
+                        ]}
+                      />
+                    }
+                  >
+                    <Route path='/refdata/unit/:id' element={<EditUnit />} />
                   </Route>
                 </>
               )}

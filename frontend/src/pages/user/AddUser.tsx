@@ -102,7 +102,7 @@ function AddUser() {
           fullWidth
           name='name'
           label='name'
-          type='name'
+          type='text'
           id='name'
           value={name}
           onChange={onChange}
