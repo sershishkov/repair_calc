@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__GroupWork from '../../models/refData/Model__GroupWork';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __GroupWork
 //@route  POST /api/accounting/groupwork
@@ -66,10 +67,21 @@ export const update__GroupWork = asyncHandler(
 //@route  GET /api/accounting/groupwork
 //@access Private
 export const getAll__GroupWorks = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__GroupWorks = await Model__GroupWork.find().sort({
-      groupWorkName: 1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__GroupWork.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    // console.log(totalPages);
+    const all__GroupWorks = await Model__GroupWork.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        groupWorkName: 1,
+      });
 
     if (!all__GroupWorks) {
       res.status(400);
@@ -78,7 +90,11 @@ export const getAll__GroupWorks = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__GroupWorks,
+      my_data: {
+        items: all__GroupWorks,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -118,7 +134,7 @@ export const delete__GroupWork = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__GroupWork._id,
     });
   }
 );

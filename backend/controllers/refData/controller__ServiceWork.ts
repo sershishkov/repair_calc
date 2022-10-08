@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__ServiceWork from '../../models/refData/Model__ServiceWork';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __ServiceWork
 //@route  POST /api/accounting/servicework
@@ -94,10 +95,21 @@ export const update__ServiceWork = asyncHandler(
 //@route  GET /api/accounting/servicework
 //@access Private
 export const getAll__ServiceWorks = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__ServiceWorks = await Model__ServiceWork.find().sort({
-      serviceWorkName: 1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__ServiceWork.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    // console.log(totalPages);
+    const all__ServiceWorks = await Model__ServiceWork.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        serviceWorkName: 1,
+      });
 
     if (!all__ServiceWorks) {
       res.status(400);
@@ -106,7 +118,11 @@ export const getAll__ServiceWorks = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__ServiceWorks,
+      my_data: {
+        items: all__ServiceWorks,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -149,7 +165,7 @@ export const delete__ServiceWork = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__ServiceWork._id,
     });
   }
 );

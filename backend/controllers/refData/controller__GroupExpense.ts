@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__GroupExpense from '../../models/refData/Model__GroupExpense';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __GroupExpense
 //@route  POST /api/accounting/groupexpense
@@ -66,10 +67,21 @@ export const update__GroupExpense = asyncHandler(
 //@route  GET /api/accounting/groupexpense
 //@access Private
 export const getAll__GroupExpenses = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__GroupExpenses = await Model__GroupExpense.find().sort({
-      groupExpenseName: 1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__GroupExpense.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    // console.log(totalPages);
+    const all__GroupExpenses = await Model__GroupExpense.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        groupExpenseName: 1,
+      });
 
     if (!all__GroupExpenses) {
       res.status(400);
@@ -78,7 +90,11 @@ export const getAll__GroupExpenses = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__GroupExpenses,
+      my_data: {
+        items: all__GroupExpenses,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -118,7 +134,7 @@ export const delete__GroupExpense = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__GroupExpense._id,
     });
   }
 );

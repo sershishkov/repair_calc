@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__GroupProduct from '../../models/refData/Model__GroupProduct';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __GroupProduct
 //@route  POST /api/accounting/groupproduct
@@ -66,10 +67,21 @@ export const update__GroupProduct = asyncHandler(
 //@route  GET /api/accounting/groupproduct
 //@access Private
 export const getAll__GroupProducts = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__GroupProducts = await Model__GroupProduct.find().sort({
-      groupProductName: 1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__GroupProduct.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    // console.log(totalPages);
+    const all__GroupProducts = await Model__GroupProduct.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        groupProductName: 1,
+      });
 
     if (!all__GroupProducts) {
       res.status(400);
@@ -78,7 +90,11 @@ export const getAll__GroupProducts = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__GroupProducts,
+      my_data: {
+        items: all__GroupProducts,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -118,7 +134,7 @@ export const delete__GroupProduct = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__GroupProduct._id,
     });
   }
 );

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__User from '../../models/user/Model__User';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __User
 //@route  POST /api/user-admin
@@ -65,15 +66,12 @@ export const update__User = asyncHandler(
     });
   }
 );
-interface MyRequest {
-  page: string;
-  limit: string;
-}
+
 //@desc   Get All __Users
 //@route  GET /api/user-admin
 //@access Private
 export const getAll__Users = asyncHandler(
-  async (req: Request<{}, {}, {}, MyRequest>, res: Response) => {
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
     const page: number = parseInt(req.query.page) || 0;
     const pageSize: number = parseInt(req.query.limit) || 0;
     const skip = (page - 1) * pageSize;

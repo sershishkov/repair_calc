@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__Worker from '../../models/refData/Model__Worker';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __Worker
 //@route  POST /api/accounting/worker
@@ -104,10 +105,21 @@ export const update__Worker = asyncHandler(
 //@route  GET /api/accounting/worker
 //@access Private
 export const getAll__Workers = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__Workers = await Model__Worker.find().sort({
-      lastName: 1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__Worker.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    // console.log(totalPages);
+    const all__Workers = await Model__Worker.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        lastName: 1,
+      });
 
     if (!all__Workers) {
       res.status(400);
@@ -116,7 +128,11 @@ export const getAll__Workers = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__Workers,
+      my_data: {
+        items: all__Workers,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -157,7 +173,7 @@ export const delete__Worker = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__Worker._id,
     });
   }
 );

@@ -1,15 +1,17 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import authReducer from '../features/auth/authSlice';
-import themeReducer from '../features/theme/themeSlice';
+import authSlice from '../features/auth/authSlice';
+import themeSlice from '../features/theme/themeSlice';
 
-import userReducer from '../features/users/user__Slice';
+import user__Slice from '../features/users/user__Slice';
+import unit__Slice from '../features/accounting/refData/unit/unit__Slice';
 
 export const store = configureStore({
   reducer: {
-    auth_state: authReducer,
-    theme_state: themeReducer,
+    auth_state: authSlice,
+    theme_state: themeSlice,
 
-    user__state: userReducer,
+    user__state: user__Slice,
+    unit__state: unit__Slice,
   },
 });
 

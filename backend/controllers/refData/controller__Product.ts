@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__Product from '../../models/refData/Model__Product';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __Product
 //@route  POST /api/accounting/products
@@ -114,11 +115,21 @@ export const update__Product = asyncHandler(
 //@route  GET /api/accounting/products
 //@access Private
 export const getAll__Products = asyncHandler(
-  async (req: Request, res: Response) => {
-    const myQuery = req.query;
-    const all__Products = await Model__Product.find(myQuery).sort({
-      productName: 1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__Product.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    // console.log(totalPages);
+    const all__Products = await Model__Product.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        productName: 1,
+      });
 
     if (!all__Products) {
       res.status(400);
@@ -127,7 +138,11 @@ export const getAll__Products = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__Products,
+      my_data: {
+        items: all__Products,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -168,7 +183,7 @@ export const delete__Product = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__Product._id,
     });
   }
 );

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__PaymentToSupplier from '../../models/accounting/Model__PaymentToSupplier';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __PaymentToSupplier
 //@route  POST /api/accounting/paymenttosupplier
@@ -71,10 +72,21 @@ export const update__PaymentToSupplier = asyncHandler(
 //@route  GET /api/accounting/paymenttosupplier
 //@access Private
 export const getAll__PaymentToSuppliers = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__PaymentToSuppliers = await Model__PaymentToSupplier.find().sort({
-      paymentDate: -1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__PaymentToSupplier.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    // console.log(totalPages);
+    const all__PaymentToSuppliers = await Model__PaymentToSupplier.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        paymentDate: 1,
+      });
 
     if (!all__PaymentToSuppliers) {
       res.status(400);
@@ -83,7 +95,11 @@ export const getAll__PaymentToSuppliers = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__PaymentToSuppliers,
+      my_data: {
+        items: all__PaymentToSuppliers,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -127,7 +143,7 @@ export const delete__PaymentToSupplier = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__PaymentToSupplier._id,
     });
   }
 );

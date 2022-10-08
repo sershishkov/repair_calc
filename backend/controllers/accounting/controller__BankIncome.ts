@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__BankIncome from '../../models/accounting/Model__BankIncome';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __BankIncome
 //@route  POST /api/accounting/bankincome
@@ -70,10 +71,21 @@ export const update__BankIncome = asyncHandler(
 //@route  GET /api/accounting/bankincome
 //@access Private
 export const getAll__BankIncomes = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__BankIncomes = await Model__BankIncome.find().sort({
-      paymentDate: -1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__BankIncome.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    // console.log(totalPages);
+    const all__BankIncomes = await Model__BankIncome.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        paymentDate: 1,
+      });
 
     if (!all__BankIncomes) {
       res.status(400);
@@ -82,7 +94,11 @@ export const getAll__BankIncomes = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__BankIncomes,
+      my_data: {
+        items: all__BankIncomes,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -127,7 +143,7 @@ export const delete__BankIncome = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__BankIncome._id,
     });
   }
 );

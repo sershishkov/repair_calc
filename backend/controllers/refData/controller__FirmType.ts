@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__FirmType from '../../models/refData/Model__FirmType';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __FirmType
 //@route  POST /api/accounting/firmtype
@@ -68,10 +69,21 @@ export const update__FirmType = asyncHandler(
 //@route  GET /api/accounting/firmtype
 //@access Private
 export const getAll__FirmTypes = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__FirmTypes = await Model__FirmType.find().sort({
-      nameTypeLong: 1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__FirmType.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    // console.log(totalPages);
+    const all__FirmTypes = await Model__FirmType.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        nameTypeLong: 1,
+      });
 
     if (!all__FirmTypes) {
       res.status(400);
@@ -80,7 +92,11 @@ export const getAll__FirmTypes = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__FirmTypes,
+      my_data: {
+        items: all__FirmTypes,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -120,7 +136,7 @@ export const delete__FirmType = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__FirmType._id,
     });
   }
 );

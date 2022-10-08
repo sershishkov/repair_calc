@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__Expense from '../../models/accounting/Model__Expense';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __Expense
 //@route  POST /api/accounting/expense
@@ -96,10 +97,21 @@ export const update__Expense = asyncHandler(
 //@route  GET /api/accounting/expense
 //@access Private
 export const getAll__Expenses = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__Expenses = await Model__Expense.find().sort({
-      expenseDate: -1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__Expense.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    // console.log(totalPages);
+    const all__Expenses = await Model__Expense.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        expenseDate: 1,
+      });
 
     if (!all__Expenses) {
       res.status(400);
@@ -108,7 +120,11 @@ export const getAll__Expenses = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__Expenses,
+      my_data: {
+        items: all__Expenses,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -152,7 +168,7 @@ export const delete__Expense = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__Expense._id,
     });
   }
 );

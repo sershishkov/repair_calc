@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__Client from '../../models/refData/Model__Client';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __Client
 //@route  POST /api/accounting/clients
@@ -190,10 +191,20 @@ export const update__Client = asyncHandler(
 //@route  GET /api/accounting/clients
 //@access Private
 export const getAll__Clients = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__Clients = await Model__Client.find().sort({
-      nameClientLong: 1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__Client.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    const all__Clients = await Model__Client.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        nameClientLong: 1,
+      });
 
     if (!all__Clients) {
       res.status(400);
@@ -202,7 +213,11 @@ export const getAll__Clients = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__Clients,
+      my_data: {
+        items: all__Clients,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -243,7 +258,7 @@ export const delete__Client = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__Client._id,
     });
   }
 );

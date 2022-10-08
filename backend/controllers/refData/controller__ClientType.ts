@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__ClientType from '../../models/refData/Model__ClientType';
 
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
+
 //@desc   Add a __ClientType
 //@route  POST /api/accounting/clienttype
 //@access Private
@@ -66,10 +68,20 @@ export const update__ClientType = asyncHandler(
 //@route  GET /api/accounting/clienttype
 //@access Private
 export const getAll__ClientTypes = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__ClientTypes = await Model__ClientType.find().sort({
-      clientTypeName: 1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__ClientType.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    const all__ClientTypes = await Model__ClientType.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        clientTypeName: 1,
+      });
 
     if (!all__ClientTypes) {
       res.status(400);
@@ -78,7 +90,11 @@ export const getAll__ClientTypes = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__ClientTypes,
+      my_data: {
+        items: all__ClientTypes,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -118,7 +134,7 @@ export const delete__ClientType = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__ClientType._id,
     });
   }
 );

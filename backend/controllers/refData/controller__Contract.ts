@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__Contract from '../../models/refData/Model__Contract';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __Contract
 //@route  POST /api/accounting/contract
@@ -106,10 +107,21 @@ export const update__Contract = asyncHandler(
 //@route  GET /api/accounting/contract
 //@access Private
 export const getAll__Contracts = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__Contracts = await Model__Contract.find().sort({
-      contractDate: -1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__Contract.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    // console.log(totalPages);
+    const all__Contracts = await Model__Contract.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        contractDate: 1,
+      });
 
     if (!all__Contracts) {
       res.status(400);
@@ -118,7 +130,11 @@ export const getAll__Contracts = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__Contracts,
+      my_data: {
+        items: all__Contracts,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -168,7 +184,7 @@ export const delete__Contract = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__Contract._id,
     });
   }
 );

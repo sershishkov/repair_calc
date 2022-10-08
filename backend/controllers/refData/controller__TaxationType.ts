@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__TaxationType from '../../models/refData/Model__TaxationType';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __TaxationType
 //@route  POST /api/accounting/taxationtype
@@ -66,10 +67,21 @@ export const update__TaxationType = asyncHandler(
 //@route  GET /api/accounting/taxationtype
 //@access Private
 export const getAll__TaxationTypes = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__TaxationTypes = await Model__TaxationType.find().sort({
-      taxationTypeName: 1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__TaxationType.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    // console.log(totalPages);
+    const all__TaxationTypes = await Model__TaxationType.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        taxationTypeName: 1,
+      });
 
     if (!all__TaxationTypes) {
       res.status(400);
@@ -78,7 +90,11 @@ export const getAll__TaxationTypes = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__TaxationTypes,
+      my_data: {
+        items: all__TaxationTypes,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -118,7 +134,7 @@ export const delete__TaxationType = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__TaxationType._id,
     });
   }
 );

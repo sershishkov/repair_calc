@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__SalaryPayment from '../../models/accounting/Model__SalaryPayment';
+import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 
 //@desc   Add a __SalaryPayment
 //@route  POST /api/accounting/salarypayment
@@ -72,10 +73,21 @@ export const update__SalaryPayment = asyncHandler(
 //@route  GET /api/accounting/salarypayment
 //@access Private
 export const getAll__SalaryPayments = asyncHandler(
-  async (req: Request, res: Response) => {
-    const all__SalaryPayments = await Model__SalaryPayment.find().sort({
-      paymentDate: -1,
-    });
+  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+    const page: number = parseInt(req.query.page) || 0;
+    const pageSize: number = parseInt(req.query.limit) || 0;
+    const skip = (page - 1) * pageSize;
+    const total: number = await Model__SalaryPayment.countDocuments({});
+    const totalPages: number =
+      pageSize === 0 ? total : Math.ceil(total / pageSize);
+
+    // console.log(totalPages);
+    const all__SalaryPayments = await Model__SalaryPayment.find()
+      .limit(pageSize)
+      .skip(skip)
+      .sort({
+        paymentDate: 1,
+      });
 
     if (!all__SalaryPayments) {
       res.status(400);
@@ -84,7 +96,11 @@ export const getAll__SalaryPayments = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: all__SalaryPayments,
+      my_data: {
+        items: all__SalaryPayments,
+        total,
+        totalPages,
+      },
     });
   }
 );
@@ -131,7 +147,7 @@ export const delete__SalaryPayment = asyncHandler(
 
     res.status(200).json({
       success: true,
-      my_data: {},
+      my_data: one__SalaryPayment._id,
     });
   }
 );
