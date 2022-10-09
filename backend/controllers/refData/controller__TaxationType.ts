@@ -15,6 +15,15 @@ export const add__TaxationType = asyncHandler(
       throw new Error('Please add all fields');
     }
 
+    //Check if already exists
+    const already__Exists = await Model__TaxationType.findOne({
+      taxationTypeName,
+    });
+    if (already__Exists) {
+      res.status(400);
+      throw new Error('taxationTypeName already exists');
+    }
+
     const new__TaxationType = await Model__TaxationType.create({
       taxationTypeName,
     });

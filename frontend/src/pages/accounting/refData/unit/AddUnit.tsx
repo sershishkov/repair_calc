@@ -5,7 +5,10 @@ import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { RootState } from '../../../../app/store';
 
-import { unit__add } from '../../../../features/accounting/refData/unit/unit__Slice';
+import {
+  unit__add,
+  reset,
+} from '../../../../features/accounting/refData/unit/unit__Slice';
 
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -22,17 +25,18 @@ function AddUnit() {
 
   const [unitName, set__unitName] = useState<string>('');
   useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
     if (isSucces) {
       toast.success('Добавлено успешно');
+      dispatch(reset());
       setTimeout(() => {
         navigate(-1);
       }, 2000);
     }
-    if (isError) {
-      toast.error(message);
-      set__unitName('');
-    }
-  }, [isError, message, isSucces, navigate]);
+  }, [isError, message, isSucces, navigate, dispatch]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     set__unitName(e.target.value);

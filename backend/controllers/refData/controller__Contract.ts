@@ -32,6 +32,13 @@ export const add__Contract = asyncHandler(
       throw new Error('Please add all fields');
     }
 
+    //Check if already exists
+    const already__Exists = await Model__Contract.findOne({ contractNumber });
+    if (already__Exists) {
+      res.status(400);
+      throw new Error('contractNumber already exists');
+    }
+
     const new__Contract = await Model__Contract.create({
       ourFirm,
       client,

@@ -181,7 +181,17 @@ function App() {
           <Footer />
         </Container>
       </Router>
-      <ToastContainer />
+      <ToastContainer
+        autoClose={1000}
+        // position='top-left'
+        // hideProgressBar={false}
+        // newestOnTop={false}
+        // closeOnClick
+        // rtl={false}
+        // pauseOnFocusLoss
+        // draggable
+        // pauseOnHover
+      />
     </ThemeProvider>
   );
 }

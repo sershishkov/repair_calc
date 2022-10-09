@@ -60,6 +60,13 @@ export const add__Client = asyncHandler(async (req: Request, res: Response) => {
     throw new Error('Please add all fields');
   }
 
+  //Check if already exists
+  const already__Exists = await Model__Client.findOne({ nameClientLong });
+  if (already__Exists) {
+    res.status(400);
+    throw new Error('nameClientLong already exists');
+  }
+
   const new__Client = await Model__Client.create({
     nameClientLong,
     nameClientShort,

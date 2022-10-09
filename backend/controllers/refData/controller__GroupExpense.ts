@@ -15,6 +15,15 @@ export const add__GroupExpense = asyncHandler(
       throw new Error('Please add all fields');
     }
 
+    //Check if already exists
+    const already__Exists = await Model__GroupExpense.findOne({
+      groupExpenseName,
+    });
+    if (already__Exists) {
+      res.status(400);
+      throw new Error('groupExpenseName already exists');
+    }
+
     const new__GroupExpense = await Model__GroupExpense.create({
       groupExpenseName,
     });

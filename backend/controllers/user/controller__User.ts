@@ -14,6 +14,13 @@ export const add__User = asyncHandler(async (req: Request, res: Response) => {
     throw new Error('Please add all fields');
   }
 
+  //Check if user exists
+  const user__Exists = await Model__User.findOne({ email });
+  if (user__Exists) {
+    res.status(400);
+    throw new Error('User already exists');
+  }
+
   const new__User = await Model__User.create({
     name,
     email,

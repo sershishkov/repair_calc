@@ -14,6 +14,13 @@ export const add__Unit = asyncHandler(async (req: Request, res: Response) => {
     throw new Error('Please add all fields');
   }
 
+  //Check if already exists
+  const already__Exists = await Model__Unit.findOne({ unitName });
+  if (already__Exists) {
+    res.status(400);
+    throw new Error('unitName already exists');
+  }
+
   const new__Unit = await Model__Unit.create({
     unitName,
   });

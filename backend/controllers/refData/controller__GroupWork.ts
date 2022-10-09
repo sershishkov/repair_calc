@@ -15,6 +15,13 @@ export const add__GroupWork = asyncHandler(
       throw new Error('Please add all fields');
     }
 
+    //Check if already exists
+    const already__Exists = await Model__GroupWork.findOne({ groupWorkName });
+    if (already__Exists) {
+      res.status(400);
+      throw new Error('groupWorkName already exists');
+    }
+
     const new__GroupWork = await Model__GroupWork.create({
       groupWorkName,
     });

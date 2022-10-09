@@ -47,7 +47,11 @@ function AddUser() {
     }
 
     if (isSucces) {
-      navigate('/user-admin');
+      toast.success('Добавлено успешно');
+      dispatch(reset());
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
     }
 
     dispatch(reset());
