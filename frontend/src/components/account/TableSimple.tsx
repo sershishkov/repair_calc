@@ -167,7 +167,7 @@ function TableSimple({
   return (
     <TableContainer component={Paper}>
       <Table
-        // stickyHeader
+        stickyHeader
         sx={{
           maxWidth: 1200,
           width: '100%',
@@ -221,13 +221,7 @@ function TableSimple({
           )}
         </TableBody>
         <TableFooter>
-          <TableRow>
-            <TableCell>
-              <Typography variant='h6' sx={{ pt: 1, pl: 5 }}>
-                Всего страниц: {`${totalPages}`}
-              </Typography>
-            </TableCell>
-
+          <TableRow sx={{ position: 'relative' }}>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, 100, 500, 1000]}
               colSpan={3}
@@ -244,6 +238,13 @@ function TableSimple({
               onRowsPerPageChange={handleChangeRowsPerPage}
               ActionsComponent={TablePaginationActions}
             />
+
+            <Typography
+              variant='subtitle2'
+              sx={{ position: 'absolute', top: 30, left: 25 }}
+            >
+              Всего страниц: {`${totalPages}`}
+            </Typography>
           </TableRow>
         </TableFooter>
       </Table>
