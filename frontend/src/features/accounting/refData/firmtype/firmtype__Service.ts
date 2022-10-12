@@ -1,11 +1,13 @@
 import axios from 'axios';
 
-import { I_Unit } from '../../../../interfaces/AccountingInterfaces';
+import { I_FirmType } from '../../../../interfaces/AccountingInterfaces';
 import { I_ServerResponse } from '../../../../interfaces/CommonInterfaces';
 
-const API_URL = '/api/refdata/unit';
+const API_URL = '/api/refdata/firmtype';
 
-const unit__add = async (unit__Data: I_Unit): Promise<I_Unit> => {
+const firmtype__add = async (
+  firmtype__Data: I_FirmType
+): Promise<I_FirmType> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
     headers: {
@@ -13,12 +15,14 @@ const unit__add = async (unit__Data: I_Unit): Promise<I_Unit> => {
     },
   };
 
-  const response = await axios.post(`${API_URL}`, unit__Data, config);
+  const response = await axios.post(`${API_URL}`, firmtype__Data, config);
 
   return response.data.my_data;
 };
 
-const unit__update = async (unit__Data: I_Unit): Promise<I_Unit> => {
+const firmtype__update = async (
+  firmtype__Data: I_FirmType
+): Promise<I_FirmType> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
     headers: {
@@ -27,11 +31,12 @@ const unit__update = async (unit__Data: I_Unit): Promise<I_Unit> => {
   };
 
   const new__Obj = {
-    unitName: unit__Data.unitName,
+    nameTypeLong: firmtype__Data.nameTypeLong,
+    nameTypeShort: firmtype__Data.nameTypeShort,
   };
 
   const response = await axios.put(
-    `${API_URL}/${unit__Data._id}`,
+    `${API_URL}/${firmtype__Data._id}`,
     new__Obj,
     config
   );
@@ -39,7 +44,9 @@ const unit__update = async (unit__Data: I_Unit): Promise<I_Unit> => {
   return response.data.my_data;
 };
 
-const unit__get_one = async (unit__Data: I_Unit): Promise<I_Unit> => {
+const firmtype__get_one = async (
+  firmtype__Data: I_FirmType
+): Promise<I_FirmType> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
     headers: {
@@ -47,12 +54,14 @@ const unit__get_one = async (unit__Data: I_Unit): Promise<I_Unit> => {
     },
   };
 
-  const response = await axios.get(`${API_URL}/${unit__Data._id}`, config);
+  const response = await axios.get(`${API_URL}/${firmtype__Data._id}`, config);
 
   return response.data.my_data;
 };
 
-const unit__delete_one = async (unit__Data: I_Unit): Promise<I_Unit> => {
+const firmtype__delete_one = async (
+  firmtype__Data: I_FirmType
+): Promise<I_FirmType> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
     headers: {
@@ -60,24 +69,27 @@ const unit__delete_one = async (unit__Data: I_Unit): Promise<I_Unit> => {
     },
   };
 
-  const response = await axios.delete(`${API_URL}/${unit__Data._id}`, config);
+  const response = await axios.delete(
+    `${API_URL}/${firmtype__Data._id}`,
+    config
+  );
 
   return response.data.my_data;
 };
 
-const unit__get_all = async (
-  unit__Data?: I_Unit
-): Promise<I_ServerResponse<I_Unit>> => {
+const firmtype__get_all = async (
+  firmtype__Data?: I_FirmType
+): Promise<I_ServerResponse<I_FirmType>> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  // console.log(unit__Data);
+  // console.log(firmtype__Data);
 
   const response = await axios.get(
-    `${API_URL}/?page=${unit__Data?.page}&limit=${unit__Data?.limit}`,
+    `${API_URL}/?page=${firmtype__Data?.page}&limit=${firmtype__Data?.limit}`,
     config
   );
 
@@ -85,11 +97,11 @@ const unit__get_all = async (
 };
 
 const current__Service = {
-  unit__add,
-  unit__update,
-  unit__get_one,
-  unit__delete_one,
-  unit__get_all,
+  firmtype__add,
+  firmtype__update,
+  firmtype__get_one,
+  firmtype__delete_one,
+  firmtype__get_all,
 };
 
 export default current__Service;

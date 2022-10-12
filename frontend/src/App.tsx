@@ -42,6 +42,16 @@ const ListUnit = React.lazy(
   () => import('./pages/accounting/refData/unit/ListUnit')
 );
 
+const AddFirmType = React.lazy(
+  () => import('./pages/accounting/refData/firmtype/AddFirmType')
+);
+const EditFirmType = React.lazy(
+  () => import('./pages/accounting/refData/firmtype/EditFirmType')
+);
+const ListFirmType = React.lazy(
+  () => import('./pages/accounting/refData/firmtype/ListFirmType')
+);
+
 function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -157,6 +167,7 @@ function App() {
                   >
                     <Route path='/refdata/unit/add' element={<AddUnit />} />
                   </Route>
+
                   <Route
                     element={
                       <PrivateRoute
@@ -171,6 +182,62 @@ function App() {
                     }
                   >
                     <Route path='/refdata/unit/:id' element={<EditUnit />} />
+                  </Route>
+
+                  <Route
+                    element={
+                      <PrivateRoute
+                        roles={[
+                          'engineer',
+                          'accountant',
+                          'manager',
+                          'boss',
+                          'admin',
+                        ]}
+                      />
+                    }
+                  >
+                    <Route
+                      path='/refdata/firmtype/:id'
+                      element={<EditFirmType />}
+                    />
+                  </Route>
+                  <Route
+                    element={
+                      <PrivateRoute
+                        roles={[
+                          'engineer',
+                          'accountant',
+                          'manager',
+                          'boss',
+                          'admin',
+                        ]}
+                      />
+                    }
+                  >
+                    <Route
+                      path='/refdata/firmtype/add'
+                      element={<AddFirmType />}
+                    />
+                  </Route>
+
+                  <Route
+                    element={
+                      <PrivateRoute
+                        roles={[
+                          'engineer',
+                          'accountant',
+                          'manager',
+                          'boss',
+                          'admin',
+                        ]}
+                      />
+                    }
+                  >
+                    <Route
+                      path='/refdata/firmtype'
+                      element={<ListFirmType />}
+                    />
                   </Route>
                 </>
               )}

@@ -95,7 +95,7 @@ const user__get_all = async (
   return response.data.my_data;
 };
 
-const authService = {
+const current__Service = {
   user__add,
   user__update,
   user__get_one,
@@ -103,4 +103,4 @@ const authService = {
   user__get_all,
 };
 
-export default authService;
+export default current__Service;

@@ -4,6 +4,7 @@ import themeSlice from '../features/theme/themeSlice';
 
 import user__Slice from '../features/users/user__Slice';
 import unit__Slice from '../features/accounting/refData/unit/unit__Slice';
+import firmtype__Slice from '../features/accounting/refData/firmtype/firmtype__Slice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
 
     user__state: user__Slice,
     unit__state: unit__Slice,
+    firmtype__state: firmtype__Slice,
   },
 });
 

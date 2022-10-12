@@ -92,7 +92,7 @@ const updatePassword = async (userData: I_AuthRequest) => {
   await axios.put(`${API_URL}/updatepassword`, userData, config);
 };
 
-const authService = {
+const current__Service = {
   register,
   login,
   logout,
@@ -101,4 +101,4 @@ const authService = {
   updatePassword,
 };
 
-export default authService;
+export default current__Service;
