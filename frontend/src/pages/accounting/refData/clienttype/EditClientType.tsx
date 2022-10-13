@@ -39,6 +39,8 @@ function EditClientType() {
   useLayoutEffect(() => {
     if (item) {
       set__clientTypeName(item.clientTypeName!);
+      const inputFocus = document.getElementById('clientTypeName');
+      inputFocus?.focus();
     }
   }, [item]);
 

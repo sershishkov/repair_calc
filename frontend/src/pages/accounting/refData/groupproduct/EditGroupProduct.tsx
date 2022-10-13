@@ -39,6 +39,8 @@ function EditGroupProduct() {
   useLayoutEffect(() => {
     if (item) {
       set__groupProductName(item.groupProductName!);
+      const inputFocus = document.getElementById('groupProductName');
+      inputFocus?.focus();
     }
   }, [item]);
 

@@ -38,6 +38,11 @@ function AddGroupProduct() {
     }
   }, [isError, message, isSucces, navigate, dispatch]);
 
+  useEffect(() => {
+    const inputFocus = document.getElementById('groupProductName');
+    inputFocus?.focus();
+  }, []);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     set__groupProductName(e.target.value);
   };

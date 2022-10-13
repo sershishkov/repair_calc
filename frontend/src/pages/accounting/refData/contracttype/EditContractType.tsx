@@ -39,6 +39,8 @@ function EditContractType() {
   useLayoutEffect(() => {
     if (item) {
       set__contractTypeName(item.contractTypeName!);
+      const inputFocus = document.getElementById('contractTypeName');
+      inputFocus?.focus();
     }
   }, [item]);
 

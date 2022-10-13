@@ -39,6 +39,8 @@ function EditGroupExpense() {
   useLayoutEffect(() => {
     if (item) {
       set__groupExpenseName(item.groupExpenseName!);
+      const inputFocus = document.getElementById('groupExpenseName');
+      inputFocus?.focus();
     }
   }, [item]);
 

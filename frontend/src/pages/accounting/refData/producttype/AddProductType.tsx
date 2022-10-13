@@ -38,6 +38,11 @@ function AddProductType() {
     }
   }, [isError, message, isSucces, navigate, dispatch]);
 
+  useEffect(() => {
+    const inputFocus = document.getElementById('productTypeName');
+    inputFocus?.focus();
+  }, []);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     set__productTypeName(e.target.value);
   };

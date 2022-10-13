@@ -47,6 +47,8 @@ function EditFirmType() {
         nameTypeLong: item.nameTypeLong!,
         nameTypeShort: item.nameTypeShort!,
       });
+      const inputFocus = document.getElementById('nameTypeLong');
+      inputFocus?.focus();
     }
   }, [item]);
 

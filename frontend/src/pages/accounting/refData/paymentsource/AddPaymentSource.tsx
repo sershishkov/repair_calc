@@ -38,6 +38,11 @@ function AddPaymentSource() {
     }
   }, [isError, message, isSucces, navigate, dispatch]);
 
+  useEffect(() => {
+    const inputFocus = document.getElementById('paymentSourceName');
+    inputFocus?.focus();
+  }, []);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     set__paymentSourceName(e.target.value);
   };

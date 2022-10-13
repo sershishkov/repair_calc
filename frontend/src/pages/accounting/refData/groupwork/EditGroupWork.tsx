@@ -39,6 +39,8 @@ function EditGroupWork() {
   useLayoutEffect(() => {
     if (item) {
       set__groupWorkName(item.groupWorkName!);
+      const inputFocus = document.getElementById('groupWorkName');
+      inputFocus?.focus();
     }
   }, [item]);
 

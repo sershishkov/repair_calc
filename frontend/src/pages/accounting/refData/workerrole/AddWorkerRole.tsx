@@ -38,6 +38,11 @@ function AddWorkerRole() {
     }
   }, [isError, message, isSucces, navigate, dispatch]);
 
+  useEffect(() => {
+    const inputFocus = document.getElementById('workerRoleName');
+    inputFocus?.focus();
+  }, []);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     set__workerRoleName(e.target.value);
   };

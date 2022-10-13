@@ -38,6 +38,11 @@ function AddGroupWork() {
     }
   }, [isError, message, isSucces, navigate, dispatch]);
 
+  useEffect(() => {
+    const inputFocus = document.getElementById('groupWorkName');
+    inputFocus?.focus();
+  }, []);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     set__groupWorkName(e.target.value);
   };

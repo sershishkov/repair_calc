@@ -39,6 +39,8 @@ function EditUnit() {
   useLayoutEffect(() => {
     if (item) {
       set__unitName(item.unitName!);
+      const inputFocus = document.getElementById('unitName');
+      inputFocus?.focus();
     }
   }, [item]);
 

@@ -39,6 +39,8 @@ function EditProductType() {
   useLayoutEffect(() => {
     if (item) {
       set__productTypeName(item.productTypeName!);
+      const inputFocus = document.getElementById('productTypeName');
+      inputFocus?.focus();
     }
   }, [item]);
 

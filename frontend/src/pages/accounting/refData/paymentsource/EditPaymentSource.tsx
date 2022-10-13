@@ -39,6 +39,8 @@ function EditPaymentSource() {
   useLayoutEffect(() => {
     if (item) {
       set__paymentSourceName(item.paymentSourceName!);
+      const inputFocus = document.getElementById('paymentSourceName');
+      inputFocus?.focus();
     }
   }, [item]);
 

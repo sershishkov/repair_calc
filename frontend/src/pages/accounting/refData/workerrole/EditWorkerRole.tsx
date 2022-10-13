@@ -39,6 +39,8 @@ function EditWorkerRole() {
   useLayoutEffect(() => {
     if (item) {
       set__workerRoleName(item.workerRoleName!);
+      const inputFocus = document.getElementById('workerRoleName');
+      inputFocus?.focus();
     }
   }, [item]);
 

@@ -43,6 +43,11 @@ function AddUnit() {
     }
   }, [isError, message, isSucces, navigate, dispatch]);
 
+  useEffect(() => {
+    const inputFocus = document.getElementById('nameTypeLong');
+    inputFocus?.focus();
+  }, []);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormdata((prevState) => ({
       ...prevState,

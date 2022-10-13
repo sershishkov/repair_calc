@@ -37,6 +37,10 @@ function AddContractType() {
       }, 2000);
     }
   }, [isError, message, isSucces, navigate, dispatch]);
+  useEffect(() => {
+    const inputFocus = document.getElementById('contractTypeName');
+    inputFocus?.focus();
+  }, []);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     set__contractTypeName(e.target.value);

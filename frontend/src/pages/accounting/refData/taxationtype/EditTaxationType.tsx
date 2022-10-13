@@ -39,6 +39,8 @@ function EditTaxationType() {
   useLayoutEffect(() => {
     if (item) {
       set__taxationTypeName(item.taxationTypeName!);
+      const inputFocus = document.getElementById('taxationTypeName');
+      inputFocus?.focus();
     }
   }, [item]);
 
