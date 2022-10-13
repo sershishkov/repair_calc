@@ -20,9 +20,11 @@ import NotFound from './pages/NotFound';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import PrivateRoute from './components/layout/PrivateRoute';
+// import IndexRoutes from './routes/IndexRoutes';
+// import AccountanRoutes from './routes/AccountanRoutes';
 
 import { getMe } from './features/auth/authSlice';
-import { seller_role, all_roles } from './constants/constants';
+import { seller_role } from './constants/constants';
 
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 const UserEditDetails = React.lazy(
@@ -177,21 +179,12 @@ function App() {
               {user && (
                 <>
                   <Route path='/user-details' element={<UserEditDetails />} />
+                  <Route path='/infouser' element={<InfoUserPage />} />
 
                   <Route element={<PrivateRoute roles={['admin']} />}>
                     <Route path='/user-admin/add' element={<AddUser />} />
-                  </Route>
-
-                  <Route element={<PrivateRoute roles={['admin']} />}>
                     <Route path='/user-admin/:id' element={<EditUser />} />
-                  </Route>
-
-                  <Route element={<PrivateRoute roles={['admin']} />}>
                     <Route path='/user-admin' element={<ListUser />} />
-                  </Route>
-
-                  <Route element={<PrivateRoute roles={all_roles} />}>
-                    <Route path='/infouser' element={<InfoUserPage />} />
                   </Route>
 
                   <Route element={<PrivateRoute roles={seller_role} />}>
