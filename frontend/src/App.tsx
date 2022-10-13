@@ -22,6 +22,7 @@ import Register from './pages/auth/Register';
 import PrivateRoute from './components/layout/PrivateRoute';
 
 import { getMe } from './features/auth/authSlice';
+import { seller_role, all_roles } from './constants/constants';
 
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 const UserEditDetails = React.lazy(
@@ -50,6 +51,96 @@ const EditFirmType = React.lazy(
 );
 const ListFirmType = React.lazy(
   () => import('./pages/accounting/refData/firmtype/ListFirmType')
+);
+
+const AddClientType = React.lazy(
+  () => import('./pages/accounting/refData/clienttype/AddClientType')
+);
+const EditClientType = React.lazy(
+  () => import('./pages/accounting/refData/clienttype/EditClientType')
+);
+const ListClientType = React.lazy(
+  () => import('./pages/accounting/refData/clienttype/ListClientType')
+);
+
+const AddContractType = React.lazy(
+  () => import('./pages/accounting/refData/contracttype/AddContractType')
+);
+const EditContractType = React.lazy(
+  () => import('./pages/accounting/refData/contracttype/EditContractType')
+);
+const ListContractType = React.lazy(
+  () => import('./pages/accounting/refData/contracttype/ListContractType')
+);
+
+const AddGroupExpense = React.lazy(
+  () => import('./pages/accounting/refData/groupexpense/AddGroupExpense')
+);
+const EditGroupExpense = React.lazy(
+  () => import('./pages/accounting/refData/groupexpense/EditGroupExpense')
+);
+const ListGroupExpense = React.lazy(
+  () => import('./pages/accounting/refData/groupexpense/ListGroupExpense')
+);
+
+const AddGroupProduct = React.lazy(
+  () => import('./pages/accounting/refData/groupproduct/AddGroupProduct')
+);
+const EditGroupProduct = React.lazy(
+  () => import('./pages/accounting/refData/groupproduct/EditGroupProduct')
+);
+const ListGroupProduct = React.lazy(
+  () => import('./pages/accounting/refData/groupproduct/ListGroupProduct')
+);
+
+const AddGroupWork = React.lazy(
+  () => import('./pages/accounting/refData/groupwork/AddGroupWork')
+);
+const EditGroupWork = React.lazy(
+  () => import('./pages/accounting/refData/groupwork/EditGroupWork')
+);
+const ListGroupWork = React.lazy(
+  () => import('./pages/accounting/refData/groupwork/ListGroupWork')
+);
+
+const AddPaymentSource = React.lazy(
+  () => import('./pages/accounting/refData/paymentsource/AddPaymentSource')
+);
+const EditPaymentSource = React.lazy(
+  () => import('./pages/accounting/refData/paymentsource/EditPaymentSource')
+);
+const ListPaymentSource = React.lazy(
+  () => import('./pages/accounting/refData/paymentsource/ListPaymentSource')
+);
+
+const AddProductType = React.lazy(
+  () => import('./pages/accounting/refData/producttype/AddProductType')
+);
+const EditProductType = React.lazy(
+  () => import('./pages/accounting/refData/producttype/EditProductType')
+);
+const ListProductType = React.lazy(
+  () => import('./pages/accounting/refData/producttype/ListProductType')
+);
+
+const AddTaxationType = React.lazy(
+  () => import('./pages/accounting/refData/taxationtype/AddTaxationType')
+);
+const EditTaxationType = React.lazy(
+  () => import('./pages/accounting/refData/taxationtype/EditTaxationType')
+);
+const ListTaxationType = React.lazy(
+  () => import('./pages/accounting/refData/taxationtype/ListTaxationType')
+);
+
+const AddWorkerRole = React.lazy(
+  () => import('./pages/accounting/refData/workerrole/AddWorkerRole')
+);
+const EditWorkerRole = React.lazy(
+  () => import('./pages/accounting/refData/workerrole/EditWorkerRole')
+);
+const ListWorkerRole = React.lazy(
+  () => import('./pages/accounting/refData/workerrole/ListWorkerRole')
 );
 
 function App() {
@@ -99,144 +190,134 @@ function App() {
                     <Route path='/user-admin' element={<ListUser />} />
                   </Route>
 
-                  <Route
-                    element={
-                      <PrivateRoute
-                        roles={[
-                          'user',
-                          'seller',
-                          'engineer',
-                          'accountant',
-                          'manager',
-                          'boss',
-                          'admin',
-                        ]}
-                      />
-                    }
-                  >
-                    <Route path='/dashboard' element={<Dashboard />} />
-                  </Route>
-
-                  <Route
-                    element={
-                      <PrivateRoute
-                        roles={[
-                          'user',
-                          'worker',
-                          'client',
-                          'partner',
-                          'seller',
-                          'engineer',
-                          'accountant',
-                          'manager',
-                          'boss',
-                          'admin',
-                        ]}
-                      />
-                    }
-                  >
+                  <Route element={<PrivateRoute roles={all_roles} />}>
                     <Route path='/infouser' element={<InfoUserPage />} />
                   </Route>
-                  <Route
-                    element={
-                      <PrivateRoute
-                        roles={[
-                          'engineer',
-                          'accountant',
-                          'manager',
-                          'boss',
-                          'admin',
-                        ]}
-                      />
-                    }
-                  >
+
+                  <Route element={<PrivateRoute roles={seller_role} />}>
+                    <Route path='/dashboard' element={<Dashboard />} />
                     <Route path='/refdata/unit' element={<ListUnit />} />
-                  </Route>
-                  <Route
-                    element={
-                      <PrivateRoute
-                        roles={[
-                          'engineer',
-                          'accountant',
-                          'manager',
-                          'boss',
-                          'admin',
-                        ]}
-                      />
-                    }
-                  >
                     <Route path='/refdata/unit/add' element={<AddUnit />} />
-                  </Route>
-
-                  <Route
-                    element={
-                      <PrivateRoute
-                        roles={[
-                          'engineer',
-                          'accountant',
-                          'manager',
-                          'boss',
-                          'admin',
-                        ]}
-                      />
-                    }
-                  >
                     <Route path='/refdata/unit/:id' element={<EditUnit />} />
-                  </Route>
-
-                  <Route
-                    element={
-                      <PrivateRoute
-                        roles={[
-                          'engineer',
-                          'accountant',
-                          'manager',
-                          'boss',
-                          'admin',
-                        ]}
-                      />
-                    }
-                  >
                     <Route
                       path='/refdata/firmtype/:id'
                       element={<EditFirmType />}
                     />
-                  </Route>
-                  <Route
-                    element={
-                      <PrivateRoute
-                        roles={[
-                          'engineer',
-                          'accountant',
-                          'manager',
-                          'boss',
-                          'admin',
-                        ]}
-                      />
-                    }
-                  >
                     <Route
                       path='/refdata/firmtype/add'
                       element={<AddFirmType />}
                     />
-                  </Route>
-
-                  <Route
-                    element={
-                      <PrivateRoute
-                        roles={[
-                          'engineer',
-                          'accountant',
-                          'manager',
-                          'boss',
-                          'admin',
-                        ]}
-                      />
-                    }
-                  >
                     <Route
                       path='/refdata/firmtype'
                       element={<ListFirmType />}
+                    />
+                    <Route
+                      path='/refdata/clienttype/add'
+                      element={<AddClientType />}
+                    />
+                    <Route
+                      path='/refdata/clienttype/:id'
+                      element={<EditClientType />}
+                    />
+                    <Route
+                      path='/refdata/clienttype'
+                      element={<ListClientType />}
+                    />
+                    <Route
+                      path='/refdata/contracttype/add'
+                      element={<AddContractType />}
+                    />
+                    <Route
+                      path='/refdata/contracttype/:id'
+                      element={<EditContractType />}
+                    />
+                    <Route
+                      path='/refdata/contracttype'
+                      element={<ListContractType />}
+                    />
+                    <Route
+                      path='/refdata/groupexpense/add'
+                      element={<AddGroupExpense />}
+                    />
+                    <Route
+                      path='/refdata/groupexpense/:id'
+                      element={<EditGroupExpense />}
+                    />
+                    <Route
+                      path='/refdata/groupexpense'
+                      element={<ListGroupExpense />}
+                    />
+                    <Route
+                      path='/refdata/groupproduct/add'
+                      element={<AddGroupProduct />}
+                    />
+                    <Route
+                      path='/refdata/groupproduct/:id'
+                      element={<EditGroupProduct />}
+                    />
+                    <Route
+                      path='/refdata/groupproduct'
+                      element={<ListGroupProduct />}
+                    />
+                    <Route
+                      path='/refdata/groupwork/add'
+                      element={<AddGroupWork />}
+                    />
+                    <Route
+                      path='/refdata/groupwork/:id'
+                      element={<EditGroupWork />}
+                    />
+                    <Route
+                      path='/refdata/groupwork'
+                      element={<ListGroupWork />}
+                    />
+                    <Route
+                      path='/refdata/paymentsource/add'
+                      element={<AddPaymentSource />}
+                    />
+                    <Route
+                      path='/refdata/paymentsource/:id'
+                      element={<EditPaymentSource />}
+                    />
+                    <Route
+                      path='/refdata/paymentsource'
+                      element={<ListPaymentSource />}
+                    />
+                    <Route
+                      path='/refdata/producttype/add'
+                      element={<AddProductType />}
+                    />
+                    <Route
+                      path='/refdata/producttype/:id'
+                      element={<EditProductType />}
+                    />
+                    <Route
+                      path='/refdata/producttype'
+                      element={<ListProductType />}
+                    />
+                    <Route
+                      path='/refdata/taxationtype/add'
+                      element={<AddTaxationType />}
+                    />
+                    <Route
+                      path='/refdata/taxationtype/:id'
+                      element={<EditTaxationType />}
+                    />
+                    <Route
+                      path='/refdata/taxationtype'
+                      element={<ListTaxationType />}
+                    />
+                    <Route
+                      path='/refdata/workerrole/add'
+                      element={<AddWorkerRole />}
+                    />
+                    <Route
+                      path='/refdata/workerrole/:id'
+                      element={<EditWorkerRole />}
+                    />
+                    <Route
+                      path='/refdata/workerrole'
+                      element={<ListWorkerRole />}
                     />
                   </Route>
                 </>
