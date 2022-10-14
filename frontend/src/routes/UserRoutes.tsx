@@ -1,7 +1,11 @@
 import React from 'react';
 
-const UserRoutes = () => {
-  return <div>UserRoutes</div>;
-};
+import InfoUserPage from '../pages/InfoUserPage';
+const UserEditDetails = React.lazy(
+  () => import('../pages/auth/UserEditDetails')
+);
 
-export default UserRoutes;
+export const UserRoutes = [
+  { path: '/user-details', component: <UserEditDetails /> },
+  { path: '/infouser', component: <InfoUserPage /> },
+];

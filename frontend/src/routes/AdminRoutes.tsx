@@ -1,7 +1,11 @@
 import React from 'react';
 
-const AdminRoutes = () => {
-  return <div>AdminRoutes</div>;
-};
+const AddUser = React.lazy(() => import('../pages/user/AddUser'));
+const EditUser = React.lazy(() => import('../pages/user/EditUser'));
+const ListUser = React.lazy(() => import('../pages/user/ListUser'));
 
-export default AdminRoutes;
+export const AdminRoutes = [
+  { path: '/user-admin', component: <ListUser /> },
+  { path: '/user-admin/add', component: <AddUser /> },
+  { path: '/user-admin/:id', component: <EditUser /> },
+];
