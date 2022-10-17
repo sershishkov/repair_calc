@@ -66,14 +66,18 @@ export interface I_Client extends I_ClientRequest {
   _id?: string;
   nameClientLong?: string;
   nameClientShort?: string;
+
+  firmType?: string;
   firmTypeLong?: string;
   firmTypeShort?: string;
+
   postIndex?: number;
   address?: string;
   edrpou?: number;
   inn?: number;
   iban?: string;
   iban_budget?: string;
+
   passport?: string;
   firstName_imen?: string;
   patronymic_imen?: string;
@@ -81,11 +85,14 @@ export interface I_Client extends I_ClientRequest {
   firstName_rodit?: string;
   patronymic_rodit?: string;
   lastName_rodit?: string;
+
   certificateNumber?: string;
   representedBy?: string;
+
   jobTitle?: string;
   tax?: number;
   taxationType?: string;
+  taxationTypeName?: string;
   telNumber?: string;
   email?: string;
 }
