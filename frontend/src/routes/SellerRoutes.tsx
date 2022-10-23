@@ -112,6 +112,16 @@ const ListWorkerRole = React.lazy(
   () => import('../pages/accounting/refData/workerrole/ListWorkerRole')
 );
 
+const AddClient = React.lazy(
+  () => import('../pages/accounting/refData/client/AddClient')
+);
+const EditClient = React.lazy(
+  () => import('../pages/accounting/refData/client/EditClient')
+);
+const ListClient = React.lazy(
+  () => import('../pages/accounting/refData/client/ListClient')
+);
+
 export const SellerRoutes = [
   { path: '/dashboard', component: <Dashboard /> },
   // gg
@@ -250,6 +260,19 @@ export const SellerRoutes = [
   {
     path: '/refdata/workerrole/:id',
     component: <EditWorkerRole />,
+    exact: true,
+  },
+  // gg
+  // gg
+  { path: '/refdata/clients', component: <ListClient /> },
+  {
+    path: '/refdata/clients/add',
+    component: <AddClient />,
+    exact: true,
+  },
+  {
+    path: '/refdata/clients/:id',
+    component: <EditClient />,
     exact: true,
   },
   // gg

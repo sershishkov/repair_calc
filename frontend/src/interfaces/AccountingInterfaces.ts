@@ -88,13 +88,17 @@ export interface I_Client extends I_ClientRequest {
 
   certificateNumber?: string;
   representedBy?: string;
+  whichActsOnTheBasis?: string;
 
   jobTitle?: string;
+  jobTitle_rodit?: string;
   tax?: number;
   taxationType?: string;
   taxationTypeName?: string;
+  certificate_PDV: string;
   telNumber?: string;
   email?: string;
+  clientType?: string[];
 }
 
 export interface I_Contract extends I_ClientRequest {

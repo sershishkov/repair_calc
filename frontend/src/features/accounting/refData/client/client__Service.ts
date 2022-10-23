@@ -3,7 +3,7 @@ import axios from 'axios';
 import { I_Client } from '../../../../interfaces/AccountingInterfaces';
 import { I_ServerResponse } from '../../../../interfaces/CommonInterfaces';
 
-const API_URL = '/api/refdata/client';
+const API_URL = '/api/refdata/clients';
 
 const client__add = async (client__Data: I_Client): Promise<I_Client> => {
   const token = JSON.parse(localStorage.getItem('token')!);
@@ -31,8 +31,6 @@ const client__update = async (client__Data: I_Client): Promise<I_Client> => {
     nameClientShort: client__Data.nameClientShort,
 
     firmType: client__Data.firmType,
-    // firmTypeLong: client__Data.firmTypeLong,
-    // firmTypeShort: client__Data.firmTypeShort,
 
     postIndex: client__Data.postIndex,
     address: client__Data.address,
@@ -51,10 +49,13 @@ const client__update = async (client__Data: I_Client): Promise<I_Client> => {
 
     certificateNumber: client__Data.certificateNumber,
     representedBy: client__Data.representedBy,
+    whichActsOnTheBasis: client__Data.whichActsOnTheBasis,
 
     jobTitle: client__Data.jobTitle,
+    jobTitle_rodit: client__Data.jobTitle_rodit,
     tax: client__Data.tax,
     taxationType: client__Data.taxationType,
+    certificate_PDV: client__Data.certificate_PDV,
     // taxationTypeName: client__Data.taxationTypeName,
     telNumber: client__Data.telNumber,
     email: client__Data.email,
