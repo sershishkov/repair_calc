@@ -29,19 +29,6 @@ function AddUnit() {
   });
 
   const { nameTypeLong, nameTypeShort } = formData;
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
-  }, [isError, message, isSucces, navigate, dispatch]);
 
   useEffect(() => {
     const inputFocus = document.getElementById('nameTypeLong');
@@ -63,6 +50,16 @@ function AddUnit() {
     };
 
     dispatch(firmtype__add(created__Data));
+    if (isSucces) {
+      toast.success('Добавлено успешно');
+      dispatch(reset());
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    }
+    if (isError) {
+      toast.error(message);
+    }
   };
   if (isLoading) {
     return <CircularProgress />;

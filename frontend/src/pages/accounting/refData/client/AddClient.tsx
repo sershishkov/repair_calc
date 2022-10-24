@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
 
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { RootState } from '../../../../app/store';
@@ -35,6 +37,10 @@ import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
 
 const initState = {
   nameClientLong: '',
@@ -61,7 +67,7 @@ const initState = {
   tax: '',
   taxationType: '',
   certificate_PDV: '',
-  telNumber: '',
+  // telNumber: '',
   email: '',
 };
 
@@ -97,6 +103,7 @@ function AddClient() {
 
   const [formData, setFormdata] = useState(initState);
   const [clientType, setClientType] = React.useState<string[]>([]);
+  const [telNumber, setTelNumber] = useState<string>();
 
   const {
     nameClientLong,
@@ -123,7 +130,7 @@ function AddClient() {
     tax,
     taxationType,
     certificate_PDV,
-    telNumber,
+    // telNumber,
     email,
   } = formData;
 
@@ -216,6 +223,10 @@ function AddClient() {
     );
   };
 
+  const onClickAddItem = (link: string) => {
+    navigate(`/refdata/${link}/add`);
+  };
+
   if (isLoading) {
     return <CircularProgress />;
   }
@@ -260,23 +271,32 @@ function AddClient() {
         />
       </Grid>
       <Grid item>
-        <FormControl fullWidth>
-          <InputLabel id='firmType-label'>firmType</InputLabel>
-          <Select
-            labelId='firmType-label'
-            id='firmType'
-            name='firmType'
-            value={firmType}
-            label='Роль'
-            onChange={handleChangeSelects}
-          >
-            {firmTypes?.map((item: I_FirmType) => (
-              <MenuItem key={item._id} value={item._id}>
-                {item.nameTypeLong}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Stack
+          direction='row'
+          spacing={2}
+          // direction={{ xs: 'column', sm: 'row' }}
+        >
+          <FormControl fullWidth>
+            <InputLabel id='firmType-label'>firmType</InputLabel>
+            <Select
+              labelId='firmType-label'
+              id='firmType'
+              name='firmType'
+              value={firmType}
+              label='Роль'
+              onChange={handleChangeSelects}
+            >
+              {firmTypes?.map((item: I_FirmType) => (
+                <MenuItem key={item._id} value={item._id}>
+                  {item.nameTypeLong}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <IconButton onClick={() => onClickAddItem('firmtype')}>
+            <AddIcon color='success' sx={{ fontSize: 30 }} />
+          </IconButton>
+        </Stack>
       </Grid>
       <Grid item>
         <TextField
@@ -562,7 +582,14 @@ function AddClient() {
         />
       </Grid>
       <Grid item>
-        <TextField
+        <PhoneInput
+          // international
+          defaultCountry='UA'
+          placeholder='Ваш телефон'
+          value={telNumber}
+          onChange={setTelNumber}
+        />
+        {/* <TextField
           margin='normal'
           required
           fullWidth
@@ -572,7 +599,7 @@ function AddClient() {
           id='telNumber'
           value={telNumber}
           onChange={onChange}
-        />
+        /> */}
       </Grid>
       <Grid item>
         <TextField
