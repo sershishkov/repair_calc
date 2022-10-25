@@ -24,19 +24,6 @@ function AddUnit() {
   const dispatch = useAppDispatch();
 
   const [unitName, set__unitName] = useState<string>('');
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
-  }, [isError, message, isSucces, navigate, dispatch]);
 
   useEffect(() => {
     const inputFocus = document.getElementById('unitName');
@@ -54,6 +41,18 @@ function AddUnit() {
     };
 
     dispatch(unit__add(created__Data));
+
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSucces) {
+      toast.success('Добавлено успешно');
+      dispatch(reset());
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    }
   };
   if (isLoading) {
     return <CircularProgress />;

@@ -24,19 +24,6 @@ function AddGroupProduct() {
   const dispatch = useAppDispatch();
 
   const [groupProductName, set__groupProductName] = useState<string>('');
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
-  }, [isError, message, isSucces, navigate, dispatch]);
 
   useEffect(() => {
     const inputFocus = document.getElementById('groupProductName');
@@ -54,6 +41,18 @@ function AddGroupProduct() {
     };
 
     dispatch(groupproduct__add(created__Data));
+
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSucces) {
+      toast.success('Добавлено успешно');
+      dispatch(reset());
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    }
   };
   if (isLoading) {
     return <CircularProgress />;

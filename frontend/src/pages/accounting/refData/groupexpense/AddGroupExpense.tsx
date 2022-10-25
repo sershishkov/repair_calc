@@ -24,19 +24,6 @@ function AddGroupExpense() {
   const dispatch = useAppDispatch();
 
   const [groupExpenseName, set__groupExpenseName] = useState<string>('');
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
-  }, [isError, message, isSucces, navigate, dispatch]);
 
   useEffect(() => {
     const inputFocus = document.getElementById('groupExpenseName');
@@ -54,7 +41,20 @@ function AddGroupExpense() {
     };
 
     dispatch(groupexpense__add(created__Data));
+
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSucces) {
+      toast.success('Добавлено успешно');
+      dispatch(reset());
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    }
   };
+
   if (isLoading) {
     return <CircularProgress />;
   }

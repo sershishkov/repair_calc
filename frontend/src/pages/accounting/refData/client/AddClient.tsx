@@ -135,20 +135,6 @@ function AddClient() {
   } = formData;
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
-  }, [isError, message, isSucces, navigate, dispatch]);
-
-  useEffect(() => {
     dispatch(firmtype__get_all({ page: `1`, limit: `50` }));
     dispatch(taxationtype__get_all({ page: `1`, limit: `50` }));
     dispatch(clienttype__get_all({ page: `1`, limit: `50` }));
@@ -199,11 +185,21 @@ function AddClient() {
     };
 
     dispatch(client__add(created__Data));
+
+    if (isError) {
+      toast.error(message);
+    }
+
     if (isSucces) {
       setFormdata(initState);
-      navigate(-1);
+      toast.success('Добавлено успешно');
+      dispatch(reset());
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
     }
   };
+
   const handleChangeSelects = (event: SelectChangeEvent) => {
     setFormdata((prevState) => ({
       ...prevState,

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { RootState } from '../../app/store';
 import { useNavigate } from 'react-router-dom';
@@ -38,17 +38,6 @@ const Register = () => {
   const { user, isLoading, isError, isSucces, message } = useAppSelector(
     (state: RootState) => state.auth_state
   );
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces || user) {
-      navigate('/dashboard');
-    }
-
-    dispatch(reset());
-  }, [user, isError, isSucces, message, navigate, dispatch]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormdata((prevState) => ({
@@ -69,6 +58,18 @@ const Register = () => {
       };
 
       dispatch(register(userData));
+
+      if (isError) {
+        toast.error(message);
+      }
+
+      if (isSucces && user) {
+        toast.success('Регистрация успешна');
+        dispatch(reset());
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
+      }
     }
   };
   const handleClickShowPassword = () => {

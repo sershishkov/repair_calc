@@ -24,19 +24,6 @@ function AddWorkerRole() {
   const dispatch = useAppDispatch();
 
   const [workerRoleName, set__workerRoleName] = useState<string>('');
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
-  }, [isError, message, isSucces, navigate, dispatch]);
 
   useEffect(() => {
     const inputFocus = document.getElementById('workerRoleName');
@@ -54,7 +41,20 @@ function AddWorkerRole() {
     };
 
     dispatch(workerrole__add(created__Data));
+
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSucces) {
+      toast.success('Добавлено успешно');
+      dispatch(reset());
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    }
   };
+
   if (isLoading) {
     return <CircularProgress />;
   }

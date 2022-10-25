@@ -46,10 +46,6 @@ function EditUser() {
   );
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
     if (id) {
       dispatch(user__get_one({ _id: id }));
     }
@@ -93,8 +89,16 @@ function EditUser() {
 
     dispatch(user__update(user__Data));
 
+    if (isError) {
+      toast.error(message);
+    }
+
     if (isSucces) {
-      navigate('/user-admin');
+      toast.success('Изменено успешно');
+      dispatch(reset());
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
     }
   };
   const handleClickShowPassword = () => {

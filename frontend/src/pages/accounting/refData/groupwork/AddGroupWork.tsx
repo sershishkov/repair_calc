@@ -24,19 +24,6 @@ function AddGroupWork() {
   const dispatch = useAppDispatch();
 
   const [groupWorkName, set__groupWorkName] = useState<string>('');
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
-  }, [isError, message, isSucces, navigate, dispatch]);
 
   useEffect(() => {
     const inputFocus = document.getElementById('groupWorkName');
@@ -54,7 +41,20 @@ function AddGroupWork() {
     };
 
     dispatch(groupwork__add(created__Data));
+
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSucces) {
+      toast.success('Добавлено успешно');
+      dispatch(reset());
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    }
   };
+
   if (isLoading) {
     return <CircularProgress />;
   }

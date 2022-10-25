@@ -50,15 +50,17 @@ function AddUnit() {
     };
 
     dispatch(firmtype__add(created__Data));
+
+    if (isError) {
+      toast.error(message);
+    }
+
     if (isSucces) {
       toast.success('Добавлено успешно');
       dispatch(reset());
       setTimeout(() => {
         navigate(-1);
       }, 2000);
-    }
-    if (isError) {
-      toast.error(message);
     }
   };
   if (isLoading) {

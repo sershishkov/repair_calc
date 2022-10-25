@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { RootState } from '../../app/store';
 import { useNavigate } from 'react-router-dom';
@@ -41,22 +41,6 @@ function AddUser() {
     (state: RootState) => state.user__state
   );
 
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
-
-    dispatch(reset());
-  }, [isError, isSucces, message, navigate, dispatch]);
-
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormdata((prevState) => ({
       ...prevState,
@@ -78,7 +62,20 @@ function AddUser() {
     };
 
     dispatch(user__add(user__Data));
+
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSucces) {
+      toast.success('Добавлено успешно');
+      dispatch(reset());
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    }
   };
+
   const handleClickShowPassword = () => {
     set__showPassword(!showPassword);
   };

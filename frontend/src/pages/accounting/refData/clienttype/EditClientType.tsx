@@ -27,14 +27,10 @@ function EditClientType() {
   const [clientTypeName, set__clientTypeName] = useState<string>('');
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
     if (id) {
       dispatch(clienttype__get_one({ _id: id }));
     }
-  }, [id, isError, message, dispatch]);
+  }, [id, dispatch]);
 
   useLayoutEffect(() => {
     if (item) {
@@ -56,10 +52,19 @@ function EditClientType() {
     };
 
     dispatch(clienttype__update(update__Data));
+
+    if (isError) {
+      toast.error(message);
+    }
+
     if (isSucces) {
-      navigate(-1);
+      toast.success('Изменено успешно');
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
     }
   };
+
   if (isLoading) {
     return <CircularProgress />;
   }

@@ -32,14 +32,10 @@ function EditFirmType() {
   const { nameTypeLong, nameTypeShort } = formData;
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
     if (id) {
       dispatch(firmtype__get_one({ _id: id }));
     }
-  }, [id, isError, message, dispatch]);
+  }, [id, dispatch]);
 
   useLayoutEffect(() => {
     if (item) {
@@ -68,10 +64,19 @@ function EditFirmType() {
     };
 
     dispatch(firmtype__update(update__Data));
+
+    if (isError) {
+      toast.error(message);
+    }
+
     if (isSucces) {
-      navigate(-1);
+      toast.success('Изменено успешно');
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
     }
   };
+
   if (isLoading) {
     return <CircularProgress />;
   }

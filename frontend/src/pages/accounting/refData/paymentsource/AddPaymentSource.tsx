@@ -24,19 +24,6 @@ function AddPaymentSource() {
   const dispatch = useAppDispatch();
 
   const [paymentSourceName, set__paymentSourceName] = useState<string>('');
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
-  }, [isError, message, isSucces, navigate, dispatch]);
 
   useEffect(() => {
     const inputFocus = document.getElementById('paymentSourceName');
@@ -54,7 +41,20 @@ function AddPaymentSource() {
     };
 
     dispatch(paymentsource__add(created__Data));
+
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSucces) {
+      toast.success('Добавлено успешно');
+      dispatch(reset());
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    }
   };
+
   if (isLoading) {
     return <CircularProgress />;
   }

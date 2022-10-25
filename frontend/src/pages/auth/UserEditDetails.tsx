@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -41,11 +41,6 @@ const UserEditDetails = () => {
   const { user, isLoading, isError, message } = useAppSelector(
     (state: RootState) => state.auth_state
   );
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-  }, [isError, message]);
 
   useLayoutEffect(() => {
     if (user) {
@@ -73,8 +68,13 @@ const UserEditDetails = () => {
     };
 
     dispatch(updateDetails(userData));
-    dispatch(logout());
-    navigate('/');
+
+    if (isError) {
+      toast.error(message);
+    } else {
+      dispatch(logout());
+      navigate('/');
+    }
   };
 
   const onSubmitPassword = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -86,8 +86,12 @@ const UserEditDetails = () => {
     };
 
     dispatch(updatePassword(userData));
-    dispatch(logout());
-    navigate('/');
+    if (isError) {
+      toast.error(message);
+    } else {
+      dispatch(logout());
+      navigate('/');
+    }
   };
   const handleClickShowCurrentPassword = () => {
     set__showCurrentPassword(!showCurrentPassword);

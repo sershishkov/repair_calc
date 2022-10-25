@@ -24,19 +24,6 @@ function AddClientType() {
   const dispatch = useAppDispatch();
 
   const [clientTypeName, set__clientTypeName] = useState<string>('');
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
-  }, [isError, message, isSucces, navigate, dispatch]);
 
   useEffect(() => {
     const inputFocus = document.getElementById('clientTypeName');
@@ -54,7 +41,20 @@ function AddClientType() {
     };
 
     dispatch(clienttype__add(created__Data));
+
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSucces) {
+      toast.success('Добавлено успешно');
+      dispatch(reset());
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    }
   };
+
   if (isLoading) {
     return <CircularProgress />;
   }
