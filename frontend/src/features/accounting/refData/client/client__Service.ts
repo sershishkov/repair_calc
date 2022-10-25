@@ -56,9 +56,10 @@ const client__update = async (client__Data: I_Client): Promise<I_Client> => {
     tax: client__Data.tax,
     taxationType: client__Data.taxationType,
     certificate_PDV: client__Data.certificate_PDV,
-    // taxationTypeName: client__Data.taxationTypeName,
+
     telNumber: client__Data.telNumber,
     email: client__Data.email,
+    clientType: client__Data.clientType,
   };
 
   const response = await axios.put(

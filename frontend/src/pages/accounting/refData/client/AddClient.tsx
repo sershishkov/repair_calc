@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-phone-number-input/style.css';
-import PhoneInput from 'react-phone-number-input';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { RootState } from '../../../../app/store';
@@ -67,7 +67,6 @@ const initState = {
   tax: '',
   taxationType: '',
   certificate_PDV: '',
-  // telNumber: '',
   email: '',
 };
 
@@ -104,6 +103,20 @@ function AddClient() {
   const [formData, setFormdata] = useState(initState);
   const [clientType, setClientType] = React.useState<string[]>([]);
   const [telNumber, setTelNumber] = useState<string>();
+  const [displayFizOsoba, setDisplayFizOsoba] = useState<boolean>(false);
+  const [displayFOP, setdisplayFOP] = useState<boolean>(false);
+
+  const fizOsoba_Id = useMemo(
+    () => firmTypes?.find((item) => item.nameTypeLong === 'Фізична особа')?._id,
+    [firmTypes]
+  );
+  const fop_Id = useMemo(
+    () =>
+      firmTypes?.find(
+        (item) => item.nameTypeLong === 'Фізична особа-підприємець'
+      )?._id,
+    [firmTypes]
+  );
 
   const {
     nameClientLong,
@@ -130,7 +143,6 @@ function AddClient() {
     tax,
     taxationType,
     certificate_PDV,
-    // telNumber,
     email,
   } = formData;
 
@@ -145,6 +157,19 @@ function AddClient() {
     inputFocus?.focus();
   }, []);
 
+  useEffect(() => {
+    if (firmType === fizOsoba_Id) {
+      setDisplayFizOsoba(true);
+      setdisplayFOP(false);
+    } else if (firmType === fop_Id) {
+      setdisplayFOP(true);
+      setDisplayFizOsoba(false);
+    } else {
+      setdisplayFOP(false);
+      setDisplayFizOsoba(false);
+    }
+  }, [firmType, fizOsoba_Id, fop_Id]);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormdata((prevState) => ({
       ...prevState,
@@ -158,10 +183,10 @@ function AddClient() {
       nameClientLong,
       nameClientShort,
       firmType,
-      postIndex: Number(postIndex),
+      postIndex,
       address,
-      edrpou: Number(edrpou),
-      inn: Number(inn),
+      edrpou,
+      inn,
       iban,
       iban_budget,
       passport,
@@ -176,7 +201,7 @@ function AddClient() {
       whichActsOnTheBasis,
       jobTitle,
       jobTitle_rodit,
-      tax: Number(tax),
+      tax: tax ? Number(tax) : 0,
       taxationType,
       certificate_PDV,
       telNumber,
@@ -222,6 +247,10 @@ function AddClient() {
   const onClickAddItem = (link: string) => {
     navigate(`/refdata/${link}/add`);
   };
+  // console.log(displayFizOsoba);
+  // console.log(displayFOP);
+  // console.log(fizOsoba_Id);
+  // console.log(fop_Id);
 
   if (isLoading) {
     return <CircularProgress />;
@@ -301,7 +330,7 @@ function AddClient() {
           fullWidth
           name='postIndex'
           label='postIndex'
-          type='number'
+          type='text'
           id='postIndex'
           value={postIndex}
           onChange={onChange}
@@ -314,39 +343,45 @@ function AddClient() {
           fullWidth
           name='address'
           label='address'
-          type='address'
+          type='text'
           id='address'
           value={address}
           onChange={onChange}
         />
       </Grid>
-      <Grid item>
+      <Grid
+        item
+        sx={{ display: !displayFizOsoba && !displayFOP ? 'block' : 'none' }}
+      >
         <TextField
           margin='normal'
           // required
           fullWidth
           name='edrpou'
           label='edrpou'
-          type='number'
+          type='text'
           id='edrpou'
           value={edrpou}
           onChange={onChange}
         />
       </Grid>
-      <Grid item>
+      <Grid
+        item
+        sx={{ display: displayFizOsoba || displayFOP ? 'block' : 'none' }}
+      >
         <TextField
           margin='normal'
           // required
           fullWidth
           name='inn'
           label='inn'
-          type='number'
+          type='text'
           id='inn'
           value={inn}
           onChange={onChange}
         />
       </Grid>
-      <Grid item>
+      <Grid item sx={{ display: !displayFizOsoba ? 'block' : 'none' }}>
         <TextField
           margin='normal'
           // required
@@ -359,7 +394,7 @@ function AddClient() {
           onChange={onChange}
         />
       </Grid>
-      <Grid item>
+      <Grid item sx={{ display: !displayFizOsoba ? 'block' : 'none' }}>
         <TextField
           margin='normal'
           // required
@@ -372,7 +407,7 @@ function AddClient() {
           onChange={onChange}
         />
       </Grid>
-      <Grid item>
+      <Grid item sx={{ display: displayFizOsoba ? 'block' : 'none' }}>
         <TextField
           margin='normal'
           // required
@@ -465,7 +500,7 @@ function AddClient() {
         />
       </Grid>
 
-      <Grid item>
+      <Grid item sx={{ display: displayFOP ? 'block' : 'none' }}>
         <TextField
           margin='normal'
           // required
@@ -479,7 +514,7 @@ function AddClient() {
         />
       </Grid>
 
-      <Grid item>
+      <Grid item sx={{ display: displayFOP ? 'block' : 'none' }}>
         <TextField
           margin='normal'
           // required
@@ -492,7 +527,10 @@ function AddClient() {
           onChange={onChange}
         />
       </Grid>
-      <Grid item>
+      <Grid
+        item
+        sx={{ display: !displayFizOsoba && !displayFOP ? 'block' : 'none' }}
+      >
         <TextField
           margin='normal'
           // required
@@ -506,10 +544,13 @@ function AddClient() {
         />
       </Grid>
 
-      <Grid item>
+      <Grid
+        item
+        sx={{ display: !displayFizOsoba && !displayFOP ? 'block' : 'none' }}
+      >
         <TextField
           margin='normal'
-          required
+          // required
           fullWidth
           name='jobTitle'
           label='jobTitle'
@@ -519,7 +560,10 @@ function AddClient() {
           onChange={onChange}
         />
       </Grid>
-      <Grid item>
+      <Grid
+        item
+        sx={{ display: !displayFizOsoba && !displayFOP ? 'block' : 'none' }}
+      >
         <TextField
           margin='normal'
           // required
@@ -532,10 +576,10 @@ function AddClient() {
           onChange={onChange}
         />
       </Grid>
-      <Grid item>
+      <Grid item sx={{ display: !displayFizOsoba ? 'block' : 'none' }}>
         <TextField
           margin='normal'
-          required
+          // required
           fullWidth
           name='tax'
           label='tax'
@@ -545,26 +589,38 @@ function AddClient() {
           onChange={onChange}
         />
       </Grid>
-      <Grid item>
-        <FormControl fullWidth>
-          <InputLabel id='taxationType-label'>taxationType</InputLabel>
-          <Select
-            labelId='taxationType-label'
-            id='taxationType'
-            name='taxationType'
-            value={taxationType}
-            label='Роль'
-            onChange={handleChangeSelects}
-          >
-            {taxationTypes?.map((item: I_TaxationType) => (
-              <MenuItem key={item._id} value={item._id}>
-                {item.taxationTypeName}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+      <Grid item sx={{ display: !displayFizOsoba ? 'block' : 'none' }}>
+        <Stack
+          direction='row'
+          spacing={2}
+          // direction={{ xs: 'column', sm: 'row' }}
+        >
+          <FormControl fullWidth>
+            <InputLabel id='taxationType-label'>taxationType</InputLabel>
+            <Select
+              labelId='taxationType-label'
+              id='taxationType'
+              name='taxationType'
+              value={taxationType}
+              label='Роль'
+              onChange={handleChangeSelects}
+            >
+              {taxationTypes?.map((item: I_TaxationType) => (
+                <MenuItem key={item._id} value={item._id}>
+                  {item.taxationTypeName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <IconButton onClick={() => onClickAddItem('taxationtype')}>
+            <AddIcon color='success' sx={{ fontSize: 30 }} />
+          </IconButton>
+        </Stack>
       </Grid>
-      <Grid item>
+      <Grid
+        item
+        sx={{ display: !displayFizOsoba && !displayFOP ? 'block' : 'none' }}
+      >
         <TextField
           margin='normal'
           // required
@@ -579,23 +635,38 @@ function AddClient() {
       </Grid>
       <Grid item>
         <PhoneInput
+          style={{
+            backgroundColor: isValidPhoneNumber(`${telNumber}`)
+              ? 'green'
+              : 'red',
+            padding: '1rem',
+          }}
+          // sx={{ backgroundColor: 'yellow' }}
           // international
           defaultCountry='UA'
           placeholder='Ваш телефон'
           value={telNumber}
           onChange={setTelNumber}
+          error={
+            telNumber
+              ? isValidPhoneNumber(telNumber)
+                ? undefined
+                : 'Invalid phone number'
+              : 'Phone number required'
+          }
         />
-        {/* <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='telNumber'
-          label='telNumber'
-          type='text'
-          id='telNumber'
-          value={telNumber}
-          onChange={onChange}
-        /> */}
+        {/* <span>
+          Is possible:{' '}
+          {telNumber && isPossiblePhoneNumber(telNumber) ? 'true' : 'false'}
+        </span> */}
+        {/* <span>
+          Is valid:{' '}
+          {telNumber && isValidPhoneNumber(telNumber) ? 'true' : 'false'}
+        </span> */}
+        {/* <span>National: {telNumber && formatPhoneNumber(telNumber)}</span>
+        <span>
+          International: {telNumber && formatPhoneNumberIntl(telNumber)}
+        </span> */}
       </Grid>
       <Grid item>
         <TextField
@@ -611,37 +682,49 @@ function AddClient() {
         />
       </Grid>
       <Grid item>
-        <FormControl fullWidth>
-          <InputLabel id='clientType-label'>clientType</InputLabel>
-          <Select
-            labelId='clientType-label'
-            id='clientType'
-            multiple
-            value={clientType}
-            onChange={handleChangeMultipleSelects}
-            input={<OutlinedInput label='clientType' />}
-            renderValue={(selected) => (
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                {selected.map((value) => {
-                  const newItem = clientTypes?.find(
-                    (item) => item._id === value
-                  );
-                  return (
-                    <Chip key={newItem?._id} label={newItem?.clientTypeName} />
-                  );
-                })}
-              </Box>
-            )}
-            MenuProps={MenuProps}
-          >
-            {clientTypes?.map((item) => (
-              <MenuItem key={item._id} value={item._id}>
-                <Checkbox checked={clientType.indexOf(item._id!) > -1} />
-                <ListItemText primary={item.clientTypeName} />
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Stack
+          direction='row'
+          spacing={2}
+          // direction={{ xs: 'column', sm: 'row' }}
+        >
+          <FormControl fullWidth>
+            <InputLabel id='clientType-label'>clientType</InputLabel>
+            <Select
+              labelId='clientType-label'
+              id='clientType'
+              multiple
+              value={clientType}
+              onChange={handleChangeMultipleSelects}
+              input={<OutlinedInput label='clientType' />}
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => {
+                    const newItem = clientTypes?.find(
+                      (item) => item._id === value
+                    );
+                    return (
+                      <Chip
+                        key={newItem?._id}
+                        label={newItem?.clientTypeName}
+                      />
+                    );
+                  })}
+                </Box>
+              )}
+              MenuProps={MenuProps}
+            >
+              {clientTypes?.map((item) => (
+                <MenuItem key={item._id} value={item._id}>
+                  <Checkbox checked={clientType.indexOf(item._id!) > -1} />
+                  <ListItemText primary={item.clientTypeName} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <IconButton onClick={() => onClickAddItem('clienttype')}>
+            <AddIcon color='success' sx={{ fontSize: 30 }} />
+          </IconButton>
+        </Stack>
       </Grid>
 
       <Grid item>
@@ -660,9 +743,10 @@ function AddClient() {
             !firstName_rodit ||
             !patronymic_rodit ||
             !lastName_rodit ||
-            !jobTitle ||
-            !tax ||
-            !taxationType ||
+            // !jobTitle ||
+            // !jobTitle_rodit ||
+            // !tax ||
+            // !taxationType ||
             !telNumber ||
             !email ||
             !clientType

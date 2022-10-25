@@ -24,7 +24,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 
-import Typography from '@mui/material/Typography';
+// import Typography from '@mui/material/Typography';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -126,8 +126,7 @@ function TableSimple({
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const { items, total, totalPages, isLoading, isError, message } =
-    current__state;
+  const { items, total, isLoading, isError, message } = current__state;
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - total!) : 0;
@@ -238,13 +237,12 @@ function TableSimple({
               onRowsPerPageChange={handleChangeRowsPerPage}
               ActionsComponent={TablePaginationActions}
             />
-
-            <Typography
-              variant='subtitle2'
-              sx={{ position: 'absolute', top: 30, left: 25 }}
-            >
-              Всего страниц: {`${totalPages}`}
-            </Typography>
+            {/* <span
+              // variant='subtitle2'
+              style={{ position: 'absolute', top: 30, left: 25 }}
+            > */}
+            {/* Всего страниц: {`${totalPages}`} */}
+            {/* </span> */}
           </TableRow>
         </TableFooter>
       </Table>

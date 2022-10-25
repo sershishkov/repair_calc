@@ -36,7 +36,7 @@ export const add__Client = asyncHandler(async (req: Request, res: Response) => {
     email,
     clientType,
   } = req.body;
-  // console.log(req.body);
+  console.log(req.body);
 
   if (
     !nameClientLong ||
@@ -50,7 +50,7 @@ export const add__Client = asyncHandler(async (req: Request, res: Response) => {
     !firstName_rodit ||
     !patronymic_rodit ||
     !lastName_rodit ||
-    !jobTitle ||
+    // !jobTitle ||
     // !tax ||
     // !taxationType ||
     !telNumber ||

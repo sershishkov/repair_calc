@@ -18,24 +18,24 @@ const client__Schema = new Schema<I_Client>({
     required: [true, 'Please add a client name'],
   },
   postIndex: {
-    type: Number,
-    required: [true, 'Please add a post index'],
-    match: [/\b\d{5}\b/, 'Пожалуйста введите 5 цифр'],
+    type: String,
+    //   required: [true, 'Please add a post index'],
+    //   match: [/\b\d{5}\b/, 'Пожалуйста введите 5 цифр'],
   },
   address: {
     type: String,
-    required: [true, 'Please add an address'],
+    // required: [true, 'Please add an address'],
   },
   edrpou: {
-    type: Number,
+    type: String,
     unique: true,
-    match: [/\b\d{8}\b/, 'Пожалуйста введите 8 цифр'],
+    // match: [/\b\d{8}\b/, 'Пожалуйста введите 8 цифр'],
     // required: [true, 'Please add a client name'],
   },
   inn: {
-    type: Number,
+    type: String,
     unique: true,
-    match: [/\b\d{10}\b/, 'Пожалуйста введите 10 цифр'],
+    // match: [/\b\d{10}\b/, 'Пожалуйста введите 10 цифр'],
     // required: [true, 'Please add a client name'],
   },
   iban: {
@@ -99,7 +99,7 @@ const client__Schema = new Schema<I_Client>({
   },
   tax: {
     type: Number,
-    required: [true, 'Please add a tax'],
+    // required: [true, 'Please add a tax'],
   },
   taxationType: {
     type: Schema.Types.ObjectId,

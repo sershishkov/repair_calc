@@ -62,24 +62,24 @@ export interface I_ClientType {
 
 export interface I_Client {
   _id?: string;
-  nameClientLong: string;
-  nameClientShort: string;
+  nameClientLong?: string;
+  nameClientShort?: string;
   firmType?: Types.ObjectId;
   firmTypeLong?: string;
   firmTypeShort?: string;
-  postIndex: number;
-  address: string;
-  edrpou?: number;
-  inn?: number;
+  postIndex?: string;
+  address?: string;
+  edrpou?: string;
+  inn?: string;
   iban?: string;
   iban_budget?: string;
   passport?: string;
-  firstName_imen: string;
-  patronymic_imen: string;
-  lastName_imen: string;
-  firstName_rodit: string;
-  patronymic_rodit: string;
-  lastName_rodit: string;
+  firstName_imen?: string;
+  patronymic_imen?: string;
+  lastName_imen?: string;
+  firstName_rodit?: string;
+  patronymic_rodit?: string;
+  lastName_rodit?: string;
   certificateNumber?: string;
   representedBy?: string;
   whichActsOnTheBasis?: string;

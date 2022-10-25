@@ -71,10 +71,10 @@ export interface I_Client extends I_ClientRequest {
   firmTypeLong?: string;
   firmTypeShort?: string;
 
-  postIndex?: number;
+  postIndex?: string;
   address?: string;
-  edrpou?: number;
-  inn?: number;
+  edrpou?: string;
+  inn?: string;
   iban?: string;
   iban_budget?: string;
 
