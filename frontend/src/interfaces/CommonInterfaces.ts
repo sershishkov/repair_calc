@@ -1,3 +1,5 @@
+import { NavigateFunction } from 'react-router-dom';
+
 export interface I_ServerResponse<T> {
   _id?: string;
   items?: T[];
@@ -11,4 +13,5 @@ export interface I_ClientRequest {
   limit?: string;
   page?: string;
   filter?: Object;
+  navigate?: NavigateFunction;
 }

@@ -158,6 +158,12 @@ function AddClient() {
   }, []);
 
   useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+  }, [isError, message]);
+
+  useEffect(() => {
     if (firmType === fizOsoba_Id) {
       setDisplayFizOsoba(true);
       setdisplayFOP(false);
@@ -216,9 +222,9 @@ function AddClient() {
     }
 
     if (isSucces) {
-      setFormdata(initState);
       toast.success('Добавлено успешно');
       dispatch(reset());
+      setFormdata(initState);
       setTimeout(() => {
         navigate(-1);
       }, 2000);
@@ -589,7 +595,7 @@ function AddClient() {
           onChange={onChange}
         />
       </Grid>
-      <Grid item sx={{ display: !displayFizOsoba ? 'block' : 'none' }}>
+      <Grid item>
         <Stack
           direction='row'
           spacing={2}
@@ -746,10 +752,10 @@ function AddClient() {
             // !jobTitle ||
             // !jobTitle_rodit ||
             // !tax ||
-            // !taxationType ||
+            !taxationType ||
             !telNumber ||
             !email ||
-            !clientType
+            !clientType[0]
           }
           variant='contained'
           sx={{ mt: 3, mb: 2 }}

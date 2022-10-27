@@ -25,16 +25,10 @@ const unit__update = async (unit__Data: I_Unit): Promise<I_Unit> => {
       Authorization: `Bearer ${token}`,
     },
   };
+  const { _id } = unit__Data;
+  delete unit__Data._id;
 
-  const new__Obj = {
-    unitName: unit__Data.unitName,
-  };
-
-  const response = await axios.put(
-    `${API_URL}/${unit__Data._id}`,
-    new__Obj,
-    config
-  );
+  const response = await axios.put(`${API_URL}/${_id}`, unit__Data, config);
 
   return response.data.my_data;
 };

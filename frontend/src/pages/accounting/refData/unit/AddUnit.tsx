@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { RootState } from '../../../../app/store';
 
 import {
   unit__add,
-  reset,
+  // reset,
 } from '../../../../features/accounting/refData/unit/unit__Slice';
 
 import Grid from '@mui/material/Grid';
@@ -17,9 +17,12 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 
 function AddUnit() {
-  const { isLoading, isError, isSucces, message } = useAppSelector(
-    (state: RootState) => state.unit__state
-  );
+  const {
+    isLoading,
+    // isSucces,
+    // isError,
+    //  message
+  } = useAppSelector((state: RootState) => state.unit__state);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -38,21 +41,22 @@ function AddUnit() {
 
     const created__Data = {
       unitName,
+      navigate,
     };
 
     dispatch(unit__add(created__Data));
 
-    if (isError) {
-      toast.error(message);
-    }
+    // if (isError) {
+    //   toast.error(message);
+    // }
 
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
+    // if (isSucces) {
+    //   toast.success('Добавлено успешно');
+    //   // dispatch(reset());
+    //   setTimeout(() => {
+    //     navigate(-1);
+    //   }, 2000);
+    // }
   };
   if (isLoading) {
     return <CircularProgress />;

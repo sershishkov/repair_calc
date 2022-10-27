@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 
 function AddUnit() {
-  const { isLoading, isError, isSucces, message } = useAppSelector(
+  const { isSucces, isLoading, isError, message } = useAppSelector(
     (state: RootState) => state.firmtype__state
   );
   const navigate = useNavigate();
@@ -63,6 +63,7 @@ function AddUnit() {
       }, 2000);
     }
   };
+
   if (isLoading) {
     return <CircularProgress />;
   }

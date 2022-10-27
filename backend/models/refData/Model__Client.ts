@@ -28,24 +28,24 @@ const client__Schema = new Schema<I_Client>({
   },
   edrpou: {
     type: String,
-    unique: true,
+    // unique: true,
     // match: [/\b\d{8}\b/, 'Пожалуйста введите 8 цифр'],
     // required: [true, 'Please add a client name'],
   },
   inn: {
     type: String,
-    unique: true,
+    // unique: true,
     // match: [/\b\d{10}\b/, 'Пожалуйста введите 10 цифр'],
     // required: [true, 'Please add a client name'],
   },
   iban: {
     type: String,
-    unique: true,
+    // unique: true,
     // required: [true, 'Please add a client name'],
   },
   iban_budget: {
     type: String,
-    unique: true,
+    // unique: true,
     // required: [true, 'Please add a client name'],
   },
   passport: {

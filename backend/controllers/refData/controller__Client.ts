@@ -36,7 +36,7 @@ export const add__Client = asyncHandler(async (req: Request, res: Response) => {
     email,
     clientType,
   } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
 
   if (
     !nameClientLong ||
@@ -52,7 +52,7 @@ export const add__Client = asyncHandler(async (req: Request, res: Response) => {
     !lastName_rodit ||
     // !jobTitle ||
     // !tax ||
-    // !taxationType ||
+    !taxationType ||
     !telNumber ||
     !email ||
     !clientType
@@ -63,11 +63,12 @@ export const add__Client = asyncHandler(async (req: Request, res: Response) => {
 
   //Check if already exists
   const already__Exists = await Model__Client.findOne({ nameClientLong });
+  // console.log(already__Exists);
   if (already__Exists) {
     res.status(400);
     throw new Error('nameClientLong already exists');
   }
-
+  // console.log('line 71');
   const new__Client = await Model__Client.create({
     nameClientLong,
     nameClientShort,
@@ -94,9 +95,10 @@ export const add__Client = asyncHandler(async (req: Request, res: Response) => {
     taxationType,
     certificate_PDV,
     telNumber,
-    email,
+    email: email.toLowerCase(),
     clientType,
   });
+  // console.log(new__Client);
 
   if (!new__Client) {
     res.status(400);

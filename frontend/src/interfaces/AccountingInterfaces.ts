@@ -93,7 +93,7 @@ export interface I_Client extends I_ClientRequest {
   jobTitle?: string;
   jobTitle_rodit?: string;
   tax?: number;
-  taxationType?: string;
+  taxationType?: string | null;
   taxationTypeName?: string;
   certificate_PDV: string;
   telNumber?: string;
