@@ -5,7 +5,7 @@ import { I_ServerResponse } from '../../../../interfaces/CommonInterfaces';
 
 const API_URL = '/api/refdata/unit';
 
-const unit__add = async (unit__Data: I_Unit): Promise<I_Unit> => {
+const unit__add = async (dataObject: I_Unit): Promise<I_Unit> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
     headers: {
@@ -13,27 +13,27 @@ const unit__add = async (unit__Data: I_Unit): Promise<I_Unit> => {
     },
   };
 
-  const response = await axios.post(`${API_URL}`, unit__Data, config);
+  const response = await axios.post(`${API_URL}`, dataObject, config);
 
   return response.data.my_data;
 };
 
-const unit__update = async (unit__Data: I_Unit): Promise<I_Unit> => {
+const unit__update = async (dataObject: I_Unit): Promise<I_Unit> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const { _id } = unit__Data;
-  delete unit__Data._id;
+  const { _id } = dataObject;
+  delete dataObject._id;
 
-  const response = await axios.put(`${API_URL}/${_id}`, unit__Data, config);
+  const response = await axios.put(`${API_URL}/${_id}`, dataObject, config);
 
   return response.data.my_data;
 };
 
-const unit__get_one = async (unit__Data: I_Unit): Promise<I_Unit> => {
+const unit__get_one = async (dataObject: I_Unit): Promise<I_Unit> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
     headers: {
@@ -41,12 +41,12 @@ const unit__get_one = async (unit__Data: I_Unit): Promise<I_Unit> => {
     },
   };
 
-  const response = await axios.get(`${API_URL}/${unit__Data._id}`, config);
+  const response = await axios.get(`${API_URL}/${dataObject._id}`, config);
 
   return response.data.my_data;
 };
 
-const unit__delete_one = async (unit__Data: I_Unit): Promise<I_Unit> => {
+const unit__delete_one = async (dataObject: I_Unit): Promise<I_Unit> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
     headers: {
@@ -54,13 +54,13 @@ const unit__delete_one = async (unit__Data: I_Unit): Promise<I_Unit> => {
     },
   };
 
-  const response = await axios.delete(`${API_URL}/${unit__Data._id}`, config);
+  const response = await axios.delete(`${API_URL}/${dataObject._id}`, config);
 
   return response.data.my_data;
 };
 
 const unit__get_all = async (
-  unit__Data?: I_Unit
+  dataObject?: I_Unit
 ): Promise<I_ServerResponse<I_Unit>> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -68,10 +68,10 @@ const unit__get_all = async (
       Authorization: `Bearer ${token}`,
     },
   };
-  // console.log(unit__Data);
+  // console.log(dataObject);
 
   const response = await axios.get(
-    `${API_URL}/?page=${unit__Data?.page}&limit=${unit__Data?.limit}`,
+    `${API_URL}/?page=${dataObject?.page}&limit=${dataObject?.limit}`,
     config
   );
 

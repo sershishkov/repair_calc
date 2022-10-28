@@ -20,16 +20,19 @@ const initialState: I_State__ = {
 
 export const unit__add = createAsyncThunk(
   'unit__add',
-  async (unit__Data: I_Unit, thunkAPI) => {
+  async (dataObject: I_Unit, thunkAPI) => {
     try {
-      const { navigate } = unit__Data;
-      delete unit__Data.navigate;
-      const unit__new = await unit__Service.unit__add(unit__Data);
+      const { navigate } = dataObject;
+      delete dataObject.navigate;
+      const newItem = await unit__Service.unit__add(dataObject);
+
       toast.success('Добавлено успешно');
+
       setTimeout(() => {
         navigate!(-1);
       }, 2000);
-      return unit__new;
+
+      return newItem;
     } catch (error: any) {
       const message =
         (error.response &&
@@ -37,7 +40,9 @@ export const unit__add = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
       toast.error(message);
+
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -45,16 +50,19 @@ export const unit__add = createAsyncThunk(
 
 export const unit__update = createAsyncThunk(
   'unit__update',
-  async (unit__Data: I_Unit, thunkAPI) => {
+  async (dataObject: I_Unit, thunkAPI) => {
     try {
-      const { navigate } = unit__Data;
-      delete unit__Data.navigate;
-      const unit__new = await unit__Service.unit__update(unit__Data);
+      const { navigate } = dataObject;
+      delete dataObject.navigate;
+      const updatedItem = await unit__Service.unit__update(dataObject);
+
       toast.success('Изменено успешно');
+
       setTimeout(() => {
         navigate!(-1);
       }, 2000);
-      return unit__new;
+
+      return updatedItem;
     } catch (error: any) {
       const message =
         (error.response &&
@@ -62,7 +70,9 @@ export const unit__update = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
       toast.error(message);
+
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -70,9 +80,9 @@ export const unit__update = createAsyncThunk(
 
 export const unit__get_one = createAsyncThunk(
   'unit__get_one',
-  async (unit__Data: I_Unit, thunkAPI) => {
+  async (dataObject: I_Unit, thunkAPI) => {
     try {
-      return await unit__Service.unit__get_one(unit__Data);
+      return await unit__Service.unit__get_one(dataObject);
     } catch (error: any) {
       const message =
         (error.response &&
@@ -80,7 +90,9 @@ export const unit__get_one = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
       toast.error(message);
+
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -88,11 +100,13 @@ export const unit__get_one = createAsyncThunk(
 
 export const unit__delete_one = createAsyncThunk(
   'unit__delete_one',
-  async (unit__Data: I_Unit, thunkAPI) => {
+  async (dataObject: I_Unit, thunkAPI) => {
     try {
-      const deleted_item = await unit__Service.unit__delete_one(unit__Data);
+      const deletedItem = await unit__Service.unit__delete_one(dataObject);
+
       toast.success('Удалено успешно');
-      return deleted_item;
+
+      return deletedItem;
     } catch (error: any) {
       const message =
         (error.response &&
@@ -100,7 +114,9 @@ export const unit__delete_one = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
       toast.error(message);
+
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -108,9 +124,9 @@ export const unit__delete_one = createAsyncThunk(
 
 export const unit__get_all = createAsyncThunk(
   'unit__get_all',
-  async (unit__Data: I_Unit, thunkAPI) => {
+  async (dataObject: I_Unit, thunkAPI) => {
     try {
-      return await unit__Service.unit__get_all(unit__Data);
+      return await unit__Service.unit__get_all(dataObject);
     } catch (error: any) {
       const message =
         (error.response &&
@@ -118,7 +134,9 @@ export const unit__get_all = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
       toast.error(message);
+
       return thunkAPI.rejectWithValue(message);
     }
   }
