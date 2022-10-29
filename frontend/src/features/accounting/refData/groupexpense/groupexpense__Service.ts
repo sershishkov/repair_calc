@@ -5,8 +5,8 @@ import { I_ServerResponse } from '../../../../interfaces/CommonInterfaces';
 
 const API_URL = '/api/refdata/groupexpense';
 
-const groupexpense__add = async (
-  groupexpense__Data: I_GroupExpense
+const item__add = async (
+  dataObject: I_GroupExpense
 ): Promise<I_GroupExpense> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -15,13 +15,13 @@ const groupexpense__add = async (
     },
   };
 
-  const response = await axios.post(`${API_URL}`, groupexpense__Data, config);
+  const response = await axios.post(`${API_URL}`, dataObject, config);
 
   return response.data.my_data;
 };
 
-const groupexpense__update = async (
-  groupexpense__Data: I_GroupExpense
+const item__update = async (
+  dataObject: I_GroupExpense
 ): Promise<I_GroupExpense> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -30,21 +30,16 @@ const groupexpense__update = async (
     },
   };
 
-  const new__Obj = {
-    groupExpenseName: groupexpense__Data.groupExpenseName,
-  };
+  const { _id } = dataObject;
+  delete dataObject._id;
 
-  const response = await axios.put(
-    `${API_URL}/${groupexpense__Data._id}`,
-    new__Obj,
-    config
-  );
+  const response = await axios.put(`${API_URL}/${_id}`, dataObject, config);
 
   return response.data.my_data;
 };
 
-const groupexpense__get_one = async (
-  groupexpense__Data: I_GroupExpense
+const item__get_one = async (
+  dataObject: I_GroupExpense
 ): Promise<I_GroupExpense> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -53,16 +48,13 @@ const groupexpense__get_one = async (
     },
   };
 
-  const response = await axios.get(
-    `${API_URL}/${groupexpense__Data._id}`,
-    config
-  );
+  const response = await axios.get(`${API_URL}/${dataObject._id}`, config);
 
   return response.data.my_data;
 };
 
-const groupexpense__delete_one = async (
-  groupexpense__Data: I_GroupExpense
+const item__delete_one = async (
+  dataObject: I_GroupExpense
 ): Promise<I_GroupExpense> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -71,16 +63,13 @@ const groupexpense__delete_one = async (
     },
   };
 
-  const response = await axios.delete(
-    `${API_URL}/${groupexpense__Data._id}`,
-    config
-  );
+  const response = await axios.delete(`${API_URL}/${dataObject._id}`, config);
 
   return response.data.my_data;
 };
 
-const groupexpense__get_all = async (
-  groupexpense__Data?: I_GroupExpense
+const item__get_all = async (
+  dataObject?: I_GroupExpense
 ): Promise<I_ServerResponse<I_GroupExpense>> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -88,10 +77,10 @@ const groupexpense__get_all = async (
       Authorization: `Bearer ${token}`,
     },
   };
-  // console.log(groupexpense__Data);
+  // console.log(dataObject);
 
   const response = await axios.get(
-    `${API_URL}/?page=${groupexpense__Data?.page}&limit=${groupexpense__Data?.limit}`,
+    `${API_URL}/?page=${dataObject?.page}&limit=${dataObject?.limit}`,
     config
   );
 
@@ -99,11 +88,11 @@ const groupexpense__get_all = async (
 };
 
 const current__Service = {
-  groupexpense__add,
-  groupexpense__update,
-  groupexpense__get_one,
-  groupexpense__delete_one,
-  groupexpense__get_all,
+  item__add,
+  item__update,
+  item__get_one,
+  item__delete_one,
+  item__get_all,
 };
 
 export default current__Service;

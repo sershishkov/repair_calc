@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+
 import 'react-phone-number-input/style.css';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { RootState } from '../../../../app/store';
 
-import {
-  client__add,
-  reset,
-} from '../../../../features/accounting/refData/client/client__Slice';
+import { client__add } from '../../../../features/accounting/refData/client/client__Slice';
 import { firmtype__get_all } from '../../../../features/accounting/refData/firmtype/firmtype__Slice';
 import { taxationtype__get_all } from '../../../../features/accounting/refData/taxationtype/taxationtype__Slice';
 import { clienttype__get_all } from '../../../../features/accounting/refData/clienttype/clienttype__Slice';
@@ -82,7 +79,7 @@ const MenuProps = {
 };
 
 function AddClient() {
-  const { isLoading, isError, isSucces, message } = useAppSelector(
+  const { isLoading } = useAppSelector(
     (state: RootState) => state.client__state
   );
 
@@ -158,12 +155,6 @@ function AddClient() {
   }, []);
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-  }, [isError, message]);
-
-  useEffect(() => {
     if (firmType === fizOsoba_Id) {
       setDisplayFizOsoba(true);
       setdisplayFOP(false);
@@ -213,22 +204,10 @@ function AddClient() {
       telNumber,
       email,
       clientType,
+      navigate,
     };
 
     dispatch(client__add(created__Data));
-
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setFormdata(initState);
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
   };
 
   const handleChangeSelects = (event: SelectChangeEvent) => {

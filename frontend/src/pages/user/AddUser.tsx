@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { RootState } from '../../app/store';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -20,7 +19,7 @@ import IconButton from '@mui/material/IconButton';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-import { user__add, reset } from '../../features/users/user__Slice';
+import { user__add } from '../../features/users/user__Slice';
 
 import { roles } from '../../constants/constants';
 
@@ -37,9 +36,7 @@ function AddUser() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { isLoading, isError, isSucces, message } = useAppSelector(
-    (state: RootState) => state.user__state
-  );
+  const { isLoading } = useAppSelector((state: RootState) => state.user__state);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormdata((prevState) => ({
@@ -59,21 +56,10 @@ function AddUser() {
       email,
       password,
       role,
+      navigate,
     };
 
     dispatch(user__add(user__Data));
-
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
   };
 
   const handleClickShowPassword = () => {

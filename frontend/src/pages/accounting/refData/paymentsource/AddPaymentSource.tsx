@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { RootState } from '../../../../app/store';
 
-import {
-  paymentsource__add,
-  reset,
-} from '../../../../features/accounting/refData/paymentsource/paymentsource__Slice';
+import { paymentsource__add } from '../../../../features/accounting/refData/paymentsource/paymentsource__Slice';
 
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -17,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 
 function AddPaymentSource() {
-  const { isLoading, isError, isSucces, message } = useAppSelector(
+  const { isLoading } = useAppSelector(
     (state: RootState) => state.paymentsource__state
   );
   const navigate = useNavigate();
@@ -38,21 +34,10 @@ function AddPaymentSource() {
 
     const created__Data = {
       paymentSourceName,
+      navigate,
     };
 
     dispatch(paymentsource__add(created__Data));
-
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
   };
 
   if (isLoading) {

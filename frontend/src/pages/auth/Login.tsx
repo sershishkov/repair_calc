@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { RootState } from '../../app/store';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { FaUser } from 'react-icons/fa';
 
 import Grid from '@mui/material/Grid';
@@ -19,7 +18,7 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 
-import { login, reset } from '../../features/auth/authSlice';
+import { login } from '../../features/auth/authSlice';
 
 const Login = () => {
   const [formData, setFormdata] = useState({
@@ -32,7 +31,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { user, isLoading, isError, isSucces, message } = useAppSelector(
+  const { user, isLoading } = useAppSelector(
     (state: RootState) => state.auth_state
   );
 
@@ -48,22 +47,12 @@ const Login = () => {
     const userData = {
       email,
       password,
+      navigate,
     };
 
     dispatch(login(userData));
-
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces && user) {
-      toast.success('Вход успешен');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
-    }
   };
+
   const handleClickShowPassword = () => {
     set__showPassword(!showPassword);
   };

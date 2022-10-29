@@ -19,7 +19,7 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 
-import { register, reset } from '../../features/auth/authSlice';
+import { register } from '../../features/auth/authSlice';
 
 const Register = () => {
   const [formData, setFormdata] = useState({
@@ -35,7 +35,7 @@ const Register = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { user, isLoading, isError, isSucces, message } = useAppSelector(
+  const { user, isLoading } = useAppSelector(
     (state: RootState) => state.auth_state
   );
 
@@ -55,21 +55,10 @@ const Register = () => {
         name,
         email,
         password,
+        navigate,
       };
 
       dispatch(register(userData));
-
-      if (isError) {
-        toast.error(message);
-      }
-
-      if (isSucces && user) {
-        toast.success('Регистрация успешна');
-        dispatch(reset());
-        setTimeout(() => {
-          navigate('/');
-        }, 2000);
-      }
     }
   };
   const handleClickShowPassword = () => {

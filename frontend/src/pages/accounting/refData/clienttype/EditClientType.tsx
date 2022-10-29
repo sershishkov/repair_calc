@@ -2,7 +2,6 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { RootState } from '../../../../app/store';
 import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import {
   clienttype__update,
@@ -17,7 +16,7 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 
 function EditClientType() {
-  const { item, isLoading, isError, isSucces, message } = useAppSelector(
+  const { item, isLoading } = useAppSelector(
     (state: RootState) => state.clienttype__state
   );
   const navigate = useNavigate();
@@ -49,20 +48,10 @@ function EditClientType() {
     const update__Data = {
       _id: id,
       clientTypeName,
+      navigate,
     };
 
     dispatch(clienttype__update(update__Data));
-
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Изменено успешно');
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
   };
 
   if (isLoading) {

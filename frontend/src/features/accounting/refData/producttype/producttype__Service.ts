@@ -5,8 +5,21 @@ import { I_ServerResponse } from '../../../../interfaces/CommonInterfaces';
 
 const API_URL = '/api/refdata/producttype';
 
-const producttype__add = async (
-  producttype__Data: I_ProductType
+const item__add = async (dataObject: I_ProductType): Promise<I_ProductType> => {
+  const token = JSON.parse(localStorage.getItem('token')!);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.post(`${API_URL}`, dataObject, config);
+
+  return response.data.my_data;
+};
+
+const item__update = async (
+  dataObject: I_ProductType
 ): Promise<I_ProductType> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -15,13 +28,16 @@ const producttype__add = async (
     },
   };
 
-  const response = await axios.post(`${API_URL}`, producttype__Data, config);
+  const { _id } = dataObject;
+  delete dataObject._id;
+
+  const response = await axios.put(`${API_URL}/${_id}`, dataObject, config);
 
   return response.data.my_data;
 };
 
-const producttype__update = async (
-  producttype__Data: I_ProductType
+const item__get_one = async (
+  dataObject: I_ProductType
 ): Promise<I_ProductType> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -30,21 +46,13 @@ const producttype__update = async (
     },
   };
 
-  const new__Obj = {
-    productTypeName: producttype__Data.productTypeName,
-  };
-
-  const response = await axios.put(
-    `${API_URL}/${producttype__Data._id}`,
-    new__Obj,
-    config
-  );
+  const response = await axios.get(`${API_URL}/${dataObject._id}`, config);
 
   return response.data.my_data;
 };
 
-const producttype__get_one = async (
-  producttype__Data: I_ProductType
+const item__delete_one = async (
+  dataObject: I_ProductType
 ): Promise<I_ProductType> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -53,34 +61,13 @@ const producttype__get_one = async (
     },
   };
 
-  const response = await axios.get(
-    `${API_URL}/${producttype__Data._id}`,
-    config
-  );
+  const response = await axios.delete(`${API_URL}/${dataObject._id}`, config);
 
   return response.data.my_data;
 };
 
-const producttype__delete_one = async (
-  producttype__Data: I_ProductType
-): Promise<I_ProductType> => {
-  const token = JSON.parse(localStorage.getItem('token')!);
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios.delete(
-    `${API_URL}/${producttype__Data._id}`,
-    config
-  );
-
-  return response.data.my_data;
-};
-
-const producttype__get_all = async (
-  producttype__Data?: I_ProductType
+const item__get_all = async (
+  dataObject?: I_ProductType
 ): Promise<I_ServerResponse<I_ProductType>> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -88,10 +75,10 @@ const producttype__get_all = async (
       Authorization: `Bearer ${token}`,
     },
   };
-  // console.log(producttype__Data);
+  // console.log(dataObject);
 
   const response = await axios.get(
-    `${API_URL}/?page=${producttype__Data?.page}&limit=${producttype__Data?.limit}`,
+    `${API_URL}/?page=${dataObject?.page}&limit=${dataObject?.limit}`,
     config
   );
 
@@ -99,11 +86,11 @@ const producttype__get_all = async (
 };
 
 const current__Service = {
-  producttype__add,
-  producttype__update,
-  producttype__get_one,
-  producttype__delete_one,
-  producttype__get_all,
+  item__add,
+  item__update,
+  item__get_one,
+  item__delete_one,
+  item__get_all,
 };
 
 export default current__Service;

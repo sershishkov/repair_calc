@@ -1,14 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
-import contracttype__Service from './contracttype__Service';
+import current__Service from './contracttype__Service';
 import { I_ContractType } from '../../../../interfaces/AccountingInterfaces';
 import { I_ServerResponse } from '../../../../interfaces/CommonInterfaces';
 
 export interface I_State__ extends I_ServerResponse<I_ContractType> {
-  isError: boolean;
-  isSucces: boolean;
   isLoading: boolean;
-  message: string;
 }
 
 const initialState: I_State__ = {
@@ -17,17 +15,24 @@ const initialState: I_State__ = {
   total: 0,
   totalPages: 0,
 
-  isError: false,
-  isSucces: false,
   isLoading: false,
-  message: '',
 };
 
 export const contracttype__add = createAsyncThunk(
   'contracttype__add',
-  async (contracttype__Data: I_ContractType, thunkAPI) => {
+  async (dataObject: I_ContractType, thunkAPI) => {
     try {
-      return await contracttype__Service.contracttype__add(contracttype__Data);
+      const { navigate } = dataObject;
+      delete dataObject.navigate;
+      const newItem = await current__Service.item__add(dataObject);
+
+      toast.success('Добавлено успешно');
+
+      setTimeout(() => {
+        navigate!(-1);
+      }, 2000);
+
+      return newItem;
     } catch (error: any) {
       const message =
         (error.response &&
@@ -35,6 +40,8 @@ export const contracttype__add = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
+      toast.error(message);
 
       return thunkAPI.rejectWithValue(message);
     }
@@ -43,11 +50,19 @@ export const contracttype__add = createAsyncThunk(
 
 export const contracttype__update = createAsyncThunk(
   'contracttype__update',
-  async (contracttype__Data: I_ContractType, thunkAPI) => {
+  async (dataObject: I_ContractType, thunkAPI) => {
     try {
-      return await contracttype__Service.contracttype__update(
-        contracttype__Data
-      );
+      const { navigate } = dataObject;
+      delete dataObject.navigate;
+      const updatedItem = await current__Service.item__update(dataObject);
+
+      toast.success('Изменено успешно');
+
+      setTimeout(() => {
+        navigate!(-1);
+      }, 2000);
+
+      return updatedItem;
     } catch (error: any) {
       const message =
         (error.response &&
@@ -55,6 +70,8 @@ export const contracttype__update = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
+      toast.error(message);
 
       return thunkAPI.rejectWithValue(message);
     }
@@ -63,11 +80,9 @@ export const contracttype__update = createAsyncThunk(
 
 export const contracttype__get_one = createAsyncThunk(
   'contracttype__get_one',
-  async (contracttype__Data: I_ContractType, thunkAPI) => {
+  async (dataObject: I_ContractType, thunkAPI) => {
     try {
-      return await contracttype__Service.contracttype__get_one(
-        contracttype__Data
-      );
+      return await current__Service.item__get_one(dataObject);
     } catch (error: any) {
       const message =
         (error.response &&
@@ -75,6 +90,8 @@ export const contracttype__get_one = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
+      toast.error(message);
 
       return thunkAPI.rejectWithValue(message);
     }
@@ -83,11 +100,9 @@ export const contracttype__get_one = createAsyncThunk(
 
 export const contracttype__delete_one = createAsyncThunk(
   'contracttype__delete_one',
-  async (contracttype__Data: I_ContractType, thunkAPI) => {
+  async (dataObject: I_ContractType, thunkAPI) => {
     try {
-      return await contracttype__Service.contracttype__delete_one(
-        contracttype__Data
-      );
+      return await current__Service.item__delete_one(dataObject);
     } catch (error: any) {
       const message =
         (error.response &&
@@ -95,6 +110,8 @@ export const contracttype__delete_one = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
+      toast.error(message);
 
       return thunkAPI.rejectWithValue(message);
     }
@@ -103,11 +120,9 @@ export const contracttype__delete_one = createAsyncThunk(
 
 export const contracttype__get_all = createAsyncThunk(
   'contracttype__get_all',
-  async (contracttype__Data: I_ContractType, thunkAPI) => {
+  async (dataObject: I_ContractType, thunkAPI) => {
     try {
-      return await contracttype__Service.contracttype__get_all(
-        contracttype__Data
-      );
+      return await current__Service.item__get_all(dataObject);
     } catch (error: any) {
       const message =
         (error.response &&
@@ -115,6 +130,8 @@ export const contracttype__get_all = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
+      toast.error(message);
 
       return thunkAPI.rejectWithValue(message);
     }
@@ -125,12 +142,9 @@ export const contracttype__Slice = createSlice({
   name: 'contracttype__',
   initialState,
   reducers: {
-    reset: (state) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.isSucces = false;
-      state.message = '';
-    },
+    // reset: (state) => {
+    //   state.isLoading = false;
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -139,14 +153,10 @@ export const contracttype__Slice = createSlice({
       })
       .addCase(contracttype__add.fulfilled, (state, action) => {
         state.items?.push(action.payload!);
-
         state.isLoading = false;
-        state.isSucces = true;
       })
       .addCase(contracttype__add.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = true;
-        state.message = `${action.payload}`;
       })
 
       .addCase(contracttype__update.pending, (state) => {
@@ -154,15 +164,12 @@ export const contracttype__Slice = createSlice({
       })
       .addCase(contracttype__update.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSucces = true;
         state.items = state.items?.map((item) =>
           item._id === action.payload?._id ? action.payload : item
         );
       })
       .addCase(contracttype__update.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = true;
-        state.message = `${action.payload}`;
       })
 
       .addCase(contracttype__get_one.pending, (state) => {
@@ -170,13 +177,10 @@ export const contracttype__Slice = createSlice({
       })
       .addCase(contracttype__get_one.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSucces = true;
         state.item = action.payload;
       })
       .addCase(contracttype__get_one.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = true;
-        state.message = `${action.payload}`;
       })
 
       .addCase(contracttype__delete_one.pending, (state) => {
@@ -184,15 +188,12 @@ export const contracttype__Slice = createSlice({
       })
       .addCase(contracttype__delete_one.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSucces = true;
         state.items = state.items?.filter(
           (item) => item._id !== action.payload?._id
         );
       })
       .addCase(contracttype__delete_one.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = true;
-        state.message = `${action.payload}`;
       })
 
       .addCase(contracttype__get_all.pending, (state) => {
@@ -200,18 +201,15 @@ export const contracttype__Slice = createSlice({
       })
       .addCase(contracttype__get_all.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSucces = true;
         state.items = action.payload?.items;
         state.total = action.payload?.total;
         state.totalPages = action.payload?.totalPages;
       })
       .addCase(contracttype__get_all.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = true;
-        state.message = `${action.payload}`;
       });
   },
 });
 
-export const { reset } = contracttype__Slice.actions;
+// export const { reset } = contracttype__Slice.actions;
 export default contracttype__Slice.reducer;

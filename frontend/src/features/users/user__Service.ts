@@ -5,8 +5,8 @@ import { I_ServerResponse } from '../../interfaces/CommonInterfaces';
 
 const API_URL = '/api/user-admin';
 
-const user__add = async (
-  user__Data: I_AuthRequest
+const item__add = async (
+  dataObject: I_AuthRequest
 ): Promise<I_AuthResponse | null> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -15,13 +15,13 @@ const user__add = async (
     },
   };
 
-  const response = await axios.post(`${API_URL}`, user__Data, config);
+  const response = await axios.post(`${API_URL}`, dataObject, config);
 
   return response.data.my_data;
 };
 
-const user__update = async (
-  user__Data: I_AuthRequest
+const item__update = async (
+  dataObject: I_AuthRequest
 ): Promise<I_AuthResponse | null> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -30,24 +30,16 @@ const user__update = async (
     },
   };
 
-  const new__Obj = {
-    name: user__Data.name,
-    email: user__Data.email,
-    password: user__Data.password,
-    role: user__Data.role,
-  };
+  const { _id } = dataObject;
+  delete dataObject._id;
 
-  const response = await axios.put(
-    `${API_URL}/${user__Data._id}`,
-    new__Obj,
-    config
-  );
+  const response = await axios.put(`${API_URL}/${_id}`, dataObject, config);
 
   return response.data.my_data;
 };
 
-const user__get_one = async (
-  user__Data: I_AuthRequest
+const item__get_one = async (
+  dataObject: I_AuthRequest
 ): Promise<I_AuthResponse | null> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -56,13 +48,13 @@ const user__get_one = async (
     },
   };
 
-  const response = await axios.get(`${API_URL}/${user__Data._id}`, config);
+  const response = await axios.get(`${API_URL}/${dataObject._id}`, config);
 
   return response.data.my_data;
 };
 
-const user__delete_one = async (
-  user__Data: I_AuthRequest
+const item__delete_one = async (
+  dataObject: I_AuthRequest
 ): Promise<I_AuthResponse | null> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -71,13 +63,13 @@ const user__delete_one = async (
     },
   };
 
-  const response = await axios.delete(`${API_URL}/${user__Data._id}`, config);
+  const response = await axios.delete(`${API_URL}/${dataObject._id}`, config);
 
   return response.data.my_data;
 };
 
-const user__get_all = async (
-  user__Data?: I_AuthRequest
+const item__get_all = async (
+  dataObject?: I_AuthRequest
 ): Promise<I_ServerResponse<I_AuthResponse> | null> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -85,10 +77,10 @@ const user__get_all = async (
       Authorization: `Bearer ${token}`,
     },
   };
-  // console.log(user__Data);
+  // console.log(dataObject);
 
   const response = await axios.get(
-    `${API_URL}/?page=${user__Data?.page}&limit=${user__Data?.limit}`,
+    `${API_URL}/?page=${dataObject?.page}&limit=${dataObject?.limit}`,
     config
   );
 
@@ -96,11 +88,11 @@ const user__get_all = async (
 };
 
 const current__Service = {
-  user__add,
-  user__update,
-  user__get_one,
-  user__delete_one,
-  user__get_all,
+  item__add,
+  item__update,
+  item__get_one,
+  item__delete_one,
+  item__get_all,
 };
 
 export default current__Service;

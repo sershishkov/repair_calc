@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
-import unit__Service from './unit__Service';
+import current__Service from './unit__Service';
 import { I_Unit } from '../../../../interfaces/AccountingInterfaces';
 import { I_ServerResponse } from '../../../../interfaces/CommonInterfaces';
 
@@ -24,7 +24,7 @@ export const unit__add = createAsyncThunk(
     try {
       const { navigate } = dataObject;
       delete dataObject.navigate;
-      const newItem = await unit__Service.unit__add(dataObject);
+      const newItem = await current__Service.item__add(dataObject);
 
       toast.success('Добавлено успешно');
 
@@ -54,7 +54,7 @@ export const unit__update = createAsyncThunk(
     try {
       const { navigate } = dataObject;
       delete dataObject.navigate;
-      const updatedItem = await unit__Service.unit__update(dataObject);
+      const updatedItem = await current__Service.item__update(dataObject);
 
       toast.success('Изменено успешно');
 
@@ -82,7 +82,7 @@ export const unit__get_one = createAsyncThunk(
   'unit__get_one',
   async (dataObject: I_Unit, thunkAPI) => {
     try {
-      return await unit__Service.unit__get_one(dataObject);
+      return await current__Service.item__get_one(dataObject);
     } catch (error: any) {
       const message =
         (error.response &&
@@ -102,7 +102,7 @@ export const unit__delete_one = createAsyncThunk(
   'unit__delete_one',
   async (dataObject: I_Unit, thunkAPI) => {
     try {
-      const deletedItem = await unit__Service.unit__delete_one(dataObject);
+      const deletedItem = await current__Service.item__delete_one(dataObject);
 
       toast.success('Удалено успешно');
 
@@ -126,7 +126,7 @@ export const unit__get_all = createAsyncThunk(
   'unit__get_all',
   async (dataObject: I_Unit, thunkAPI) => {
     try {
-      return await unit__Service.unit__get_all(dataObject);
+      return await current__Service.item__get_all(dataObject);
     } catch (error: any) {
       const message =
         (error.response &&

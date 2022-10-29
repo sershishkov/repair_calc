@@ -1,29 +1,35 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
+
 import authService from './authService';
 import { I_AuthRequest, I_AuthResponse } from '../../interfaces/UserInterfaces';
 
 interface I_StateAuth {
   user: I_AuthResponse | null;
-  isError: boolean;
-  isSucces: boolean;
   isLoading: boolean;
-  message: string;
 }
 
 const initialState: I_StateAuth = {
   user: null,
-  isError: false,
-  isSucces: false,
   isLoading: false,
-  message: '',
 };
 
 //Register user
 export const register = createAsyncThunk(
   'auth/register',
-  async (userData: I_AuthRequest, thunkAPI) => {
+  async (dataObject: I_AuthRequest, thunkAPI) => {
     try {
-      return await authService.register(userData);
+      const { navigate } = dataObject;
+      delete dataObject.navigate;
+      const newItem = await authService.register(dataObject);
+
+      toast.success('Регистрация успешна');
+
+      setTimeout(() => {
+        navigate!('/');
+      }, 2000);
+
+      return newItem;
     } catch (error: any) {
       const message =
         (error.response &&
@@ -31,6 +37,8 @@ export const register = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
+      toast.error(message);
 
       return thunkAPI.rejectWithValue(message);
     }
@@ -39,9 +47,19 @@ export const register = createAsyncThunk(
 
 export const login = createAsyncThunk(
   'auth/login',
-  async (user: I_AuthRequest, thunkAPI) => {
+  async (dataObject: I_AuthRequest, thunkAPI) => {
     try {
-      return await authService.login(user);
+      const { navigate } = dataObject;
+      delete dataObject.navigate;
+      const newItem = await authService.login(dataObject);
+
+      toast.success('Вход успешен');
+
+      setTimeout(() => {
+        navigate!('/');
+      }, 2000);
+
+      return newItem;
     } catch (error: any) {
       const message =
         (error.response &&
@@ -49,6 +67,8 @@ export const login = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
+      toast.error(message);
 
       return thunkAPI.rejectWithValue(message);
     }
@@ -64,6 +84,8 @@ export const getMe = createAsyncThunk('auth/getMe', async (_, thunkAPI) => {
       error.message ||
       error.toString();
 
+    toast.error(message);
+
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -74,9 +96,19 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 
 export const updateDetails = createAsyncThunk(
   'auth/updateDetails',
-  async (userData: I_AuthRequest, thunkAPI) => {
+  async (dataObject: I_AuthRequest, thunkAPI) => {
     try {
-      return await authService.updateDetails(userData);
+      const { navigate } = dataObject;
+      delete dataObject.navigate;
+      const newItem = await authService.updateDetails(dataObject);
+
+      toast.success('Изменено успешно');
+
+      setTimeout(() => {
+        navigate!('/');
+      }, 2000);
+
+      return newItem;
     } catch (error: any) {
       const message =
         (error.response &&
@@ -84,6 +116,8 @@ export const updateDetails = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
+      toast.error(message);
 
       return thunkAPI.rejectWithValue(message);
     }
@@ -92,9 +126,19 @@ export const updateDetails = createAsyncThunk(
 
 export const updatePassword = createAsyncThunk(
   'auth/updatePassword',
-  async (userData: I_AuthRequest, thunkAPI) => {
+  async (dataObject: I_AuthRequest, thunkAPI) => {
     try {
-      return await authService.updatePassword(userData);
+      const { navigate } = dataObject;
+      delete dataObject.navigate;
+      const newItem = await authService.updatePassword(dataObject);
+
+      toast.success('Изменено успешно');
+
+      setTimeout(() => {
+        navigate!('/');
+      }, 2000);
+
+      return newItem;
     } catch (error: any) {
       const message =
         (error.response &&
@@ -102,6 +146,8 @@ export const updatePassword = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+
+      toast.error(message);
 
       return thunkAPI.rejectWithValue(message);
     }
@@ -112,12 +158,9 @@ export const auth__Slice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    reset: (state) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.isSucces = false;
-      state.message = '';
-    },
+    // reset: (state) => {
+    //   state.isLoading = false;
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -126,13 +169,10 @@ export const auth__Slice = createSlice({
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSucces = true;
         state.user = action.payload ? action.payload : null;
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = true;
-        state.message = `${action.payload}`;
         state.user = null;
       })
 
@@ -141,13 +181,10 @@ export const auth__Slice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSucces = true;
         state.user = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = true;
-        state.message = `${action.payload}`;
         state.user = null;
       })
 
@@ -156,13 +193,10 @@ export const auth__Slice = createSlice({
       })
       .addCase(getMe.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSucces = true;
         state.user = action.payload;
       })
       .addCase(getMe.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = true;
-        state.message = `${action.payload}`;
         state.user = null;
       })
 
@@ -172,5 +206,5 @@ export const auth__Slice = createSlice({
   },
 });
 
-export const { reset } = auth__Slice.actions;
+// export const { reset } = auth__Slice.actions;
 export default auth__Slice.reducer;

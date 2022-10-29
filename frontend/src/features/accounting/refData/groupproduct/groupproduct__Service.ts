@@ -5,8 +5,8 @@ import { I_ServerResponse } from '../../../../interfaces/CommonInterfaces';
 
 const API_URL = '/api/refdata/groupproduct';
 
-const groupproduct__add = async (
-  groupproduct__Data: I_GroupProduct
+const item__add = async (
+  dataObject: I_GroupProduct
 ): Promise<I_GroupProduct> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -15,13 +15,13 @@ const groupproduct__add = async (
     },
   };
 
-  const response = await axios.post(`${API_URL}`, groupproduct__Data, config);
+  const response = await axios.post(`${API_URL}`, dataObject, config);
 
   return response.data.my_data;
 };
 
-const groupproduct__update = async (
-  groupproduct__Data: I_GroupProduct
+const item__update = async (
+  dataObject: I_GroupProduct
 ): Promise<I_GroupProduct> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -30,21 +30,16 @@ const groupproduct__update = async (
     },
   };
 
-  const new__Obj = {
-    groupProductName: groupproduct__Data.groupProductName,
-  };
+  const { _id } = dataObject;
+  delete dataObject._id;
 
-  const response = await axios.put(
-    `${API_URL}/${groupproduct__Data._id}`,
-    new__Obj,
-    config
-  );
+  const response = await axios.put(`${API_URL}/${_id}`, dataObject, config);
 
   return response.data.my_data;
 };
 
-const groupproduct__get_one = async (
-  groupproduct__Data: I_GroupProduct
+const item__get_one = async (
+  dataObject: I_GroupProduct
 ): Promise<I_GroupProduct> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -53,16 +48,13 @@ const groupproduct__get_one = async (
     },
   };
 
-  const response = await axios.get(
-    `${API_URL}/${groupproduct__Data._id}`,
-    config
-  );
+  const response = await axios.get(`${API_URL}/${dataObject._id}`, config);
 
   return response.data.my_data;
 };
 
-const groupproduct__delete_one = async (
-  groupproduct__Data: I_GroupProduct
+const item__delete_one = async (
+  dataObject: I_GroupProduct
 ): Promise<I_GroupProduct> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -71,16 +63,13 @@ const groupproduct__delete_one = async (
     },
   };
 
-  const response = await axios.delete(
-    `${API_URL}/${groupproduct__Data._id}`,
-    config
-  );
+  const response = await axios.delete(`${API_URL}/${dataObject._id}`, config);
 
   return response.data.my_data;
 };
 
-const groupproduct__get_all = async (
-  groupproduct__Data?: I_GroupProduct
+const item__get_all = async (
+  dataObject?: I_GroupProduct
 ): Promise<I_ServerResponse<I_GroupProduct>> => {
   const token = JSON.parse(localStorage.getItem('token')!);
   const config = {
@@ -88,10 +77,10 @@ const groupproduct__get_all = async (
       Authorization: `Bearer ${token}`,
     },
   };
-  // console.log(groupproduct__Data);
+  // console.log(dataObject);
 
   const response = await axios.get(
-    `${API_URL}/?page=${groupproduct__Data?.page}&limit=${groupproduct__Data?.limit}`,
+    `${API_URL}/?page=${dataObject?.page}&limit=${dataObject?.limit}`,
     config
   );
 
@@ -99,11 +88,11 @@ const groupproduct__get_all = async (
 };
 
 const current__Service = {
-  groupproduct__add,
-  groupproduct__update,
-  groupproduct__get_one,
-  groupproduct__delete_one,
-  groupproduct__get_all,
+  item__add,
+  item__update,
+  item__get_one,
+  item__delete_one,
+  item__get_all,
 };
 
 export default current__Service;

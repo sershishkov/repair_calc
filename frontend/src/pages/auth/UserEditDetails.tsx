@@ -1,6 +1,5 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { RootState } from '../../app/store';
@@ -38,7 +37,7 @@ const UserEditDetails = () => {
   const { name, email, currentPassword, newPassword } = formData;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { user, isLoading, isError, message } = useAppSelector(
+  const { user, isLoading } = useAppSelector(
     (state: RootState) => state.auth_state
   );
 
@@ -65,16 +64,11 @@ const UserEditDetails = () => {
     const userData = {
       name,
       email,
+      navigate,
     };
 
     dispatch(updateDetails(userData));
-
-    if (isError) {
-      toast.error(message);
-    } else {
-      dispatch(logout());
-      navigate('/');
-    }
+    dispatch(logout());
   };
 
   const onSubmitPassword = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -83,16 +77,13 @@ const UserEditDetails = () => {
     const userData = {
       currentPassword,
       newPassword,
+      navigate,
     };
 
     dispatch(updatePassword(userData));
-    if (isError) {
-      toast.error(message);
-    } else {
-      dispatch(logout());
-      navigate('/');
-    }
+    dispatch(logout());
   };
+
   const handleClickShowCurrentPassword = () => {
     set__showCurrentPassword(!showCurrentPassword);
   };

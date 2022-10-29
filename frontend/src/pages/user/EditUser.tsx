@@ -19,11 +19,7 @@ import IconButton from '@mui/material/IconButton';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-import {
-  user__get_one,
-  user__update,
-  reset,
-} from '../../features/users/user__Slice';
+import { user__get_one, user__update } from '../../features/users/user__Slice';
 
 import { roles } from '../../constants/constants';
 
@@ -41,7 +37,7 @@ function EditUser() {
   const dispatch = useAppDispatch();
   let { id } = useParams();
 
-  const { item, isLoading, isError, isSucces, message } = useAppSelector(
+  const { item, isLoading } = useAppSelector(
     (state: RootState) => state.user__state
   );
 
@@ -49,9 +45,7 @@ function EditUser() {
     if (id) {
       dispatch(user__get_one({ _id: id }));
     }
-
-    dispatch(reset());
-  }, [id, isError, message, dispatch]);
+  }, [id, dispatch]);
 
   useLayoutEffect(() => {
     if (item) {
@@ -85,22 +79,12 @@ function EditUser() {
       email,
       password,
       role,
+      navigate,
     };
 
     dispatch(user__update(user__Data));
-
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Изменено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
   };
+
   const handleClickShowPassword = () => {
     set__showPassword(!showPassword);
   };

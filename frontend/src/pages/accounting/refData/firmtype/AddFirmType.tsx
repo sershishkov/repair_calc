@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { RootState } from '../../../../app/store';
 
-import {
-  firmtype__add,
-  reset,
-} from '../../../../features/accounting/refData/firmtype/firmtype__Slice';
+import { firmtype__add } from '../../../../features/accounting/refData/firmtype/firmtype__Slice';
 
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -16,8 +12,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 
-function AddUnit() {
-  const { isSucces, isLoading, isError, message } = useAppSelector(
+function AddFirmType() {
+  const { isLoading } = useAppSelector(
     (state: RootState) => state.firmtype__state
   );
   const navigate = useNavigate();
@@ -47,21 +43,10 @@ function AddUnit() {
     const created__Data = {
       nameTypeLong,
       nameTypeShort,
+      navigate,
     };
 
     dispatch(firmtype__add(created__Data));
-
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSucces) {
-      toast.success('Добавлено успешно');
-      dispatch(reset());
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
   };
 
   if (isLoading) {
@@ -118,4 +103,4 @@ function AddUnit() {
   );
 }
 
-export default AddUnit;
+export default AddFirmType;
