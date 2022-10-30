@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../app/store';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { logout, reset } from '../../features/auth/authSlice';
+import { logout } from '../../features/auth/authSlice';
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import List from '@mui/material/List';
 import Link from '@mui/material/Link';
@@ -28,7 +28,6 @@ function NavigationList({ toggleDrawer }: { toggleDrawer: Function }) {
 
   const onLogout = () => {
     dispatch(logout());
-    dispatch(reset());
     navigate('/');
   };
 

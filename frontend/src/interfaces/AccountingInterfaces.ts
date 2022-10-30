@@ -52,6 +52,7 @@ export interface I_GroupExpense extends I_ClientRequest {
   _id?: string;
   groupExpenseName?: string;
 }
+
 export interface I_ClientType extends I_ClientRequest {
   _id?: string;
   clientTypeName?: string;
@@ -66,10 +67,7 @@ export interface I_Client extends I_ClientRequest {
   _id?: string;
   nameClientLong?: string;
   nameClientShort?: string;
-
-  firmType?: string;
-  firmTypeLong?: string;
-  firmTypeShort?: string;
+  firmType?: string | I_FirmType;
 
   postIndex?: string;
   address?: string;
@@ -93,12 +91,12 @@ export interface I_Client extends I_ClientRequest {
   jobTitle?: string;
   jobTitle_rodit?: string;
   tax?: number;
-  taxationType?: string;
-  taxationTypeName?: string;
+  taxationType?: string | I_TaxationType;
+
   certificate_PDV?: string;
   telNumber?: string;
   email?: string;
-  clientType?: string[];
+  clientType?: (string | I_ClientType)[];
 }
 
 export interface I_Contract extends I_ClientRequest {

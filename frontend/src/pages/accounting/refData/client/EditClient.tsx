@@ -65,7 +65,7 @@ const initState = {
   jobTitle: '',
   jobTitle_rodit: '',
   tax: '',
-  taxationType: '',
+  taxationType: '""',
   certificate_PDV: '',
   email: '',
 };
@@ -180,7 +180,10 @@ function EditClient() {
       setFormdata({
         nameClientLong: item.nameClientLong!,
         nameClientShort: item.nameClientShort!,
-        firmType: item.firmType!,
+        firmType:
+          typeof item.firmType! === 'string'
+            ? item.firmType
+            : item.firmType?._id!,
         postIndex: item.postIndex!,
         address: item.address!,
         edrpou: item.edrpou!,
@@ -200,11 +203,26 @@ function EditClient() {
         jobTitle: item.jobTitle!,
         jobTitle_rodit: item.jobTitle_rodit!,
         tax: String(item.tax!),
-        taxationType: item.taxationType!,
+
+        taxationType:
+          typeof item.taxationType! === 'string'
+            ? item.taxationType
+            : item.taxationType?._id!,
         certificate_PDV: item.certificate_PDV!,
         email: item.email!,
       });
-      setClientType(item.clientType!);
+
+      const arrToSet =
+        item.clientType!.length > 0
+          ? item.clientType!.map((item) => {
+              return typeof item !== 'string' ? item._id : item;
+            })
+          : [];
+
+      console.log(arrToSet);
+      // console.log(item.clientType);
+      // setClientType(arrToSet);
+
       setTelNumber(item.telNumber!);
       const inputFocus = document.getElementById('clientTypeName');
       inputFocus?.focus();
@@ -262,9 +280,7 @@ function EditClient() {
     }));
   };
 
-  const handleChangeMultipleSelects = (
-    event: SelectChangeEvent<typeof clientType>
-  ) => {
+  const handleChangeMultipleSelects = (event: SelectChangeEvent<string[]>) => {
     const {
       target: { value },
     } = event;
@@ -277,10 +293,6 @@ function EditClient() {
   const onClickAddItem = (link: string) => {
     navigate(`/refdata/${link}/add`);
   };
-  // console.log(displayFizOsoba);
-  // console.log(displayFOP);
-  // console.log(fizOsoba_Id);
-  // console.log(fop_Id);
 
   if (isLoading) {
     return <CircularProgress />;
@@ -337,7 +349,7 @@ function EditClient() {
               labelId='firmType-label'
               id='firmType'
               name='firmType'
-              value={firmType}
+              value={firmType ? firmType : ''}
               label='Роль'
               onChange={handleChangeSelects}
             >
@@ -631,8 +643,9 @@ function EditClient() {
               labelId='taxationType-label'
               id='taxationType'
               name='taxationType'
-              value={taxationType}
-              label='Роль'
+              value={taxationType ? taxationType : `""`}
+              defaultValue={`""`}
+              label='taxationType'
               onChange={handleChangeSelects}
             >
               {taxationTypes?.map((item: I_TaxationType) => (
@@ -745,7 +758,7 @@ function EditClient() {
             >
               {clientTypes?.map((item) => (
                 <MenuItem key={item._id} value={item._id}>
-                  <Checkbox checked={clientType.indexOf(item._id!) > -1} />
+                  <Checkbox checked={clientType!.indexOf(item._id!) > -1} />
                   <ListItemText primary={item.clientTypeName} />
                 </MenuItem>
               ))}
@@ -779,7 +792,7 @@ function EditClient() {
             !taxationType ||
             !telNumber ||
             !email ||
-            !clientType[0]
+            !clientType![0]
           }
           variant='contained'
           sx={{ mt: 3, mb: 2 }}
