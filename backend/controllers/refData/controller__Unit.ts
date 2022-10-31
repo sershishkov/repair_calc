@@ -47,6 +47,12 @@ export const update__Unit = asyncHandler(
       res.status(400);
       throw new Error('Please add all fields');
     }
+    //Check if already exists
+    const already__Exists = await Model__Unit.findOne({ unitName });
+    if (already__Exists) {
+      res.status(400);
+      throw new Error('unitName already exists');
+    }
 
     const new__Unit = {
       unitName,

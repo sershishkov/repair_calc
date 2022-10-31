@@ -51,6 +51,13 @@ export const update__ClientType = asyncHandler(
       throw new Error('Please add all fields');
     }
 
+    //Check if already exists
+    const already__Exists = await Model__ClientType.findOne({ clientTypeName });
+    if (already__Exists) {
+      res.status(400);
+      throw new Error('clientTypeName already exists');
+    }
+
     const new__ClientType = {
       clientTypeName,
     };

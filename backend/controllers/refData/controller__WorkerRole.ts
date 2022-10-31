@@ -50,6 +50,13 @@ export const update__WorkerRole = asyncHandler(
       throw new Error('Please add all fields');
     }
 
+    //Check if already exists
+    const already__Exists = await Model__WorkerRole.findOne({ workerRoleName });
+    if (already__Exists) {
+      res.status(400);
+      throw new Error('workerRoleName already exists');
+    }
+
     const new__WorkerRole = {
       workerRoleName,
     };

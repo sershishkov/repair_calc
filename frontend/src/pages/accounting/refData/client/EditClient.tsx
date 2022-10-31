@@ -208,20 +208,17 @@ function EditClient() {
           typeof item.taxationType! === 'string'
             ? item.taxationType
             : item.taxationType?._id!,
+
         certificate_PDV: item.certificate_PDV!,
         email: item.email!,
       });
 
-      const arrToSet =
-        item.clientType!.length > 0
-          ? item.clientType!.map((item) => {
-              return typeof item !== 'string' ? item._id : item;
-            })
-          : [];
-
+      const arrToSet = item.clientType!.map((item) => {
+        return typeof item !== 'string' ? item._id! : item;
+      });
       console.log(arrToSet);
       // console.log(item.clientType);
-      // setClientType(arrToSet);
+      setClientType(arrToSet);
 
       setTelNumber(item.telNumber!);
       const inputFocus = document.getElementById('clientTypeName');

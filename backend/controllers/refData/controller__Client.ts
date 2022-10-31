@@ -151,6 +151,14 @@ export const update__Client = asyncHandler(
       throw new Error('Please add all fields');
     }
 
+    //Check if already exists
+    const already__Exists = await Model__Client.findOne({ nameClientLong });
+    // console.log(already__Exists);
+    if (already__Exists) {
+      res.status(400);
+      throw new Error('nameClientLong already exists');
+    }
+
     const new__Client = {
       nameClientLong,
       nameClientShort,
