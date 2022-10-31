@@ -37,7 +37,7 @@ export interface I_ContractType extends I_ClientRequest {
   // 'Сумма',
   // 'Сумма Кошторис',
   // 'Предоплата',
-  // 'Частичная предоплата',]
+  // 'Частичная предоплата',Бюджет, РемсервисКап, РемсервисПоточн]
 }
 export interface I_PaymentSource extends I_ClientRequest {
   _id?: string;
@@ -56,6 +56,7 @@ export interface I_GroupExpense extends I_ClientRequest {
 export interface I_ClientType extends I_ClientRequest {
   _id?: string;
   clientTypeName?: string;
+  // ПОставщик, покупатель, наша фирма, налоговая
 }
 
 export interface I_ProductType extends I_ClientRequest {
@@ -101,12 +102,14 @@ export interface I_Client extends I_ClientRequest {
 
 export interface I_Contract extends I_ClientRequest {
   _id?: string;
-  ourFirmName?: string;
-  clientName?: string;
   contractNumber?: string;
+  ourFirmName?: string | I_Client;
+  clientName?: string | I_Client;
   contractDate?: Date;
-  contractTypeName?: string;
-  paymentSource?: string;
+  contractTypeName?: string | I_ContractType;
+  paymentSource?: string | I_PaymentSource;
+  workAddress?: string;
+  workDescription?: string;
 }
 
 export interface I_Worker extends I_ClientRequest {
@@ -125,8 +128,9 @@ export interface I_Worker extends I_ClientRequest {
 export interface I_Product extends I_ClientRequest {
   _id?: string;
   productName?: string;
-  unit?: string;
-  groupProductName?: string;
+  unit?: string | I_Unit;
+  groupProductName?: string | I_GroupProduct;
+  productTypeName?: string | I_ProductType;
   priceBuy?: number;
   priceSell?: number;
   normPer1?: number;
@@ -140,12 +144,12 @@ export interface I_Product extends I_ClientRequest {
 export interface I_ServiceWork extends I_ClientRequest {
   _id?: string;
   serviceWorkName?: string;
-  unit?: string;
+  unit?: string | I_Unit;
   groupWork?: string[];
   priceWorker?: number;
   priceClient?: number;
-  products?: string[];
-  equipmentAndTools?: string[];
+  products?: string[] | I_Product[];
+  equipmentAndTools?: string[] | I_Product[];
 }
 
 //////////////////////////////////////////////////////////////
@@ -153,48 +157,42 @@ export interface I_ServiceWork extends I_ClientRequest {
 export interface I_Expense extends I_ClientRequest {
   _id?: string;
   expenseDescription?: string;
-  groupExpenseName?: string;
+  groupExpenseName?: string | I_GroupExpense;
   expenseSum?: number;
   expenseDate?: Date;
-  responsiblePerson?: string;
-  contract?: string;
-}
-
-export interface I_Deal extends I_ClientRequest {
-  _id?: string;
-  ourFirmName?: string;
-  clientName?: string;
-  workAddress?: string;
-  workDescription?: string;
-  contractNumber?: string;
-  groupExpenseName?: string;
-  totalSum?: number;
-  tax?: number;
-  additionalExpense?: number;
-  productSum?: number;
-  workSum?: number;
-  responsiblePerson?: string;
-  workerLastName?: string;
-  income?: number;
+  responsiblePerson?: string | I_Worker;
+  contract?: string | I_Contract;
 }
 
 export interface I_BankIncome extends I_ClientRequest {
   _id?: string;
-  ourFirmName: string;
-  clientName: string;
-  contractNumber?: string;
+  ourFirmName: string | I_Client;
+  clientName: string | I_Client;
+  contractNumber?: string | I_Contract;
   paymentSum: number;
   paymentDate: Date;
 }
 
 export interface I_SalaryPayment {
   _id?: string;
-  workerLastName: string;
+  worker: string | I_Worker;
   paymentSum: number;
   paymentDate: Date;
-  contractNumber?: string;
+  contractNumber?: string | I_Contract;
 }
 
-export interface I_OurFirm extends I_Client, I_ClientRequest {
-  simpleName: string;
-}
+// export interface I_Deal extends I_ClientRequest {
+//   _id?: string;
+//   ourFirmName?: string;
+//   clientName?: string;
+//   contractNumber?: string;
+//   groupExpenseName?: string;
+//   totalSum?: number;
+//   tax?: number;
+//   additionalExpense?: number;
+//   productSum?: number;
+//   workSum?: number;
+//   responsiblePerson?: string;
+//   workerLastName?: string;
+//   income?: number;
+// }
