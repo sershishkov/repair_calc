@@ -37,7 +37,7 @@ export interface I_ContractType extends I_ClientRequest {
   // 'Сумма',
   // 'Сумма Кошторис',
   // 'Предоплата',
-  // 'Частичная предоплата',Бюджет, РемсервисКап, РемсервисПоточн]
+  // 'Частичная предоплата',Бюджет, РемсервисКап, РемсервисПоточн,Покупка]
 }
 export interface I_PaymentSource extends I_ClientRequest {
   _id?: string;

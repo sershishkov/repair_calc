@@ -15,6 +15,7 @@ import groupexpense__Slice from '../features/accounting/refData/groupexpense/gro
 import clienttype__Slice from '../features/accounting/refData/clienttype/clienttype__Slice';
 import producttype__Slice from '../features/accounting/refData/producttype/producttype__Slice';
 import client__Slice from '../features/accounting/refData/client/client__Slice';
+import contract__Slice from '../features/accounting/refData/contract/contract__Slice';
 
 export const store = configureStore({
   reducer: {
@@ -35,6 +36,7 @@ export const store = configureStore({
     producttype__state: producttype__Slice,
 
     client__state: client__Slice,
+    contract__state: contract__Slice,
   },
 });
 

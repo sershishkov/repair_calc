@@ -13,7 +13,7 @@ import {
 const editLink = `/refdata/unit`;
 
 function ListUnit() {
-  const current__state = useAppSelector(
+  const { items, total, isLoading } = useAppSelector(
     (state: RootState) => state.unit__state
   );
   const headerFields = ['Name'];
@@ -23,9 +23,11 @@ function ListUnit() {
       <MyIconButtonAdd href={`${editLink}/add`} />
 
       <TableSimple
+        items={items}
+        total={total}
+        isLoading={isLoading}
         get__all={unit__get_all}
         delete__one={unit__delete_one}
-        current__state={current__state}
         headerFields={headerFields}
         tableFields={tableFields}
         editLink={editLink}

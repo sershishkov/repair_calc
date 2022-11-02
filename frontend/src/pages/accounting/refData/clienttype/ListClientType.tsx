@@ -13,7 +13,7 @@ import {
 const editLink = `/refdata/clienttype`;
 
 function ListClientType() {
-  const current__state = useAppSelector(
+  const { items, total, isLoading } = useAppSelector(
     (state: RootState) => state.clienttype__state
   );
   const headerFields = ['Name'];
@@ -23,9 +23,11 @@ function ListClientType() {
       <MyIconButtonAdd href={`${editLink}/add`} />
 
       <TableSimple
+        items={items}
+        total={total}
+        isLoading={isLoading}
         get__all={clienttype__get_all}
         delete__one={clienttype__delete_one}
-        current__state={current__state}
         headerFields={headerFields}
         tableFields={tableFields}
         editLink={editLink}

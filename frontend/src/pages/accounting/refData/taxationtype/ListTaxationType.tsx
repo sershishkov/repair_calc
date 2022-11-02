@@ -13,7 +13,7 @@ import {
 const editLink = `/refdata/taxationtype`;
 
 function ListTaxationType() {
-  const current__state = useAppSelector(
+  const { items, total, isLoading } = useAppSelector(
     (state: RootState) => state.taxationtype__state
   );
   const headerFields = ['Name'];
@@ -23,9 +23,11 @@ function ListTaxationType() {
       <MyIconButtonAdd href={`${editLink}/add`} />
 
       <TableSimple
+        items={items}
+        total={total}
+        isLoading={isLoading}
         get__all={taxationtype__get_all}
         delete__one={taxationtype__delete_one}
-        current__state={current__state}
         headerFields={headerFields}
         tableFields={tableFields}
         editLink={editLink}

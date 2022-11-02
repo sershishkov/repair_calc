@@ -13,7 +13,7 @@ import {
 const editLink = `/refdata/producttype`;
 
 function ListProductType() {
-  const current__state = useAppSelector(
+  const { items, total, isLoading } = useAppSelector(
     (state: RootState) => state.producttype__state
   );
   const headerFields = ['Name'];
@@ -23,9 +23,11 @@ function ListProductType() {
       <MyIconButtonAdd href={`${editLink}/add`} />
 
       <TableSimple
+        items={items}
+        total={total}
+        isLoading={isLoading}
         get__all={producttype__get_all}
         delete__one={producttype__delete_one}
-        current__state={current__state}
         headerFields={headerFields}
         tableFields={tableFields}
         editLink={editLink}

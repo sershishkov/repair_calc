@@ -13,7 +13,7 @@ import {
 const editLink = `/refdata/groupwork`;
 
 function ListGroupWork() {
-  const current__state = useAppSelector(
+  const { items, total, isLoading } = useAppSelector(
     (state: RootState) => state.groupwork__state
   );
   const headerFields = ['Name'];
@@ -23,9 +23,11 @@ function ListGroupWork() {
       <MyIconButtonAdd href={`${editLink}/add`} />
 
       <TableSimple
+        items={items}
+        total={total}
+        isLoading={isLoading}
         get__all={groupwork__get_all}
         delete__one={groupwork__delete_one}
-        current__state={current__state}
         headerFields={headerFields}
         tableFields={tableFields}
         editLink={editLink}

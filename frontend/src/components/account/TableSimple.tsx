@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch } from '../../app/hooks';
 
-import { toast } from 'react-toastify';
-
 import { useTheme } from '@mui/material/styles';
 import Link from '@mui/material/Link';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -107,16 +105,20 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 }
 
 function TableSimple({
+  items,
+  total,
+  isLoading,
   get__all,
   delete__one,
-  current__state,
   headerFields,
   tableFields,
   editLink,
 }: {
+  items: any;
+  total: any;
+  isLoading: any;
   get__all: any;
   delete__one: any;
-  current__state: any;
   headerFields: string[];
   tableFields: string[];
   editLink: string;
@@ -125,8 +127,6 @@ function TableSimple({
   // Avoid a layout jump when reaching the last page with empty rows.
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const { items, total, isLoading, isError, message } = current__state;
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - total!) : 0;
@@ -155,10 +155,7 @@ function TableSimple({
 
   useEffect(() => {
     dispatch(get__all({ page: `${page + 1}`, limit: `${rowsPerPage}` }));
-    if (isError) {
-      toast.error(message);
-    }
-  }, [page, rowsPerPage, isError, message, get__all, dispatch]);
+  }, [page, rowsPerPage, get__all, dispatch]);
   if (isLoading) {
     return <CircularProgress />;
   }

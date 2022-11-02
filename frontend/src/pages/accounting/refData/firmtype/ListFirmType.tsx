@@ -13,7 +13,7 @@ import {
 const editLink = `/refdata/firmtype`;
 
 function ListUnit() {
-  const current__state = useAppSelector(
+  const { items, total, isLoading } = useAppSelector(
     (state: RootState) => state.firmtype__state
   );
   const headerFields = ['NameLong', 'NameShort'];
@@ -23,9 +23,11 @@ function ListUnit() {
       <MyIconButtonAdd href={`${editLink}/add`} />
 
       <TableSimple
+        items={items}
+        total={total}
+        isLoading={isLoading}
         get__all={firmtype__get_all}
         delete__one={firmtype__delete_one}
-        current__state={current__state}
         headerFields={headerFields}
         tableFields={tableFields}
         editLink={editLink}

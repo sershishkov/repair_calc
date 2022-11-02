@@ -13,7 +13,7 @@ import {
 const editLink = `/refdata/groupproduct`;
 
 function ListGroupProduct() {
-  const current__state = useAppSelector(
+  const { items, total, isLoading } = useAppSelector(
     (state: RootState) => state.groupproduct__state
   );
   const headerFields = ['Name'];
@@ -23,9 +23,11 @@ function ListGroupProduct() {
       <MyIconButtonAdd href={`${editLink}/add`} />
 
       <TableSimple
+        items={items}
+        total={total}
+        isLoading={isLoading}
         get__all={groupproduct__get_all}
         delete__one={groupproduct__delete_one}
-        current__state={current__state}
         headerFields={headerFields}
         tableFields={tableFields}
         editLink={editLink}

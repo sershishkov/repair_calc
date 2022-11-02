@@ -13,7 +13,7 @@ import {
 const editLink = `/refdata/contracttype`;
 
 function ListContractType() {
-  const current__state = useAppSelector(
+  const { items, total, isLoading } = useAppSelector(
     (state: RootState) => state.contracttype__state
   );
   const headerFields = ['Name'];
@@ -23,9 +23,11 @@ function ListContractType() {
       <MyIconButtonAdd href={`${editLink}/add`} />
 
       <TableSimple
+        items={items}
+        total={total}
+        isLoading={isLoading}
         get__all={contracttype__get_all}
         delete__one={contracttype__delete_one}
-        current__state={current__state}
         headerFields={headerFields}
         tableFields={tableFields}
         editLink={editLink}

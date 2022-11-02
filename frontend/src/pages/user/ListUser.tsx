@@ -13,7 +13,7 @@ import {
 const editLink = `/user-admin`;
 
 const ListUser = () => {
-  const current__state = useAppSelector(
+  const { items, total, isLoading } = useAppSelector(
     (state: RootState) => state.user__state
   );
   const headerFields = ['Name', 'email', 'role'];
@@ -23,9 +23,11 @@ const ListUser = () => {
       <MyIconButtonAdd href={`${editLink}/add`} />
 
       <TableSimple
+        items={items}
+        total={total}
+        isLoading={isLoading}
         get__all={user__get_all}
         delete__one={user__delete_one}
-        current__state={current__state}
         headerFields={headerFields}
         tableFields={tableFields}
         editLink={editLink}

@@ -13,7 +13,7 @@ import {
 const editLink = `/refdata/paymentsource`;
 
 function ListPaymentSource() {
-  const current__state = useAppSelector(
+  const { items, total, isLoading } = useAppSelector(
     (state: RootState) => state.paymentsource__state
   );
   const headerFields = ['Name'];
@@ -23,9 +23,11 @@ function ListPaymentSource() {
       <MyIconButtonAdd href={`${editLink}/add`} />
 
       <TableSimple
+        items={items}
+        total={total}
+        isLoading={isLoading}
         get__all={paymentsource__get_all}
         delete__one={paymentsource__delete_one}
-        current__state={current__state}
         headerFields={headerFields}
         tableFields={tableFields}
         editLink={editLink}

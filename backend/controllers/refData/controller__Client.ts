@@ -222,7 +222,10 @@ export const getAll__Clients = asyncHandler(
       .skip(skip)
       .sort({
         nameClientLong: 1,
-      });
+      })
+      .populate({ path: 'firmType', select: 'nameTypeLong nameTypeShort' })
+      .populate({ path: 'taxationType', select: 'taxationTypeName' })
+      .populate({ path: 'clientType', select: 'clientTypeName' });
 
     if (!all__Clients) {
       res.status(400);

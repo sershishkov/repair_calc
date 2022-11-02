@@ -13,9 +13,10 @@ import {
 const editLink = `/refdata/workerrole`;
 
 function ListWorkerRole() {
-  const current__state = useAppSelector(
+  const { items, total, isLoading } = useAppSelector(
     (state: RootState) => state.workerrole__state
   );
+
   const headerFields = ['Name'];
   const tableFields = ['workerRoleName'];
   return (
@@ -23,9 +24,11 @@ function ListWorkerRole() {
       <MyIconButtonAdd href={`${editLink}/add`} />
 
       <TableSimple
+        items={items}
+        total={total}
+        isLoading={isLoading}
         get__all={workerrole__get_all}
         delete__one={workerrole__delete_one}
-        current__state={current__state}
         headerFields={headerFields}
         tableFields={tableFields}
         editLink={editLink}
