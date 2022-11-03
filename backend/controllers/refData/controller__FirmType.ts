@@ -51,13 +51,6 @@ export const update__FirmType = asyncHandler(
       throw new Error('Please add all fields');
     }
 
-    //Check if already exists
-    const already__Exists = await Model__FirmType.findOne({ nameTypeLong });
-    if (already__Exists) {
-      res.status(400);
-      throw new Error('nameTypeLong already exists');
-    }
-
     const new__FirmType = {
       nameTypeLong,
       nameTypeShort,

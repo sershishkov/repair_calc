@@ -65,7 +65,7 @@ const initState = {
   jobTitle: '',
   jobTitle_rodit: '',
   tax: '',
-  taxationType: '""',
+  taxationType: '',
   certificate_PDV: '',
   email: '',
 };
@@ -346,7 +346,7 @@ function EditClient() {
               labelId='firmType-label'
               id='firmType'
               name='firmType'
-              value={firmType ? firmType : ''}
+              value={firmType}
               label='Роль'
               onChange={handleChangeSelects}
             >
@@ -640,8 +640,8 @@ function EditClient() {
               labelId='taxationType-label'
               id='taxationType'
               name='taxationType'
-              value={taxationType ? taxationType : `""`}
-              defaultValue={`""`}
+              value={taxationType}
+              // defaultValue={`""`}
               label='taxationType'
               onChange={handleChangeSelects}
             >

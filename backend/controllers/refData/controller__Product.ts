@@ -87,13 +87,6 @@ export const update__Product = asyncHandler(
       throw new Error('Please add all fields');
     }
 
-    //Check if already exists
-    const already__Exists = await Model__Product.findOne({ productName });
-    if (already__Exists) {
-      res.status(400);
-      throw new Error('productName already exists');
-    }
-
     const new__Product = {
       productName,
       unit,

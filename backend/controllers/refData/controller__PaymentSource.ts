@@ -52,15 +52,6 @@ export const update__PaymentSource = asyncHandler(
       throw new Error('Please add all fields');
     }
 
-    //Check if already exists
-    const already__Exists = await Model__PaymentSource.findOne({
-      paymentSourceName,
-    });
-    if (already__Exists) {
-      res.status(400);
-      throw new Error('paymentSourceName already exists');
-    }
-
     const new__PaymentSource = {
       paymentSourceName,
     };

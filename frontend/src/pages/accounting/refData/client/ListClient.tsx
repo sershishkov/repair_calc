@@ -14,7 +14,7 @@ import { I_Client } from '../../../../interfaces/AccountingInterfaces';
 const editLink = `/refdata/clients`;
 
 interface NewObject {
-  // _id: string;
+  _id: string;
   nameClientLong: string;
   firmType: string;
   taxationType: string;
@@ -31,6 +31,7 @@ function ListClient() {
     });
 
     const newObject: NewObject = {
+      _id: item._id!,
       nameClientLong: item.nameClientLong!,
       firmType:
         typeof item.firmType !== 'string'
