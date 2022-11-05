@@ -70,7 +70,6 @@ function ListClient() {
         isLoading={isLoading}
         get__all={client__get_all}
         delete__one={client__delete_one}
-        // current__state={current__state}
         headerFields={headerFields}
         tableFields={tableFields}
         editLink={editLink}

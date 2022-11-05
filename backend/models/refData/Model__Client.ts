@@ -19,38 +19,39 @@ const client__Schema = new Schema<I_Client>({
   },
   postIndex: {
     type: String,
-    //   required: [true, 'Please add a post index'],
-    //   match: [/\b\d{5}\b/, 'Пожалуйста введите 5 цифр'],
+    required: [true, 'Please add a post index'],
+    match: [/\b\d{5}\b/, 'Индекс может состоять только из 5 цифр'],
   },
   address: {
     type: String,
-    // required: [true, 'Please add an address'],
+    required: [true, 'Please add an address'],
   },
   edrpou: {
     type: String,
     // unique: true,
     // match: [/\b\d{8}\b/, 'Пожалуйста введите 8 цифр'],
-    // required: [true, 'Please add a client name'],
+    // required: [true, 'Please add an edrpou'],
   },
   inn: {
     type: String,
     // unique: true,
     // match: [/\b\d{10}\b/, 'Пожалуйста введите 10 цифр'],
-    // required: [true, 'Please add a client name'],
+    // required: [true, 'Please add an inn'],
   },
   iban: {
     type: String,
     // unique: true,
-    // required: [true, 'Please add a client name'],
+    // required: [true, 'Please add an iban'],
   },
   iban_budget: {
     type: String,
     // unique: true,
-    // required: [true, 'Please add a client name'],
+    // required: [true, 'Please add a iban_budget'],
   },
   passport: {
     type: String,
-    // required: [true, 'Please add a client name'],
+    // unique: true,
+    // required: [true, 'Please add a passport'],
   },
   firstName_imen: {
     type: String,
@@ -80,6 +81,7 @@ const client__Schema = new Schema<I_Client>({
 
   certificateNumber: {
     type: String,
+    // unique: true,
     // required: [true, 'Please add a certificateNumber'],
   },
   representedBy: {
@@ -99,6 +101,7 @@ const client__Schema = new Schema<I_Client>({
   },
   tax: {
     type: Number,
+    default: 0,
     // required: [true, 'Please add a tax'],
   },
   taxationType: {
@@ -107,6 +110,7 @@ const client__Schema = new Schema<I_Client>({
   },
   certificate_PDV: {
     type: String,
+    // unique: true,
   },
   telNumber: {
     type: String,

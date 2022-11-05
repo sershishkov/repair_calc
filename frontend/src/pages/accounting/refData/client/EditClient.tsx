@@ -186,18 +186,18 @@ function EditClient() {
             : item.firmType?._id!,
         postIndex: item.postIndex!,
         address: item.address!,
-        edrpou: item.edrpou!,
-        inn: item.inn!,
-        iban: item.iban!,
-        iban_budget: item.iban_budget!,
-        passport: item.passport!,
+        edrpou: item.edrpou ? item.edrpou : '',
+        inn: item.inn ? item.inn : '',
+        iban: item.iban ? item.iban : '',
+        iban_budget: item.iban_budget ? item.iban_budget : '',
+        passport: item.passport ? item.passport : '',
         firstName_imen: item.firstName_imen!,
         patronymic_imen: item.patronymic_imen!,
         lastName_imen: item.lastName_imen!,
         firstName_rodit: item.firstName_rodit!,
         patronymic_rodit: item.patronymic_rodit!,
         lastName_rodit: item.lastName_rodit!,
-        certificateNumber: item.certificateNumber!,
+        certificateNumber: item.certificateNumber ? item.certificateNumber : '',
         representedBy: item.representedBy!,
         whichActsOnTheBasis: item.whichActsOnTheBasis!,
         jobTitle: item.jobTitle!,
@@ -209,15 +209,14 @@ function EditClient() {
             ? item.taxationType
             : item.taxationType?._id!,
 
-        certificate_PDV: item.certificate_PDV!,
+        certificate_PDV: item.certificate_PDV ? item.certificate_PDV : '',
         email: item.email!,
       });
 
       const arrToSet = item.clientType!.map((item) => {
         return typeof item !== 'string' ? item._id! : item;
       });
-      console.log(arrToSet);
-      // console.log(item.clientType);
+
       setClientType(arrToSet);
 
       setTelNumber(item.telNumber!);
@@ -317,7 +316,7 @@ function EditClient() {
           label='nameClientLong'
           type='text'
           id='nameClientLong'
-          value={nameClientLong}
+          value={nameClientLong ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -330,7 +329,7 @@ function EditClient() {
           label='nameClientShort'
           type='text'
           id='nameClientShort'
-          value={nameClientShort}
+          value={nameClientShort ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -346,7 +345,7 @@ function EditClient() {
               labelId='firmType-label'
               id='firmType'
               name='firmType'
-              value={firmType}
+              value={firmType ?? ''}
               label='Роль'
               onChange={handleChangeSelects}
             >
@@ -371,7 +370,7 @@ function EditClient() {
           label='postIndex'
           type='text'
           id='postIndex'
-          value={postIndex}
+          value={postIndex ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -384,7 +383,7 @@ function EditClient() {
           label='address'
           type='text'
           id='address'
-          value={address}
+          value={address ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -400,7 +399,7 @@ function EditClient() {
           label='edrpou'
           type='text'
           id='edrpou'
-          value={edrpou}
+          value={edrpou ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -416,7 +415,7 @@ function EditClient() {
           label='inn'
           type='text'
           id='inn'
-          value={inn}
+          value={inn ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -429,7 +428,7 @@ function EditClient() {
           label='iban'
           type='text'
           id='iban'
-          value={iban}
+          value={iban ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -442,7 +441,7 @@ function EditClient() {
           label='iban_budget'
           type='text'
           id='iban_budget'
-          value={iban_budget}
+          value={iban_budget ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -455,7 +454,7 @@ function EditClient() {
           label='passport'
           type='text'
           id='passport'
-          value={passport}
+          value={passport ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -468,7 +467,7 @@ function EditClient() {
           label='firstName_imen'
           type='text'
           id='firstName_imen'
-          value={firstName_imen}
+          value={firstName_imen ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -481,7 +480,7 @@ function EditClient() {
           label='patronymic_imen'
           type='text'
           id='patronymic_imen'
-          value={patronymic_imen}
+          value={patronymic_imen ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -494,7 +493,7 @@ function EditClient() {
           label='lastName_imen'
           type='text'
           id='lastName_imen'
-          value={lastName_imen}
+          value={lastName_imen ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -507,7 +506,7 @@ function EditClient() {
           label='firstName_rodit'
           type='text'
           id='firstName_rodit'
-          value={firstName_rodit}
+          value={firstName_rodit ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -520,7 +519,7 @@ function EditClient() {
           label='patronymic_rodit'
           type='text'
           id='patronymic_rodit'
-          value={patronymic_rodit}
+          value={patronymic_rodit ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -534,7 +533,7 @@ function EditClient() {
           label='lastName_rodit'
           type='text'
           id='lastName_rodit'
-          value={lastName_rodit}
+          value={lastName_rodit ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -548,7 +547,7 @@ function EditClient() {
           label='certificateNumber'
           type='text'
           id='certificateNumber'
-          value={certificateNumber}
+          value={certificateNumber ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -562,7 +561,7 @@ function EditClient() {
           label='representedBy'
           type='text'
           id='representedBy'
-          value={representedBy}
+          value={representedBy ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -578,7 +577,7 @@ function EditClient() {
           label='whichActsOnTheBasis'
           type='text'
           id='whichActsOnTheBasis'
-          value={whichActsOnTheBasis}
+          value={whichActsOnTheBasis ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -595,7 +594,7 @@ function EditClient() {
           label='jobTitle'
           type='text'
           id='jobTitle'
-          value={jobTitle}
+          value={jobTitle ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -611,7 +610,7 @@ function EditClient() {
           label='jobTitle_rodit'
           type='text'
           id='jobTitle_rodit'
-          value={jobTitle_rodit}
+          value={jobTitle_rodit ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -624,7 +623,7 @@ function EditClient() {
           label='tax'
           type='number'
           id='tax'
-          value={tax}
+          value={tax ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -640,7 +639,7 @@ function EditClient() {
               labelId='taxationType-label'
               id='taxationType'
               name='taxationType'
-              value={taxationType}
+              value={taxationType ?? ''}
               // defaultValue={`""`}
               label='taxationType'
               onChange={handleChangeSelects}
@@ -669,7 +668,7 @@ function EditClient() {
           label='certificate_PDV'
           type='text'
           id='certificate_PDV'
-          value={certificate_PDV}
+          value={certificate_PDV ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -685,7 +684,7 @@ function EditClient() {
           // international
           defaultCountry='UA'
           placeholder='Ваш телефон'
-          value={telNumber}
+          value={telNumber ?? ''}
           onChange={setTelNumber}
           error={
             telNumber
@@ -717,7 +716,7 @@ function EditClient() {
           label='email'
           type='email'
           id='email'
-          value={email}
+          value={email ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -733,7 +732,7 @@ function EditClient() {
               labelId='clientType-label'
               id='clientType'
               multiple
-              value={clientType}
+              value={clientType ?? []}
               onChange={handleChangeMultipleSelects}
               input={<OutlinedInput label='clientType' />}
               renderValue={(selected) => (

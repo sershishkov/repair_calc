@@ -728,9 +728,6 @@ function AddClient() {
             !firstName_rodit ||
             !patronymic_rodit ||
             !lastName_rodit ||
-            // !jobTitle ||
-            // !jobTitle_rodit ||
-            // !tax ||
             !taxationType ||
             !telNumber ||
             !email ||

@@ -91,8 +91,8 @@ export interface I_Client {
   certificate_PDV: string;
   telNumber?: string;
   email?: string;
-  clientTypesName?: [string];
-  clientType?: [Types.ObjectId];
+  // clientTypesName?: string[];
+  clientType?: Types.ObjectId[];
 }
 
 export interface I_Contract {
