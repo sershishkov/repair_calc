@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { I_ClientRequest } from './CommonInterfaces';
 
 export interface I_Unit extends I_ClientRequest {
@@ -39,6 +40,7 @@ export interface I_ContractType extends I_ClientRequest {
   // 'Предоплата',
   // 'Частичная предоплата',Бюджет, РемсервисКап, РемсервисПоточн,Покупка]
 }
+
 export interface I_PaymentSource extends I_ClientRequest {
   _id?: string;
   paymentSourceName?: string;
@@ -103,13 +105,13 @@ export interface I_Client extends I_ClientRequest {
 export interface I_Contract extends I_ClientRequest {
   _id?: string;
   contractNumber?: string;
-  ourFirmName?: string | I_Client;
-  clientName?: string | I_Client;
-  contractDate?: Date;
-  contractTypeName?: string | I_ContractType;
-  paymentSource?: string | I_PaymentSource;
+  ourFirm?: string | I_Client;
+  client?: string | I_Client;
+  contractDate?: dayjs.Dayjs | null;
+  contractDescription?: string;
   workAddress?: string;
-  workDescription?: string;
+  contractType?: string | I_ContractType;
+  paymentSource?: string | I_PaymentSource;
 }
 
 export interface I_Worker extends I_ClientRequest {
@@ -121,8 +123,8 @@ export interface I_Worker extends I_ClientRequest {
   passportSeries?: string;
   passportNumber?: string;
   representedBy?: string;
-  whenIssued?: Date;
-  birthDay?: Date;
+  whenIssued?: dayjs.Dayjs | null;
+  birthDay?: dayjs.Dayjs | null;
 }
 
 export interface I_Product extends I_ClientRequest {
@@ -159,7 +161,7 @@ export interface I_Expense extends I_ClientRequest {
   expenseDescription?: string;
   groupExpenseName?: string | I_GroupExpense;
   expenseSum?: number;
-  expenseDate?: Date;
+  expenseDate?: dayjs.Dayjs | null;
   responsiblePerson?: string | I_Worker;
   contract?: string | I_Contract;
 }
@@ -170,14 +172,14 @@ export interface I_BankIncome extends I_ClientRequest {
   clientName: string | I_Client;
   contractNumber?: string | I_Contract;
   paymentSum: number;
-  paymentDate: Date;
+  paymentDate: dayjs.Dayjs | null;
 }
 
 export interface I_SalaryPayment {
   _id?: string;
   worker: string | I_Worker;
   paymentSum: number;
-  paymentDate: Date;
+  paymentDate: dayjs.Dayjs | null;
   contractNumber?: string | I_Contract;
 }
 

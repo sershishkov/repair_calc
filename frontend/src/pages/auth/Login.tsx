@@ -31,9 +31,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { user, isLoading } = useAppSelector(
-    (state: RootState) => state.auth_state
-  );
+  const { isLoading } = useAppSelector((state: RootState) => state.auth_state);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormdata((prevState) => ({

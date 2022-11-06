@@ -122,6 +122,16 @@ const ListClient = React.lazy(
   () => import('../pages/accounting/refData/client/ListClient')
 );
 
+const AddContract = React.lazy(
+  () => import('../pages/accounting/refData/contract/AddContract')
+);
+const EditContract = React.lazy(
+  () => import('../pages/accounting/refData/contract/EditContract')
+);
+const ListContract = React.lazy(
+  () => import('../pages/accounting/refData/contract/ListContract')
+);
+
 export const SellerRoutes = [
   { path: '/dashboard', component: <Dashboard /> },
   // gg
@@ -273,6 +283,19 @@ export const SellerRoutes = [
   {
     path: '/refdata/clients/:id',
     component: <EditClient />,
+    exact: true,
+  },
+  // gg
+  // gg
+  { path: '/refdata/contract', component: <ListContract /> },
+  {
+    path: '/refdata/contract/add',
+    component: <AddContract />,
+    exact: true,
+  },
+  {
+    path: '/refdata/contract/:id',
+    component: <EditContract />,
     exact: true,
   },
   // gg

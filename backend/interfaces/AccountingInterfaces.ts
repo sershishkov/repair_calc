@@ -97,17 +97,13 @@ export interface I_Client {
 
 export interface I_Contract {
   _id?: string;
-  ourFirmName?: string;
-  ourFirm: Types.ObjectId;
-  clientName?: string;
-  client: Types.ObjectId;
   contractNumber: string;
+  ourFirm: Types.ObjectId;
+  client: Types.ObjectId;
   contractDate: Date;
   contractDescription: string;
   workAddress: string;
-  contractTypeName?: string;
   contractType: Types.ObjectId;
-  paymentSourceName?: string;
   paymentSource: Types.ObjectId;
 }
 

@@ -9,6 +9,11 @@ import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ThemeProvider } from '@mui/material/styles';
 
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
+import myLocale from 'date-fns/locale/ru';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 import theme_dark from './mui_theme/theme_dark';
 import theme_light from './mui_theme/theme_light';
 import Header from './components/layout/Header';
@@ -39,77 +44,79 @@ function App() {
   const { user } = useAppSelector((state: RootState) => state.auth_state);
   // console.log(user);
   return (
-    <ThemeProvider theme={theme_state ? theme_dark : theme_light}>
-      <Router>
-        <CssBaseline />
-        <Header />
-        <Container
-          sx={{
-            mt: '68px',
-            minWidth: '360px',
-            maxWidth: '900px',
-            // border: '1px solid red',
-          }}
-        >
-          <Suspense fallback={<CircularProgress color='secondary' />}>
-            <Routes>
-              {FreeRoutes.map((route) => (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={route.component}
-                />
-              ))}
-              {user && (
-                <>
-                  {UserRoutes.map((route) => (
-                    <Route
-                      key={route.path}
-                      path={route.path}
-                      element={route.component}
-                    />
-                  ))}
-
-                  <Route element={<PrivateRoute roles={['admin']} />}>
-                    {AdminRoutes.map((route) => (
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={myLocale}>
+      <ThemeProvider theme={theme_state ? theme_dark : theme_light}>
+        <Router>
+          <CssBaseline />
+          <Header />
+          <Container
+            sx={{
+              mt: '68px',
+              minWidth: '360px',
+              maxWidth: '900px',
+              // border: '1px solid red',
+            }}
+          >
+            <Suspense fallback={<CircularProgress color='secondary' />}>
+              <Routes>
+                {FreeRoutes.map((route) => (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={route.component}
+                  />
+                ))}
+                {user && (
+                  <>
+                    {UserRoutes.map((route) => (
                       <Route
                         key={route.path}
                         path={route.path}
                         element={route.component}
                       />
                     ))}
-                  </Route>
 
-                  <Route element={<PrivateRoute roles={seller_role} />}>
-                    {SellerRoutes.map((route) => (
-                      <Route
-                        key={route.path}
-                        path={route.path}
-                        element={route.component}
-                      />
-                    ))}
-                  </Route>
-                </>
-              )}
+                    <Route element={<PrivateRoute roles={['admin']} />}>
+                      {AdminRoutes.map((route) => (
+                        <Route
+                          key={route.path}
+                          path={route.path}
+                          element={route.component}
+                        />
+                      ))}
+                    </Route>
 
-              <Route path='*' element={<NotFound />} />
-            </Routes>
-          </Suspense>
-          <Footer />
-        </Container>
-      </Router>
-      <ToastContainer
-        autoClose={1000}
-        // position='top-left'
-        // hideProgressBar={false}
-        // newestOnTop={false}
-        // closeOnClick
-        // rtl={false}
-        // pauseOnFocusLoss
-        // draggable
-        // pauseOnHover
-      />
-    </ThemeProvider>
+                    <Route element={<PrivateRoute roles={seller_role} />}>
+                      {SellerRoutes.map((route) => (
+                        <Route
+                          key={route.path}
+                          path={route.path}
+                          element={route.component}
+                        />
+                      ))}
+                    </Route>
+                  </>
+                )}
+
+                <Route path='*' element={<NotFound />} />
+              </Routes>
+            </Suspense>
+            <Footer />
+          </Container>
+        </Router>
+        <ToastContainer
+          autoClose={1000}
+          // position='top-left'
+          // hideProgressBar={false}
+          // newestOnTop={false}
+          // closeOnClick
+          // rtl={false}
+          // pauseOnFocusLoss
+          // draggable
+          // pauseOnHover
+        />
+      </ThemeProvider>
+    </LocalizationProvider>
   );
 }
 
