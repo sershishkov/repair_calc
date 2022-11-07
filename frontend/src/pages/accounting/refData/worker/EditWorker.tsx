@@ -175,7 +175,7 @@ function EditWorker() {
     >
       <Grid item className='item item-heading'>
         <Typography variant='h3' align='center'>
-          Добавить
+          Редактировать
         </Typography>
       </Grid>
       <Grid item>
