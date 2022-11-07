@@ -38,7 +38,7 @@ export interface I_ContractType {
   // 'Сумма',
   // 'Сумма Кошторис',
   // 'Предоплата',
-  // 'Частичная предоплата',]
+  // 'Частичная предоплата',Бюджет, РемсервисКап, РемсервисПоточн,Покупка]
 }
 export interface I_PaymentSource {
   _id?: string;
@@ -60,19 +60,24 @@ export interface I_ClientType {
   //[поставщик, покупатель, наша фирма, налоговая..., услуги]
 }
 
+export interface I_ProductType {
+  _id?: string;
+  productTypeName: string;
+}
+
 export interface I_Client {
   _id?: string;
   nameClientLong?: string;
   nameClientShort?: string;
   firmType?: Types.ObjectId;
-  firmTypeLong?: string;
-  firmTypeShort?: string;
+
   postIndex?: string;
   address?: string;
   edrpou?: string;
   inn?: string;
   iban?: string;
   iban_budget?: string;
+
   passport?: string;
   firstName_imen?: string;
   patronymic_imen?: string;
@@ -80,18 +85,19 @@ export interface I_Client {
   firstName_rodit?: string;
   patronymic_rodit?: string;
   lastName_rodit?: string;
+
   certificateNumber?: string;
   representedBy?: string;
   whichActsOnTheBasis?: string;
+
   jobTitle?: string;
   jobTitle_rodit?: string;
   tax?: number;
   taxationType?: Types.ObjectId;
-  taxationTypeName?: string;
+
   certificate_PDV: string;
   telNumber?: string;
   email?: string;
-  // clientTypesName?: string[];
   clientType?: Types.ObjectId[];
 }
 
@@ -112,38 +118,25 @@ export interface I_Worker {
   firstName: string;
   patronymic?: string;
   lastName: string;
+
   workerRole: Types.ObjectId;
   passportSeries?: string;
   passportNumber?: string;
   representedBy?: string;
   whenIssued?: Date;
-  inn?: number;
+
+  inn?: string;
   birthDay?: Date;
-}
-
-export interface I_SalaryPayment {
-  _id?: string;
-  workerLastName?: string;
-  worker: Types.ObjectId;
-  paymentSum: number;
-  paymentDate: Date;
-  contractNumber?: string;
-  contract: Types.ObjectId;
-}
-
-export interface I_ProductType {
-  _id?: string;
-  productTypeName: string;
 }
 
 export interface I_Product {
   _id?: string;
   productName: string;
-  unitName?: string;
+
   unit: Types.ObjectId;
-  groupProductName?: string;
-  groupProduct?: Types.ObjectId[];
+  groupProduct: Types.ObjectId[];
   productType: Types.ObjectId;
+
   priceBuy: number;
   priceSell?: number;
   normPerOne?: number;
@@ -152,14 +145,13 @@ export interface I_Product {
   height?: number;
   width?: number;
   length?: number;
+  paintingArea?: number;
 }
 
 export interface I_ServiceWork {
   _id?: string;
   serviceWorkName: string;
-  unitName?: string;
   unit: Types.ObjectId;
-  groupWorkName?: string;
   groupWork: Types.ObjectId[];
   priceWorker: number;
   priceClient?: number;
@@ -167,15 +159,14 @@ export interface I_ServiceWork {
   products?: Types.ObjectId[];
   equipmentAndTools?: Types.ObjectId[];
 }
+//////////////////////////////////////////////////////////////
 
 export interface I_Expense {
   _id?: string;
   expenseDescription: string;
-  groupExpenseName?: string;
   groupExpense: Types.ObjectId;
   expenseSum: number;
   expenseDate: Date;
-  responsiblePersonLastName?: string;
   responsiblePerson: Types.ObjectId;
   contract: Types.ObjectId;
 }
@@ -185,6 +176,14 @@ export interface I_BankIncome {
   contract: Types.ObjectId;
   paymentSum: number;
   paymentDate: Date;
+}
+
+export interface I_SalaryPayment {
+  _id?: string;
+  worker: Types.ObjectId;
+  paymentSum: number;
+  paymentDate: Date;
+  contract: Types.ObjectId;
 }
 
 export interface I_PaymentToSupplier {

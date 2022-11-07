@@ -58,7 +58,7 @@ export interface I_GroupExpense extends I_ClientRequest {
 export interface I_ClientType extends I_ClientRequest {
   _id?: string;
   clientTypeName?: string;
-  // ПОставщик, покупатель, наша фирма, налоговая
+  //[поставщик, покупатель, наша фирма, налоговая..., услуги]
 }
 
 export interface I_ProductType extends I_ClientRequest {
@@ -119,28 +119,34 @@ export interface I_Worker extends I_ClientRequest {
   firstName?: string;
   patronymic?: string;
   lastName?: string;
-  workerRole?: string;
+
+  workerRole?: string | I_WorkerRole;
   passportSeries?: string;
   passportNumber?: string;
   representedBy?: string;
   whenIssued?: dayjs.Dayjs | null;
+
+  inn?: string;
   birthDay?: dayjs.Dayjs | null;
 }
 
 export interface I_Product extends I_ClientRequest {
   _id?: string;
   productName?: string;
+
   unit?: string | I_Unit;
-  groupProductName?: string | I_GroupProduct;
-  productTypeName?: string | I_ProductType;
-  priceBuy?: number;
+  groupProduct?: string | I_GroupProduct;
+  productType?: string | I_ProductType;
+
+  priceBuy: number;
   priceSell?: number;
-  normPer1?: number;
+  normPerOne?: number;
   amountInPackage?: number;
   weight?: number;
   height?: number;
   width?: number;
   length?: number;
+  paintingArea?: number;
 }
 
 export interface I_ServiceWork extends I_ClientRequest {
@@ -150,6 +156,7 @@ export interface I_ServiceWork extends I_ClientRequest {
   groupWork?: string[];
   priceWorker?: number;
   priceClient?: number;
+
   products?: string[] | I_Product[];
   equipmentAndTools?: string[] | I_Product[];
 }
@@ -159,7 +166,7 @@ export interface I_ServiceWork extends I_ClientRequest {
 export interface I_Expense extends I_ClientRequest {
   _id?: string;
   expenseDescription?: string;
-  groupExpenseName?: string | I_GroupExpense;
+  groupExpense?: string | I_GroupExpense;
   expenseSum?: number;
   expenseDate?: dayjs.Dayjs | null;
   responsiblePerson?: string | I_Worker;
@@ -168,19 +175,24 @@ export interface I_Expense extends I_ClientRequest {
 
 export interface I_BankIncome extends I_ClientRequest {
   _id?: string;
-  ourFirmName: string | I_Client;
-  clientName: string | I_Client;
-  contractNumber?: string | I_Contract;
+  contract?: string | I_Contract;
   paymentSum: number;
   paymentDate: dayjs.Dayjs | null;
 }
 
-export interface I_SalaryPayment {
+export interface I_SalaryPayment extends I_ClientRequest {
   _id?: string;
   worker: string | I_Worker;
   paymentSum: number;
   paymentDate: dayjs.Dayjs | null;
-  contractNumber?: string | I_Contract;
+  contract?: string | I_Contract;
+}
+
+export interface I_PaymentToSupplier {
+  _id?: string;
+  contract?: string | I_Contract;
+  paymentSum: number;
+  paymentDate: dayjs.Dayjs | null;
 }
 
 // export interface I_Deal extends I_ClientRequest {

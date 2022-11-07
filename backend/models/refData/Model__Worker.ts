@@ -32,8 +32,8 @@ const worker__Schema = new Schema<I_Worker>({
     type: Date,
   },
   inn: {
-    type: Number,
-    unique: true,
+    type: String,
+    // unique: true,
     match: [/\b\d{10}\b/, 'Пожалуйста введите 10 цифр'],
   },
   birthDay: {

@@ -16,7 +16,7 @@ const product__Schema = new Schema<I_Product>({
   groupProduct: {
     type: [Schema.Types.ObjectId],
     ref: 'group_product',
-    // required: [true, 'Please add a group_product id'],
+    required: [true, 'Please add a group_product id'],
   },
   productType: {
     type: Schema.Types.ObjectId,
@@ -41,15 +41,23 @@ const product__Schema = new Schema<I_Product>({
   },
   weight: {
     type: Number,
+    default: 0,
   },
   height: {
     type: Number,
+    default: 0,
   },
   width: {
     type: Number,
+    default: 0,
   },
   length: {
     type: Number,
+    default: 0,
+  },
+  paintingArea: {
+    type: Number,
+    default: 0,
   },
 });
 
