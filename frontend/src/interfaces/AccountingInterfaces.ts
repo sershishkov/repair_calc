@@ -128,6 +128,9 @@ export interface I_Worker extends I_ClientRequest {
 
   inn?: string;
   birthDay?: dayjs.Dayjs | null;
+
+  telNumber?: string;
+  email?: string;
 }
 
 export interface I_Product extends I_ClientRequest {
@@ -138,7 +141,7 @@ export interface I_Product extends I_ClientRequest {
   groupProduct?: string | I_GroupProduct;
   productType?: string | I_ProductType;
 
-  priceBuy: number;
+  priceBuy?: number;
   priceSell?: number;
   normPerOne?: number;
   amountInPackage?: number;
@@ -153,7 +156,7 @@ export interface I_ServiceWork extends I_ClientRequest {
   _id?: string;
   serviceWorkName?: string;
   unit?: string | I_Unit;
-  groupWork?: string[];
+  groupWork?: string[] | I_GroupWork[];
   priceWorker?: number;
   priceClient?: number;
 

@@ -39,6 +39,19 @@ const worker__Schema = new Schema<I_Worker>({
   birthDay: {
     type: Date,
   },
+  telNumber: {
+    type: String,
+    required: [true, 'Please add a telNumber'],
+  },
+  email: {
+    type: String,
+    // unique: true,
+    match: [
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      'Пожалуйста введите корректный email',
+    ],
+    // required: [true, 'Please add an email'],
+  },
 });
 
 export default model('worker', worker__Schema);

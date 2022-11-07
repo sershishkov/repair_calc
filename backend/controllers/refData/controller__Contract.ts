@@ -127,7 +127,7 @@ export const getAll__Contracts = asyncHandler(
       .limit(pageSize)
       .skip(skip)
       .sort({
-        contractDate: 1,
+        contractDate: -1,
       })
       .populate({ path: 'ourFirm', select: 'nameClientShort nameTypeShort' })
       .populate({ path: 'client', select: 'nameClientShort nameTypeShort' })

@@ -127,6 +127,9 @@ export interface I_Worker {
 
   inn?: string;
   birthDay?: Date;
+
+  telNumber?: string;
+  email?: string;
 }
 
 export interface I_Product {

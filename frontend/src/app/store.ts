@@ -16,6 +16,9 @@ import clienttype__Slice from '../features/accounting/refData/clienttype/clientt
 import producttype__Slice from '../features/accounting/refData/producttype/producttype__Slice';
 import client__Slice from '../features/accounting/refData/client/client__Slice';
 import contract__Slice from '../features/accounting/refData/contract/contract__Slice';
+import worker__Slice from '../features/accounting/refData/worker/worker__Slice';
+import product__Slice from '../features/accounting/refData/product/product__Slice';
+import servicework__Slice from '../features/accounting/refData/servicework/servicework__Slice';
 
 export const store = configureStore({
   reducer: {
@@ -37,6 +40,9 @@ export const store = configureStore({
 
     client__state: client__Slice,
     contract__state: contract__Slice,
+    worker__state: worker__Slice,
+    product__state: product__Slice,
+    servicework__state: servicework__Slice,
   },
 });
 

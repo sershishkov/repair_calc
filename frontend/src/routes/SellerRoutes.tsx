@@ -132,6 +132,36 @@ const ListContract = React.lazy(
   () => import('../pages/accounting/refData/contract/ListContract')
 );
 
+const AddWorker = React.lazy(
+  () => import('../pages/accounting/refData/worker/AddWorker')
+);
+const EditWorker = React.lazy(
+  () => import('../pages/accounting/refData/worker/EditWorker')
+);
+const ListWorker = React.lazy(
+  () => import('../pages/accounting/refData/worker/ListWorker')
+);
+
+const AddProduct = React.lazy(
+  () => import('../pages/accounting/refData/product/AddProduct')
+);
+const EditProduct = React.lazy(
+  () => import('../pages/accounting/refData/product/EditProduct')
+);
+const ListProduct = React.lazy(
+  () => import('../pages/accounting/refData/product/ListProduct')
+);
+
+const AddServiceWork = React.lazy(
+  () => import('../pages/accounting/refData/servicework/AddServiceWork')
+);
+const EditServiceWork = React.lazy(
+  () => import('../pages/accounting/refData/servicework/EditServiceWork')
+);
+const ListServiceWork = React.lazy(
+  () => import('../pages/accounting/refData/servicework/ListServiceWork')
+);
+
 export const SellerRoutes = [
   { path: '/dashboard', component: <Dashboard /> },
   // gg
@@ -296,6 +326,45 @@ export const SellerRoutes = [
   {
     path: '/refdata/contract/:id',
     component: <EditContract />,
+    exact: true,
+  },
+  // gg
+  // gg
+  { path: '/refdata/worker', component: <ListWorker /> },
+  {
+    path: '/refdata/worker/add',
+    component: <AddWorker />,
+    exact: true,
+  },
+  {
+    path: '/refdata/worker/:id',
+    component: <EditWorker />,
+    exact: true,
+  },
+  // gg
+  // gg
+  { path: '/refdata/products', component: <ListProduct /> },
+  {
+    path: '/refdata/products/add',
+    component: <AddProduct />,
+    exact: true,
+  },
+  {
+    path: '/refdata/products/:id',
+    component: <EditProduct />,
+    exact: true,
+  },
+  // gg
+  // gg
+  { path: '/refdata/servicework', component: <ListServiceWork /> },
+  {
+    path: '/refdata/servicework/add',
+    component: <AddServiceWork />,
+    exact: true,
+  },
+  {
+    path: '/refdata/servicework/:id',
+    component: <EditServiceWork />,
     exact: true,
   },
   // gg
