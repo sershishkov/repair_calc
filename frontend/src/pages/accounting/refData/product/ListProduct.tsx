@@ -23,17 +23,17 @@ interface NewObject {
 
 function ListProduct() {
   const { items, total, isLoading } = useAppSelector(
-    (state: RootState) => state.client__state
+    (state: RootState) => state.product__state
   );
   const itemsToDisplay = items?.map((item: I_Product) => {
+    const all_Group = item.groupProduct?.map((item) => {
+      return typeof item !== 'string' ? item.groupProductName! : item;
+    });
     const newObject: NewObject = {
       _id: item._id!,
       productName: item.productName!,
       unit: typeof item.unit !== 'string' ? item.unit?.unitName! : item.unit!,
-      groupProduct:
-        typeof item.groupProduct !== 'string'
-          ? item.groupProduct?.groupProductName!
-          : item.groupProduct!,
+      groupProduct: all_Group?.join(', ')!,
 
       priceBuy: item.priceBuy!.toString(),
     };

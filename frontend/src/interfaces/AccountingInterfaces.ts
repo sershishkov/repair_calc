@@ -138,7 +138,7 @@ export interface I_Product extends I_ClientRequest {
   productName?: string;
 
   unit?: string | I_Unit;
-  groupProduct?: string | I_GroupProduct;
+  groupProduct?: string[] | I_GroupProduct[];
   productType?: string | I_ProductType;
 
   priceBuy?: number;

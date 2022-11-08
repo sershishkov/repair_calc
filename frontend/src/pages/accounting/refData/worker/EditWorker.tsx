@@ -137,6 +137,7 @@ function EditWorker() {
       inn,
       birthDay,
       email,
+      telNumber,
       navigate,
     };
 

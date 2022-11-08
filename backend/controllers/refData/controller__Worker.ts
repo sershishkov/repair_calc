@@ -18,6 +18,8 @@ export const add__Worker = asyncHandler(async (req: Request, res: Response) => {
     whenIssued,
     inn,
     birthDay,
+    telNumber,
+    email,
   } = req.body;
 
   if (!firstName || !lastName || !workerRole) {
@@ -36,6 +38,8 @@ export const add__Worker = asyncHandler(async (req: Request, res: Response) => {
     whenIssued,
     inn,
     birthDay,
+    telNumber,
+    email,
   });
 
   if (!new__Worker) {
@@ -65,6 +69,8 @@ export const update__Worker = asyncHandler(
       whenIssued,
       inn,
       birthDay,
+      telNumber,
+      email,
     } = req.body;
 
     if (!req.body) {
@@ -83,6 +89,8 @@ export const update__Worker = asyncHandler(
       whenIssued,
       inn,
       birthDay,
+      telNumber,
+      email,
     };
 
     const updated__Worker = await Model__Worker.findByIdAndUpdate(
@@ -119,7 +127,8 @@ export const getAll__Workers = asyncHandler(
       .skip(skip)
       .sort({
         lastName: 1,
-      });
+      })
+      .populate({ path: 'workerRole', select: 'workerRoleName' });
 
     if (!all__Workers) {
       res.status(400);

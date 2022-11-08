@@ -18,6 +18,7 @@ const product__Schema = new Schema<I_Product>({
     ref: 'group_product',
     required: [true, 'Please add a group_product id'],
   },
+
   productType: {
     type: Schema.Types.ObjectId,
     ref: 'product_type',

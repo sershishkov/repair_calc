@@ -21,6 +21,7 @@ export const add__Product = asyncHandler(
       height,
       width,
       length,
+      paintingArea,
     } = req.body;
 
     if (!productName || !unit || !productType || !priceBuy) {
@@ -48,6 +49,7 @@ export const add__Product = asyncHandler(
       height,
       width,
       length,
+      paintingArea,
     });
 
     if (!new__Product) {
@@ -80,6 +82,7 @@ export const update__Product = asyncHandler(
       height,
       width,
       length,
+      paintingArea,
     } = req.body;
 
     if (!req.body) {
@@ -100,6 +103,7 @@ export const update__Product = asyncHandler(
       height,
       width,
       length,
+      paintingArea,
     };
 
     const updated__Product = await Model__Product.findByIdAndUpdate(
@@ -136,7 +140,10 @@ export const getAll__Products = asyncHandler(
       .skip(skip)
       .sort({
         productName: 1,
-      });
+      })
+      .populate({ path: 'unit', select: 'unitName' })
+      .populate({ path: 'groupProduct', select: 'groupProductName' })
+      .populate({ path: 'productType', select: 'productTypeName' });
 
     if (!all__Products) {
       res.status(400);

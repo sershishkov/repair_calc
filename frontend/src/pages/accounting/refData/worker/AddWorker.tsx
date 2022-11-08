@@ -106,6 +106,7 @@ function AddWorker() {
       inn,
       birthDay,
       email,
+      telNumber,
       navigate,
     };
 

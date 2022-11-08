@@ -1,21 +1,18 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import 'react-phone-number-input/style.css';
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { RootState } from '../../../../app/store';
 
-import { client__add } from '../../../../features/accounting/refData/client/client__Slice';
-import { firmtype__get_all } from '../../../../features/accounting/refData/firmtype/firmtype__Slice';
-import { taxationtype__get_all } from '../../../../features/accounting/refData/taxationtype/taxationtype__Slice';
-import { clienttype__get_all } from '../../../../features/accounting/refData/clienttype/clienttype__Slice';
+import { servicework__add } from '../../../../features/accounting/refData/servicework/servicework__Slice';
+import { unit__get_all } from '../../../../features/accounting/refData/unit/unit__Slice';
+import { groupwork__get_all } from '../../../../features/accounting/refData/groupwork/groupwork__Slice';
+import { product__get_all } from '../../../../features/accounting/refData/product/product__Slice';
 
 import {
-  I_FirmType,
-  I_TaxationType,
-  // I_ClientType,
+  I_Unit,
+  // I_GroupWork,
+  // I_Product,
 } from '../../../../interfaces/AccountingInterfaces';
 
 import Grid from '@mui/material/Grid';
@@ -40,31 +37,10 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 
 const initState = {
-  nameClientLong: '',
-  nameClientShort: '',
-  firmType: '',
-  postIndex: '',
-  address: '',
-  edrpou: '',
-  inn: '',
-  iban: '',
-  iban_budget: '',
-  passport: '',
-  firstName_imen: '',
-  patronymic_imen: '',
-  lastName_imen: '',
-  firstName_rodit: '',
-  patronymic_rodit: '',
-  lastName_rodit: '',
-  certificateNumber: '',
-  representedBy: '',
-  whichActsOnTheBasis: '',
-  jobTitle: '',
-  jobTitle_rodit: '',
-  tax: '',
-  taxationType: '',
-  certificate_PDV: '',
-  email: '',
+  serviceWorkName: '',
+  unit: '',
+  priceWorker: '',
+  priceClient: '',
 };
 
 const ITEM_HEIGHT = 48;
@@ -80,92 +56,41 @@ const MenuProps = {
 
 function AddServiceWork() {
   const { isLoading } = useAppSelector(
-    (state: RootState) => state.client__state
+    (state: RootState) => state.servicework__state
   );
 
-  const firmTypes = useAppSelector(
-    (state: RootState) => state.firmtype__state.items
+  const arr__Units = useAppSelector(
+    (state: RootState) => state.unit__state.items
   );
-
-  const taxationTypes = useAppSelector(
-    (state: RootState) => state.taxationtype__state.items
+  const arr__groupWorks = useAppSelector(
+    (state: RootState) => state.groupwork__state.items
   );
-  const clientTypes = useAppSelector(
-    (state: RootState) => state.clienttype__state.items
+  const arr__AllProducts = useAppSelector(
+    (state: RootState) => state.product__state.items
   );
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const [formData, setFormdata] = useState(initState);
-  const [clientType, setClientType] = React.useState<string[]>([]);
-  const [telNumber, setTelNumber] = useState<string>();
-  const [displayFizOsoba, setDisplayFizOsoba] = useState<boolean>(false);
-  const [displayFOP, setdisplayFOP] = useState<boolean>(false);
-
-  const fizOsoba_Id = useMemo(
-    () => firmTypes?.find((item) => item.nameTypeLong === 'Фізична особа')?._id,
-    [firmTypes]
-  );
-  const fop_Id = useMemo(
-    () =>
-      firmTypes?.find(
-        (item) => item.nameTypeLong === 'Фізична особа-підприємець'
-      )?._id,
-    [firmTypes]
+  const [groupWork, set__groupWork] = React.useState<string[]>([]);
+  const [products, set__products] = React.useState<string[]>([]);
+  const [equipmentAndTools, set__equipmentAndTools] = React.useState<string[]>(
+    []
   );
 
-  const {
-    nameClientLong,
-    nameClientShort,
-    firmType,
-    postIndex,
-    address,
-    edrpou,
-    inn,
-    iban,
-    iban_budget,
-    passport,
-    firstName_imen,
-    patronymic_imen,
-    lastName_imen,
-    firstName_rodit,
-    patronymic_rodit,
-    lastName_rodit,
-    certificateNumber,
-    representedBy,
-    whichActsOnTheBasis,
-    jobTitle,
-    jobTitle_rodit,
-    tax,
-    taxationType,
-    certificate_PDV,
-    email,
-  } = formData;
+  const { serviceWorkName, unit, priceWorker, priceClient } = formData;
 
   useEffect(() => {
-    dispatch(firmtype__get_all({ page: `1`, limit: `50` }));
-    dispatch(taxationtype__get_all({ page: `1`, limit: `50` }));
-    dispatch(clienttype__get_all({ page: `1`, limit: `50` }));
+    dispatch(unit__get_all({ page: `0`, limit: `0` }));
+    dispatch(groupwork__get_all({ page: `0`, limit: `0` }));
+    dispatch(product__get_all({ page: `1`, limit: `50` }));
   }, [dispatch]);
 
   useEffect(() => {
-    const inputFocus = document.getElementById('nameClientLong');
+    const inputFocus = document.getElementById('serviceWorkName');
     inputFocus?.focus();
   }, []);
-
-  useEffect(() => {
-    if (firmType === fizOsoba_Id) {
-      setDisplayFizOsoba(true);
-      setdisplayFOP(false);
-    } else if (firmType === fop_Id) {
-      setdisplayFOP(true);
-      setDisplayFizOsoba(false);
-    } else {
-      setdisplayFOP(false);
-      setDisplayFizOsoba(false);
-    }
-  }, [firmType, fizOsoba_Id, fop_Id]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormdata((prevState) => ({
@@ -177,37 +102,17 @@ function AddServiceWork() {
     e.preventDefault();
 
     const created__Data = {
-      nameClientLong,
-      nameClientShort,
-      firmType,
-      postIndex,
-      address,
-      edrpou,
-      inn,
-      iban,
-      iban_budget,
-      passport,
-      firstName_imen,
-      patronymic_imen,
-      lastName_imen,
-      firstName_rodit,
-      patronymic_rodit,
-      lastName_rodit,
-      certificateNumber,
-      representedBy,
-      whichActsOnTheBasis,
-      jobTitle,
-      jobTitle_rodit,
-      tax: tax ? Number(tax) : 0,
-      taxationType,
-      certificate_PDV,
-      telNumber,
-      email,
-      clientType,
+      serviceWorkName,
+      unit,
+      priceWorker: priceWorker ? Number(priceWorker) : 0,
+      priceClient: priceClient ? Number(priceClient) : 0,
+      groupWork,
+      products,
+      equipmentAndTools,
       navigate,
     };
 
-    dispatch(client__add(created__Data));
+    dispatch(servicework__add(created__Data));
   };
 
   const handleChangeSelects = (event: SelectChangeEvent) => {
@@ -217,13 +122,37 @@ function AddServiceWork() {
     }));
   };
 
-  const handleChangeMultipleSelects = (
-    event: SelectChangeEvent<typeof clientType>
+  const handleChangeMultipleSelects_groupWork = (
+    event: SelectChangeEvent<typeof groupWork>
   ) => {
     const {
       target: { value },
     } = event;
-    setClientType(
+    set__groupWork(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    );
+  };
+
+  const handleChangeMultipleSelects_products = (
+    event: SelectChangeEvent<typeof products>
+  ) => {
+    const {
+      target: { value },
+    } = event;
+    set__products(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    );
+  };
+
+  const handleChangeMultipleSelects_equipmentAndTools = (
+    event: SelectChangeEvent<typeof equipmentAndTools>
+  ) => {
+    const {
+      target: { value },
+    } = event;
+    set__equipmentAndTools(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value
     );
@@ -232,10 +161,6 @@ function AddServiceWork() {
   const onClickAddItem = (link: string) => {
     navigate(`/refdata/${link}/add`);
   };
-  // console.log(displayFizOsoba);
-  // console.log(displayFOP);
-  // console.log(fizOsoba_Id);
-  // console.log(fop_Id);
 
   if (isLoading) {
     return <CircularProgress />;
@@ -259,27 +184,15 @@ function AddServiceWork() {
           margin='normal'
           required
           fullWidth
-          name='nameClientLong'
-          label='nameClientLong'
+          name='serviceWorkName'
+          label='serviceWorkName'
           type='text'
-          id='nameClientLong'
-          value={nameClientLong}
+          id='serviceWorkName'
+          value={serviceWorkName}
           onChange={onChange}
         />
       </Grid>
-      <Grid item>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='nameClientShort'
-          label='nameClientShort'
-          type='text'
-          id='nameClientShort'
-          value={nameClientShort}
-          onChange={onChange}
-        />
-      </Grid>
+
       <Grid item>
         <Stack
           direction='row'
@@ -287,23 +200,23 @@ function AddServiceWork() {
           // direction={{ xs: 'column', sm: 'row' }}
         >
           <FormControl fullWidth>
-            <InputLabel id='firmType-label'>firmType</InputLabel>
+            <InputLabel id='unit-label'>unit</InputLabel>
             <Select
-              labelId='firmType-label'
-              id='firmType'
-              name='firmType'
-              value={firmType}
-              label='Роль'
+              labelId='unit-label'
+              id='unit'
+              name='unit'
+              value={unit}
+              label='unit'
               onChange={handleChangeSelects}
             >
-              {firmTypes?.map((item: I_FirmType) => (
+              {arr__Units?.map((item: I_Unit) => (
                 <MenuItem key={item._id} value={item._id}>
-                  {item.nameTypeLong}
+                  {item.unitName}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
-          <IconButton onClick={() => onClickAddItem('firmtype')}>
+          <IconButton onClick={() => onClickAddItem('unit')}>
             <AddIcon color='success' sx={{ fontSize: 30 }} />
           </IconButton>
         </Stack>
@@ -313,359 +226,28 @@ function AddServiceWork() {
           margin='normal'
           required
           fullWidth
-          name='postIndex'
-          label='postIndex'
-          type='text'
-          id='postIndex'
-          value={postIndex}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid item>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='address'
-          label='address'
-          type='text'
-          id='address'
-          value={address}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid
-        item
-        sx={{ display: !displayFizOsoba && !displayFOP ? 'block' : 'none' }}
-      >
-        <TextField
-          margin='normal'
-          // required
-          fullWidth
-          name='edrpou'
-          label='edrpou'
-          type='text'
-          id='edrpou'
-          value={edrpou}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid
-        item
-        sx={{ display: displayFizOsoba || displayFOP ? 'block' : 'none' }}
-      >
-        <TextField
-          margin='normal'
-          // required
-          fullWidth
-          name='inn'
-          label='inn'
-          type='text'
-          id='inn'
-          value={inn}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid item sx={{ display: !displayFizOsoba ? 'block' : 'none' }}>
-        <TextField
-          margin='normal'
-          // required
-          fullWidth
-          name='iban'
-          label='iban'
-          type='text'
-          id='iban'
-          value={iban}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid item sx={{ display: !displayFizOsoba ? 'block' : 'none' }}>
-        <TextField
-          margin='normal'
-          // required
-          fullWidth
-          name='iban_budget'
-          label='iban_budget'
-          type='text'
-          id='iban_budget'
-          value={iban_budget}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid item sx={{ display: displayFizOsoba ? 'block' : 'none' }}>
-        <TextField
-          margin='normal'
-          // required
-          fullWidth
-          name='passport'
-          label='passport'
-          type='text'
-          id='passport'
-          value={passport}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid item>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='firstName_imen'
-          label='firstName_imen'
-          type='text'
-          id='firstName_imen'
-          value={firstName_imen}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid item>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='patronymic_imen'
-          label='patronymic_imen'
-          type='text'
-          id='patronymic_imen'
-          value={patronymic_imen}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid item>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='lastName_imen'
-          label='lastName_imen'
-          type='text'
-          id='lastName_imen'
-          value={lastName_imen}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid item>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='firstName_rodit'
-          label='firstName_rodit'
-          type='text'
-          id='firstName_rodit'
-          value={firstName_rodit}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid item>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='patronymic_rodit'
-          label='patronymic_rodit'
-          type='text'
-          id='patronymic_rodit'
-          value={patronymic_rodit}
-          onChange={onChange}
-        />
-      </Grid>
-
-      <Grid item>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='lastName_rodit'
-          label='lastName_rodit'
-          type='text'
-          id='lastName_rodit'
-          value={lastName_rodit}
-          onChange={onChange}
-        />
-      </Grid>
-
-      <Grid item sx={{ display: displayFOP ? 'block' : 'none' }}>
-        <TextField
-          margin='normal'
-          // required
-          fullWidth
-          name='certificateNumber'
-          label='certificateNumber'
-          type='text'
-          id='certificateNumber'
-          value={certificateNumber}
-          onChange={onChange}
-        />
-      </Grid>
-
-      <Grid item sx={{ display: displayFOP ? 'block' : 'none' }}>
-        <TextField
-          margin='normal'
-          // required
-          fullWidth
-          name='representedBy'
-          label='representedBy'
-          type='text'
-          id='representedBy'
-          value={representedBy}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid
-        item
-        sx={{ display: !displayFizOsoba && !displayFOP ? 'block' : 'none' }}
-      >
-        <TextField
-          margin='normal'
-          // required
-          fullWidth
-          name='whichActsOnTheBasis'
-          label='whichActsOnTheBasis'
-          type='text'
-          id='whichActsOnTheBasis'
-          value={whichActsOnTheBasis}
-          onChange={onChange}
-        />
-      </Grid>
-
-      <Grid
-        item
-        sx={{ display: !displayFizOsoba && !displayFOP ? 'block' : 'none' }}
-      >
-        <TextField
-          margin='normal'
-          // required
-          fullWidth
-          name='jobTitle'
-          label='jobTitle'
-          type='text'
-          id='jobTitle'
-          value={jobTitle}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid
-        item
-        sx={{ display: !displayFizOsoba && !displayFOP ? 'block' : 'none' }}
-      >
-        <TextField
-          margin='normal'
-          // required
-          fullWidth
-          name='jobTitle_rodit'
-          label='jobTitle_rodit'
-          type='text'
-          id='jobTitle_rodit'
-          value={jobTitle_rodit}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid item sx={{ display: !displayFizOsoba ? 'block' : 'none' }}>
-        <TextField
-          margin='normal'
-          // required
-          fullWidth
-          name='tax'
-          label='tax'
+          name='priceWorker'
+          label='priceWorker'
           type='number'
-          id='tax'
-          value={tax}
+          id='priceWorker'
+          value={priceWorker}
           onChange={onChange}
         />
       </Grid>
       <Grid item>
-        <Stack
-          direction='row'
-          spacing={2}
-          // direction={{ xs: 'column', sm: 'row' }}
-        >
-          <FormControl fullWidth>
-            <InputLabel id='taxationType-label'>taxationType</InputLabel>
-            <Select
-              labelId='taxationType-label'
-              id='taxationType'
-              name='taxationType'
-              value={taxationType}
-              label='Роль'
-              onChange={handleChangeSelects}
-            >
-              {taxationTypes?.map((item: I_TaxationType) => (
-                <MenuItem key={item._id} value={item._id}>
-                  {item.taxationTypeName}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <IconButton onClick={() => onClickAddItem('taxationtype')}>
-            <AddIcon color='success' sx={{ fontSize: 30 }} />
-          </IconButton>
-        </Stack>
-      </Grid>
-      <Grid
-        item
-        sx={{ display: !displayFizOsoba && !displayFOP ? 'block' : 'none' }}
-      >
         <TextField
           margin='normal'
           // required
           fullWidth
-          name='certificate_PDV'
-          label='certificate_PDV'
-          type='text'
-          id='certificate_PDV'
-          value={certificate_PDV}
+          name='priceClient'
+          label='priceClient'
+          type='number'
+          id='priceClient'
+          value={priceClient}
           onChange={onChange}
         />
       </Grid>
-      <Grid item>
-        <PhoneInput
-          style={{
-            backgroundColor: isValidPhoneNumber(`${telNumber}`)
-              ? 'green'
-              : 'red',
-            padding: '1rem',
-          }}
-          // sx={{ backgroundColor: 'yellow' }}
-          // international
-          defaultCountry='UA'
-          placeholder='Ваш телефон'
-          value={telNumber}
-          onChange={setTelNumber}
-          error={
-            telNumber
-              ? isValidPhoneNumber(telNumber)
-                ? undefined
-                : 'Invalid phone number'
-              : 'Phone number required'
-          }
-        />
-        {/* <span>
-          Is possible:{' '}
-          {telNumber && isPossiblePhoneNumber(telNumber) ? 'true' : 'false'}
-        </span> */}
-        {/* <span>
-          Is valid:{' '}
-          {telNumber && isValidPhoneNumber(telNumber) ? 'true' : 'false'}
-        </span> */}
-        {/* <span>National: {telNumber && formatPhoneNumber(telNumber)}</span>
-        <span>
-          International: {telNumber && formatPhoneNumberIntl(telNumber)}
-        </span> */}
-      </Grid>
-      <Grid item>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='email'
-          label='email'
-          type='email'
-          id='email'
-          value={email}
-          onChange={onChange}
-        />
-      </Grid>
+
       <Grid item>
         <Stack
           direction='row'
@@ -673,40 +255,124 @@ function AddServiceWork() {
           // direction={{ xs: 'column', sm: 'row' }}
         >
           <FormControl fullWidth>
-            <InputLabel id='clientType-label'>clientType</InputLabel>
+            <InputLabel id='groupWork-label'>groupWork</InputLabel>
             <Select
-              labelId='clientType-label'
-              id='clientType'
+              labelId='groupWork-label'
+              id='groupWork'
               multiple
-              value={clientType}
-              onChange={handleChangeMultipleSelects}
-              input={<OutlinedInput label='clientType' />}
+              value={groupWork}
+              onChange={handleChangeMultipleSelects_groupWork}
+              input={<OutlinedInput label='groupWork' />}
               renderValue={(selected) => (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                   {selected.map((value) => {
-                    const newItem = clientTypes?.find(
+                    const newItem = arr__groupWorks?.find(
                       (item) => item._id === value
                     );
                     return (
-                      <Chip
-                        key={newItem?._id}
-                        label={newItem?.clientTypeName}
-                      />
+                      <Chip key={newItem?._id} label={newItem?.groupWorkName} />
                     );
                   })}
                 </Box>
               )}
               MenuProps={MenuProps}
             >
-              {clientTypes?.map((item) => (
+              {arr__groupWorks?.map((item) => (
                 <MenuItem key={item._id} value={item._id}>
-                  <Checkbox checked={clientType.indexOf(item._id!) > -1} />
-                  <ListItemText primary={item.clientTypeName} />
+                  <Checkbox checked={groupWork.indexOf(item._id!) > -1} />
+                  <ListItemText primary={item.groupWorkName} />
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
-          <IconButton onClick={() => onClickAddItem('clienttype')}>
+          <IconButton onClick={() => onClickAddItem('groupwork')}>
+            <AddIcon color='success' sx={{ fontSize: 30 }} />
+          </IconButton>
+        </Stack>
+      </Grid>
+      <Grid item>
+        <Stack
+          direction='row'
+          spacing={2}
+          // direction={{ xs: 'column', sm: 'row' }}
+        >
+          <FormControl fullWidth>
+            <InputLabel id='products-label'>products</InputLabel>
+            <Select
+              labelId='products-label'
+              id='products'
+              multiple
+              value={products}
+              onChange={handleChangeMultipleSelects_products}
+              input={<OutlinedInput label='products' />}
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => {
+                    const newItem = arr__AllProducts?.find(
+                      (item) => item._id === value
+                    );
+                    return (
+                      <Chip key={newItem?._id} label={newItem?.productName} />
+                    );
+                  })}
+                </Box>
+              )}
+              MenuProps={MenuProps}
+            >
+              {arr__AllProducts?.map((item) => (
+                <MenuItem key={item._id} value={item._id}>
+                  <Checkbox checked={products.indexOf(item._id!) > -1} />
+                  <ListItemText primary={item.productName} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <IconButton onClick={() => onClickAddItem('products')}>
+            <AddIcon color='success' sx={{ fontSize: 30 }} />
+          </IconButton>
+        </Stack>
+      </Grid>
+
+      <Grid item>
+        <Stack
+          direction='row'
+          spacing={2}
+          // direction={{ xs: 'column', sm: 'row' }}
+        >
+          <FormControl fullWidth>
+            <InputLabel id='equipmentAndTools-label'>
+              equipmentAndTools
+            </InputLabel>
+            <Select
+              labelId='equipmentAndTools-label'
+              id='equipmentAndTools'
+              multiple
+              value={equipmentAndTools}
+              onChange={handleChangeMultipleSelects_equipmentAndTools}
+              input={<OutlinedInput label='equipmentAndTools' />}
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => {
+                    const newItem = arr__AllProducts?.find(
+                      (item) => item._id === value
+                    );
+                    return (
+                      <Chip key={newItem?._id} label={newItem?.productName} />
+                    );
+                  })}
+                </Box>
+              )}
+              MenuProps={MenuProps}
+            >
+              {arr__AllProducts?.map((item) => (
+                <MenuItem key={item._id} value={item._id}>
+                  <Checkbox checked={products.indexOf(item._id!) > -1} />
+                  <ListItemText primary={item.productName} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <IconButton onClick={() => onClickAddItem('products')}>
             <AddIcon color='success' sx={{ fontSize: 30 }} />
           </IconButton>
         </Stack>
@@ -717,21 +383,7 @@ function AddServiceWork() {
           type='submit'
           fullWidth
           disabled={
-            !nameClientLong ||
-            !nameClientShort ||
-            !firmType ||
-            !postIndex ||
-            !address ||
-            !firstName_imen ||
-            !patronymic_imen ||
-            !lastName_imen ||
-            !firstName_rodit ||
-            !patronymic_rodit ||
-            !lastName_rodit ||
-            !taxationType ||
-            !telNumber ||
-            !email ||
-            !clientType[0]
+            !serviceWorkName || !unit || groupWork.length === 0 || !priceWorker
           }
           variant='contained'
           sx={{ mt: 3, mb: 2 }}

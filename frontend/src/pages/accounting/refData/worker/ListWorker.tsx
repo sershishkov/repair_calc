@@ -24,7 +24,7 @@ interface NewObject {
 
 function ListWorker() {
   const { items, total, isLoading } = useAppSelector(
-    (state: RootState) => state.client__state
+    (state: RootState) => state.worker__state
   );
   const itemsToDisplay = items?.map((item: I_Worker) => {
     const newObject: NewObject = {

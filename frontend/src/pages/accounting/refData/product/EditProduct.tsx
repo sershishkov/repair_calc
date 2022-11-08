@@ -14,7 +14,7 @@ import { producttype__get_all } from '../../../../features/accounting/refData/pr
 
 import {
   I_Unit,
-  I_GroupProduct,
+  // I_GroupProduct,
   I_ProductType,
 } from '../../../../interfaces/AccountingInterfaces';
 
@@ -34,10 +34,15 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+import Checkbox from '@mui/material/Checkbox';
+import ListItemText from '@mui/material/ListItemText';
+
 const initState = {
   productName: '',
   unit: '',
-  groupProduct: '',
   productType: '',
   priceBuy: '',
   priceSell: '',
@@ -48,6 +53,17 @@ const initState = {
   width: '',
   length: '',
   paintingArea: '',
+};
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
 };
 
 function EditProduct() {
@@ -70,11 +86,10 @@ function EditProduct() {
   let { id } = useParams();
 
   const [formData, setFormdata] = useState(initState);
-
+  const [groupProduct, set__groupProduct] = useState<string[]>([]);
   const {
     productName,
     unit,
-    groupProduct,
     productType,
     priceBuy,
     priceSell,
@@ -107,10 +122,6 @@ function EditProduct() {
         productName: item.productName!,
 
         unit: typeof item.unit! === 'string' ? item.unit : item.unit?._id!,
-        groupProduct:
-          typeof item.groupProduct! === 'string'
-            ? item.groupProduct
-            : item.groupProduct?._id!,
         productType:
           typeof item.productType! === 'string'
             ? item.productType
@@ -126,6 +137,10 @@ function EditProduct() {
         length: item.length!.toString(),
         paintingArea: item.paintingArea!.toString(),
       });
+      const arrToSet = item.groupProduct!.map((item) => {
+        return typeof item !== 'string' ? item._id! : item;
+      });
+      set__groupProduct(arrToSet);
     }
   }, [item]);
 
@@ -166,6 +181,15 @@ function EditProduct() {
       [event.target.name]: event.target.value as string,
     }));
   };
+  const handleChangeMultipleSelects = (event: SelectChangeEvent<string[]>) => {
+    const {
+      target: { value },
+    } = event;
+    set__groupProduct(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    );
+  };
 
   const onClickAddItem = (link: string) => {
     navigate(`/refdata/${link}/add`);
@@ -202,7 +226,7 @@ function EditProduct() {
         />
       </Grid>
 
-      <Grid item>
+      <Grid item sx={{ mb: 2 }}>
         <Stack
           direction='row'
           spacing={2}
@@ -231,7 +255,7 @@ function EditProduct() {
         </Stack>
       </Grid>
 
-      <Grid item>
+      <Grid item sx={{ mb: 2 }}>
         <Stack
           direction='row'
           spacing={2}
@@ -242,14 +266,31 @@ function EditProduct() {
             <Select
               labelId='groupProduct-label'
               id='groupProduct'
-              name='groupProduct'
-              value={groupProduct}
-              label='Группа'
-              onChange={handleChangeSelects}
+              multiple
+              value={groupProduct ?? []}
+              onChange={handleChangeMultipleSelects}
+              input={<OutlinedInput label='groupProduct' />}
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => {
+                    const newItem = arr__GroupProducts?.find(
+                      (item) => item._id === value
+                    );
+                    return (
+                      <Chip
+                        key={newItem?._id}
+                        label={newItem?.groupProductName}
+                      />
+                    );
+                  })}
+                </Box>
+              )}
+              MenuProps={MenuProps}
             >
-              {arr__GroupProducts?.map((item: I_GroupProduct) => (
+              {arr__GroupProducts?.map((item) => (
                 <MenuItem key={item._id} value={item._id}>
-                  {item.groupProductName}
+                  <Checkbox checked={groupProduct!.indexOf(item._id!) > -1} />
+                  <ListItemText primary={item.groupProductName} />
                 </MenuItem>
               ))}
             </Select>

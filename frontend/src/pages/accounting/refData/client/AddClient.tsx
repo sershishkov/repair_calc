@@ -98,7 +98,7 @@ function AddClient() {
   const dispatch = useAppDispatch();
 
   const [formData, setFormdata] = useState(initState);
-  const [clientType, setClientType] = React.useState<string[]>([]);
+  const [clientType, setClientType] = useState<string[]>([]);
   const [telNumber, setTelNumber] = useState<string>();
   const [displayFizOsoba, setDisplayFizOsoba] = useState<boolean>(false);
   const [displayFOP, setdisplayFOP] = useState<boolean>(false);
@@ -144,9 +144,9 @@ function AddClient() {
   } = formData;
 
   useEffect(() => {
-    dispatch(firmtype__get_all({ page: `1`, limit: `50` }));
-    dispatch(taxationtype__get_all({ page: `1`, limit: `50` }));
-    dispatch(clienttype__get_all({ page: `1`, limit: `50` }));
+    dispatch(firmtype__get_all({ page: `0`, limit: `0` }));
+    dispatch(taxationtype__get_all({ page: `0`, limit: `0` }));
+    dispatch(clienttype__get_all({ page: `0`, limit: `0` }));
   }, [dispatch]);
 
   useEffect(() => {
