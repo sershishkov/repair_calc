@@ -280,7 +280,7 @@ function EditServiceWork() {
         />
       </Grid>
 
-      <Grid item>
+      <Grid item sx={{ mb: 2 }}>
         <Stack
           direction='row'
           spacing={2}
@@ -322,7 +322,7 @@ function EditServiceWork() {
           </IconButton>
         </Stack>
       </Grid>
-      <Grid item>
+      <Grid item sx={{ mb: 2 }}>
         <Stack
           direction='row'
           spacing={2}
@@ -365,7 +365,7 @@ function EditServiceWork() {
         </Stack>
       </Grid>
 
-      <Grid item>
+      <Grid item sx={{ mb: 2 }}>
         <Stack
           direction='row'
           spacing={2}
@@ -398,7 +398,9 @@ function EditServiceWork() {
             >
               {arr__AllProducts?.map((item) => (
                 <MenuItem key={item._id} value={item._id}>
-                  <Checkbox checked={products.indexOf(item._id!) > -1} />
+                  <Checkbox
+                    checked={equipmentAndTools.indexOf(item._id!) > -1}
+                  />
                   <ListItemText primary={item.productName} />
                 </MenuItem>
               ))}

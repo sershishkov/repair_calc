@@ -118,7 +118,11 @@ export const getAll__ServiceWorks = asyncHandler(
       .skip(skip)
       .sort({
         serviceWorkName: 1,
-      });
+      })
+      .populate({ path: 'unit', select: 'unitName' })
+      .populate({ path: 'groupWork', select: 'groupWorkName' })
+      .populate({ path: 'products', select: 'productName' })
+      .populate({ path: 'equipmentAndTools', select: 'productName' });
 
     if (!all__ServiceWorks) {
       res.status(400);

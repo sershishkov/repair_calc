@@ -6,9 +6,9 @@ import MyIconButtonAdd from '../../../../components/account/MyIconButtonAdd';
 import TableSimple from '../../../../components/account/TableSimple';
 
 import {
-  client__get_all,
-  client__delete_one,
-} from '../../../../features/accounting/refData/client/client__Slice';
+  servicework__get_all,
+  servicework__get_one,
+} from '../../../../features/accounting/refData/servicework/servicework__Slice';
 import { I_ServiceWork } from '../../../../interfaces/AccountingInterfaces';
 
 const editLink = `/refdata/servicework`;
@@ -23,7 +23,7 @@ interface NewObject {
 
 function ListServiceWork() {
   const { items, total, isLoading } = useAppSelector(
-    (state: RootState) => state.client__state
+    (state: RootState) => state.servicework__state
   );
   const itemsToDisplay = items?.map((item: I_ServiceWork) => {
     const allGroupeWorks = item.groupWork?.map((item) => {
@@ -51,8 +51,8 @@ function ListServiceWork() {
         items={itemsToDisplay}
         total={total}
         isLoading={isLoading}
-        get__all={client__get_all}
-        delete__one={client__delete_one}
+        get__all={servicework__get_all}
+        delete__one={servicework__get_one}
         headerFields={headerFields}
         tableFields={tableFields}
         editLink={editLink}
