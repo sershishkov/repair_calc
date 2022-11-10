@@ -17,6 +17,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
 import { refData_links, accounting_links } from '../../constants/constants';
+import { seller_role, accountant_role } from '../../constants/constants';
 
 function NavigationList({ toggleDrawer }: { toggleDrawer: Function }) {
   const navigate = useNavigate();
@@ -116,87 +117,82 @@ function NavigationList({ toggleDrawer }: { toggleDrawer: Function }) {
           )}
         </List>
       </Collapse>
-      {user && (
-        <ListItemButton
-          // sx={{ pl: 4 }}
-          component={Link}
-          href='/infouser'
-          onClick={() => toggleDrawer(false)}
-        >
-          <ListItemIcon>
-            <FaSignInAlt />
-          </ListItemIcon>
-          <ListItemText primary='Информация' />
-        </ListItemButton>
-      )}
-      {user && ['admin', 'boss', 'accountant', 'manager'].includes(user.role) && (
-        <ListItemButton
-          // sx={{ pl: 4 }}
-          component={Link}
-          href='/dashboard'
-          onClick={() => toggleDrawer(false)}
-        >
-          <ListItemIcon>
-            <FaSignInAlt />
-          </ListItemIcon>
-          <ListItemText primary='Навигационная панель' />
-        </ListItemButton>
-      )}
-      {user && ['admin', 'accountant'].includes(user.role) && (
-        <>
-          <ListItemButton onClick={() => set__open__RefData(!open__RefData)}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary='Справочники' />
-            {open__RefData ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-          <Collapse in={open__RefData} timeout='auto' unmountOnExit>
-            <List disablePadding>
-              {refData_links.map((item) => (
-                <ListItemButton
-                  key={item.link}
-                  sx={{ pl: 4 }}
-                  component={Link}
-                  href={`/refdata/${item.link}`}
-                  onClick={() => toggleDrawer(false)}
-                >
-                  <ListItemIcon>
-                    <InboxIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={`${item.caption}`} />
-                </ListItemButton>
-              ))}
-            </List>
-          </Collapse>
 
+      {user && (
+        <>
           <ListItemButton
-            onClick={() => set__open__accounting(!open__accounting)}
+            // sx={{ pl: 4 }}
+            component={Link}
+            href='/infouser'
+            onClick={() => toggleDrawer(false)}
           >
             <ListItemIcon>
-              <InboxIcon />
+              <FaSignInAlt />
             </ListItemIcon>
-            <ListItemText primary='Бухгалтерия' />
-            {open__accounting ? <ExpandLess /> : <ExpandMore />}
+            <ListItemText primary='Информация' />
           </ListItemButton>
-          <Collapse in={open__accounting} timeout='auto' unmountOnExit>
-            <List disablePadding>
-              {accounting_links.map((item) => (
-                <ListItemButton
-                  key={item.link}
-                  sx={{ pl: 4 }}
-                  component={Link}
-                  href={`/accounting/${item.link}`}
-                  onClick={() => toggleDrawer(false)}
-                >
-                  <ListItemIcon>
-                    <InboxIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={`${item.caption}`} />
-                </ListItemButton>
-              ))}
-            </List>
-          </Collapse>
+          {seller_role.includes(user.role) && (
+            <>
+              <ListItemButton
+                onClick={() => set__open__RefData(!open__RefData)}
+              >
+                <ListItemIcon>
+                  <InboxIcon />
+                </ListItemIcon>
+                <ListItemText primary='Справочники' />
+                {open__RefData ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+              <Collapse in={open__RefData} timeout='auto' unmountOnExit>
+                <List disablePadding>
+                  {refData_links.map((item) => (
+                    <ListItemButton
+                      key={item.link}
+                      sx={{ pl: 4 }}
+                      component={Link}
+                      href={item.link}
+                      onClick={() => toggleDrawer(false)}
+                    >
+                      <ListItemIcon>
+                        <InboxIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={`${item.caption}`} />
+                    </ListItemButton>
+                  ))}
+                </List>
+              </Collapse>
+            </>
+          )}
+          {accountant_role.includes(user.role) && (
+            <>
+              <ListItemButton
+                onClick={() => set__open__accounting(!open__accounting)}
+              >
+                <ListItemIcon>
+                  <InboxIcon />
+                </ListItemIcon>
+                <ListItemText primary='Бухгалтерия' />
+                {open__accounting ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+              <Collapse in={open__accounting} timeout='auto' unmountOnExit>
+                <List disablePadding>
+                  {accounting_links.map((item) => (
+                    <ListItemButton
+                      key={item.link}
+                      sx={{ pl: 4 }}
+                      component={Link}
+                      href={item.link}
+                      onClick={() => toggleDrawer(false)}
+                    >
+                      <ListItemIcon>
+                        <InboxIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={`${item.caption}`} />
+                    </ListItemButton>
+                  ))}
+                </List>
+              </Collapse>
+            </>
+          )}
         </>
       )}
     </List>

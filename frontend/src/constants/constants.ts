@@ -37,89 +37,93 @@ export const roles = [
   },
 ];
 
+const linkRefdata = '/refdata';
+
 export const refData_links = [
   {
-    link: 'unit',
-    caption: 'unit',
+    link: `${linkRefdata}/unit`,
+    caption: `unit`,
   },
   {
-    link: 'firmtype',
-    caption: 'firmtype',
+    link: `${linkRefdata}/firmtype`,
+    caption: `firmtype`,
   },
   {
-    link: 'taxationtype',
-    caption: 'taxationtype',
+    link: `${linkRefdata}/taxationtype`,
+    caption: `taxationtype`,
   },
   {
-    link: 'groupwork',
-    caption: 'groupwork',
+    link: `${linkRefdata}/groupwork`,
+    caption: `groupwork`,
   },
   {
-    link: 'groupproduct',
-    caption: 'groupproduct',
+    link: `${linkRefdata}/groupproduct`,
+    caption: `groupproduct`,
   },
   {
-    link: 'workerrole',
-    caption: 'workerrole',
+    link: `${linkRefdata}/workerrole`,
+    caption: `${linkRefdata}/workerrole`,
   },
   {
-    link: 'contracttype',
-    caption: 'contracttype',
+    link: `${linkRefdata}/contracttype`,
+    caption: `contracttype`,
   },
   {
-    link: 'paymentsource',
-    caption: 'paymentsource',
+    link: `${linkRefdata}/paymentsource`,
+    caption: `paymentsource`,
   },
   {
-    link: 'groupexpense',
-    caption: 'groupexpense',
+    link: `${linkRefdata}/groupexpense`,
+    caption: `${linkRefdata}/groupexpense`,
   },
   {
-    link: 'clienttype',
-    caption: 'clienttype',
+    link: `${linkRefdata}/clienttype`,
+    caption: `clienttype`,
   },
   {
-    link: 'producttype',
-    caption: 'producttype',
+    link: `${linkRefdata}/producttype`,
+    caption: `producttype`,
   },
   {
-    link: 'clients',
-    caption: 'clients',
+    link: `${linkRefdata}/clients`,
+    caption: `clients`,
   },
   {
-    link: 'contract',
-    caption: 'contract',
+    link: `${linkRefdata}/contract`,
+    caption: `contract`,
   },
   {
-    link: 'worker',
-    caption: 'worker',
+    link: `${linkRefdata}/worker`,
+    caption: `worker`,
   },
   {
-    link: 'products',
-    caption: 'products',
+    link: `${linkRefdata}/products`,
+    caption: `products`,
   },
   {
-    link: 'servicework',
-    caption: 'servicework',
+    link: `${linkRefdata}/servicework`,
+    caption: `servicework`,
   },
 ];
 
+const linkAccounting = '/accounting';
+
 export const accounting_links = [
   {
-    link: 'salarypayment',
-    caption: 'salarypayment',
+    link: `${linkAccounting}/salarypayment`,
+    caption: `salarypayment`,
   },
   {
-    link: 'expense',
-    caption: 'expense',
+    link: `${linkAccounting}/expense`,
+    caption: `expense`,
   },
   {
-    link: 'bankincome',
-    caption: 'bankincome',
+    link: `${linkAccounting}/bankincome`,
+    caption: `bankincome`,
   },
   {
-    link: 'paymenttosupplier',
-    caption: 'paymenttosupplier',
+    link: `${linkAccounting}/paymenttosupplier`,
+    caption: `paymenttosupplier`,
   },
 ];
 
@@ -147,7 +151,7 @@ export const worker_role = [
 ];
 
 export const client_role = [
-  'worker',
+  'client',
   'seller',
   'engineer',
   'accountant',

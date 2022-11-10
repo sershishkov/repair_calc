@@ -26,9 +26,10 @@ import { SellerRoutes } from './routes/SellerRoutes';
 import { FreeRoutes } from './routes/FreeRoutes';
 import { AdminRoutes } from './routes/AdminRoutes';
 import { UserRoutes } from './routes/UserRoutes';
+import { AccountanRoutes } from './routes/AccountanRoutes';
 
 import { getMe } from './features/auth/authSlice';
-import { seller_role } from './constants/constants';
+import { seller_role, accountant_role } from './constants/constants';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -88,6 +89,16 @@ function App() {
 
                     <Route element={<PrivateRoute roles={seller_role} />}>
                       {SellerRoutes.map((route) => (
+                        <Route
+                          key={route.path}
+                          path={route.path}
+                          element={route.component}
+                        />
+                      ))}
+                    </Route>
+
+                    <Route element={<PrivateRoute roles={accountant_role} />}>
+                      {AccountanRoutes.map((route) => (
                         <Route
                           key={route.path}
                           path={route.path}

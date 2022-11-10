@@ -110,9 +110,20 @@ export const getAll__Expenses = asyncHandler(
       .limit(pageSize)
       .skip(skip)
       .sort({
-        expenseDate: 1,
+        expenseDate: -1,
+      })
+      .populate({ path: 'groupExpense', select: 'groupExpenseName' })
+      .populate({ path: 'responsiblePerson', select: 'lastName  firstName ' })
+      .populate({
+        path: 'contract',
+        select: 'contractNumber contractDescription',
+        populate: [
+          {
+            path: 'client',
+            select: 'nameClientShort',
+          },
+        ],
       });
-
     if (!all__Expenses) {
       res.status(400);
       throw new Error('На данный момент ничего в базе нет');
@@ -140,6 +151,12 @@ export const getOne__Expense = asyncHandler(
       .populate({
         path: 'contract',
         select: 'contractNumber contractDescription',
+        populate: [
+          {
+            path: 'client',
+            select: 'nameClientShort',
+          },
+        ],
       });
 
     if (!one__Expense) {
