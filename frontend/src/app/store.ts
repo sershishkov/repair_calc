@@ -19,6 +19,10 @@ import contract__Slice from '../features/accounting/refData/contract/contract__S
 import worker__Slice from '../features/accounting/refData/worker/worker__Slice';
 import product__Slice from '../features/accounting/refData/product/product__Slice';
 import servicework__Slice from '../features/accounting/refData/servicework/servicework__Slice';
+import bankincome__Slice from '../features/accounting/accountant/bankincome/bankincome__Slice';
+import expense__Slice from '../features/accounting/accountant/expense/expense__Slice';
+import paymenttosupplier__Slice from '../features/accounting/accountant/paymenttosupplier/paymenttosupplier__Slice';
+import salarypayment__Slice from '../features/accounting/accountant/salarypayment/salarypayment__Slice';
 
 export const store = configureStore({
   reducer: {
@@ -43,6 +47,10 @@ export const store = configureStore({
     worker__state: worker__Slice,
     product__state: product__Slice,
     servicework__state: servicework__Slice,
+    bankincome__state: bankincome__Slice,
+    expense__state: expense__Slice,
+    paymenttosupplier__state: paymenttosupplier__Slice,
+    salarypayment__state: salarypayment__Slice,
   },
 });
 

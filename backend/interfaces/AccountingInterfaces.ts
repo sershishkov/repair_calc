@@ -166,34 +166,34 @@ export interface I_ServiceWork {
 
 export interface I_Expense {
   _id?: string;
-  expenseDescription: string;
-  groupExpense: Types.ObjectId;
-  expenseSum: number;
-  expenseDate: Date;
-  responsiblePerson: Types.ObjectId;
-  contract: Types.ObjectId;
+  expenseDescription?: string;
+  groupExpense?: Types.ObjectId;
+  expenseSum?: number;
+  expenseDate?: Date;
+  responsiblePerson?: Types.ObjectId;
+  contract?: Types.ObjectId;
 }
 
 export interface I_BankIncome {
   _id?: string;
-  contract: Types.ObjectId;
-  paymentSum: number;
-  paymentDate: Date;
+  contract?: Types.ObjectId;
+  paymentSum?: number;
+  paymentDate?: Date;
 }
 
 export interface I_SalaryPayment {
   _id?: string;
-  worker: Types.ObjectId;
-  paymentSum: number;
-  paymentDate: Date;
-  contract: Types.ObjectId;
+  worker?: Types.ObjectId;
+  paymentSum?: number;
+  paymentDate?: Date;
+  contract?: Types.ObjectId;
 }
 
 export interface I_PaymentToSupplier {
   _id?: string;
-  contract: Types.ObjectId;
-  paymentSum: number;
-  paymentDate: Date;
+  contract?: Types.ObjectId;
+  paymentSum?: number;
+  paymentDate?: Date;
 }
 
 // export interface I_Report_Deal {

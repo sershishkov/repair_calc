@@ -179,23 +179,23 @@ export interface I_Expense extends I_ClientRequest {
 export interface I_BankIncome extends I_ClientRequest {
   _id?: string;
   contract?: string | I_Contract;
-  paymentSum: number;
-  paymentDate: dayjs.Dayjs | null;
+  paymentSum?: number;
+  paymentDate?: dayjs.Dayjs | null;
 }
 
 export interface I_SalaryPayment extends I_ClientRequest {
   _id?: string;
-  worker: string | I_Worker;
-  paymentSum: number;
-  paymentDate: dayjs.Dayjs | null;
+  worker?: string | I_Worker;
+  paymentSum?: number;
+  paymentDate?: dayjs.Dayjs | null;
   contract?: string | I_Contract;
 }
 
-export interface I_PaymentToSupplier {
+export interface I_PaymentToSupplier extends I_ClientRequest {
   _id?: string;
   contract?: string | I_Contract;
-  paymentSum: number;
-  paymentDate: dayjs.Dayjs | null;
+  paymentSum?: number;
+  paymentDate?: dayjs.Dayjs | null;
 }
 
 // export interface I_Deal extends I_ClientRequest {
