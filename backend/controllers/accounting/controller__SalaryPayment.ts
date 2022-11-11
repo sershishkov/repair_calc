@@ -86,7 +86,18 @@ export const getAll__SalaryPayments = asyncHandler(
       .limit(pageSize)
       .skip(skip)
       .sort({
-        paymentDate: 1,
+        paymentDate: -1,
+      })
+      .populate({ path: 'worker', select: 'lastName  firstName ' })
+      .populate({
+        path: 'contract',
+        select: 'contractNumber contractDescription',
+        populate: [
+          {
+            path: 'client',
+            select: 'nameClientShort',
+          },
+        ],
       });
 
     if (!all__SalaryPayments) {
@@ -117,6 +128,12 @@ export const getOne__SalaryPayment = asyncHandler(
       .populate({
         path: 'contract',
         select: 'contractNumber contractDescription',
+        populate: [
+          {
+            path: 'client',
+            select: 'nameClientShort',
+          },
+        ],
       });
 
     if (!one__SalaryPayment) {

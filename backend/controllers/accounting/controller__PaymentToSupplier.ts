@@ -85,7 +85,17 @@ export const getAll__PaymentToSuppliers = asyncHandler(
       .limit(pageSize)
       .skip(skip)
       .sort({
-        paymentDate: 1,
+        paymentDate: -1,
+      })
+      .populate({
+        path: 'contract',
+        select: 'contractNumber contractDescription',
+        populate: [
+          {
+            path: 'client',
+            select: 'nameClientShort',
+          },
+        ],
       });
 
     if (!all__PaymentToSuppliers) {
@@ -114,6 +124,12 @@ export const getOne__PaymentToSupplier = asyncHandler(
     ).populate({
       path: 'contract',
       select: 'contractNumber contractDescription',
+      populate: [
+        {
+          path: 'client',
+          select: 'nameClientShort',
+        },
+      ],
     });
 
     if (!one__PaymentToSupplier) {

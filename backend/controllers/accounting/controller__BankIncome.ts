@@ -84,7 +84,17 @@ export const getAll__BankIncomes = asyncHandler(
       .limit(pageSize)
       .skip(skip)
       .sort({
-        paymentDate: 1,
+        paymentDate: -1,
+      })
+      .populate({
+        path: 'contract',
+        select: 'contractNumber contractDescription',
+        populate: [
+          {
+            path: 'client',
+            select: 'nameClientShort',
+          },
+        ],
       });
 
     if (!all__BankIncomes) {
@@ -113,6 +123,12 @@ export const getOne__BankIncome = asyncHandler(
     ).populate({
       path: 'contract',
       select: 'contractNumber contractDescription',
+      populate: [
+        {
+          path: 'client',
+          select: 'nameClientShort',
+        },
+      ],
     });
 
     if (!one__BankIncome) {

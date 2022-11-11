@@ -180,7 +180,7 @@ const EditExpense = () => {
           label='expenseDescription'
           type='text'
           id='expenseDescription'
-          value={expenseDescription}
+          value={expenseDescription ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -197,7 +197,7 @@ const EditExpense = () => {
               labelId='groupExpense-label'
               id='groupExpense'
               name='groupExpense'
-              value={groupExpense}
+              value={groupExpense ?? ''}
               label='groupExpense'
               onChange={handleChangeSelects}
             >
@@ -222,12 +222,12 @@ const EditExpense = () => {
           label='expenseSum'
           type='number'
           id='expenseSum'
-          value={expenseSum}
+          value={expenseSum ?? ''}
           onChange={onChange}
         />
       </Grid>
 
-      <Grid item>
+      <Grid item sx={{ mb: 2 }}>
         <DesktopDatePicker
           label='Календарь'
           inputFormat='DD-MM-YYYY'
@@ -237,7 +237,7 @@ const EditExpense = () => {
         />
       </Grid>
 
-      <Grid item>
+      <Grid item sx={{ mb: 2 }}>
         <Stack
           direction='row'
           spacing={2}
@@ -251,7 +251,7 @@ const EditExpense = () => {
               labelId='responsiblePerson-label'
               id='responsiblePerson'
               name='responsiblePerson'
-              value={responsiblePerson}
+              value={responsiblePerson ?? ''}
               label='responsiblePerson'
               onChange={handleChangeSelects}
             >
@@ -280,7 +280,7 @@ const EditExpense = () => {
               labelId='contract-label'
               id='contract'
               name='contract'
-              value={contract}
+              value={contract ?? ''}
               label='contract'
               onChange={handleChangeSelects}
             >
@@ -290,7 +290,7 @@ const EditExpense = () => {
                     typeof item.client !== 'string'
                       ? item.client?.nameClientShort!
                       : item.client
-                  } ${item.contractDescription}`}
+                  }, ${item.contractDescription}`}
                 </MenuItem>
               ))}
             </Select>

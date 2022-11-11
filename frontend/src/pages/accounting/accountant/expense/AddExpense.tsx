@@ -194,7 +194,7 @@ const AddExpense = () => {
         />
       </Grid>
 
-      <Grid item>
+      <Grid item sx={{ mb: 2 }}>
         <DesktopDatePicker
           label='Календарь'
           inputFormat='DD-MM-YYYY'
@@ -204,7 +204,7 @@ const AddExpense = () => {
         />
       </Grid>
 
-      <Grid item>
+      <Grid item sx={{ mb: 2 }}>
         <Stack
           direction='row'
           spacing={2}
@@ -257,7 +257,7 @@ const AddExpense = () => {
                     typeof item.client !== 'string'
                       ? item.client?.nameClientShort!
                       : item.client
-                  } ${item.contractDescription}`}
+                  }, ${item.contractDescription}`}
                 </MenuItem>
               ))}
             </Select>
