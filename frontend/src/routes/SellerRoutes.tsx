@@ -161,6 +161,15 @@ const EditServiceWork = React.lazy(
 const ListServiceWork = React.lazy(
   () => import('../pages/accounting/refData/servicework/ListServiceWork')
 );
+const AddStoreHouse = React.lazy(
+  () => import('../pages/accounting/refData/storehouse/AddStoreHouse')
+);
+const EditStoreHouse = React.lazy(
+  () => import('../pages/accounting/refData/storehouse/EditStoreHouse')
+);
+const ListStoreHouse = React.lazy(
+  () => import('../pages/accounting/refData/storehouse/ListStoreHouse')
+);
 
 export const SellerRoutes = [
   { path: '/dashboard', component: <Dashboard /> },
@@ -365,6 +374,19 @@ export const SellerRoutes = [
   {
     path: '/refdata/servicework/:id',
     component: <EditServiceWork />,
+    exact: true,
+  },
+  // gg
+  // gg
+  { path: '/refdata/storehouse', component: <ListStoreHouse /> },
+  {
+    path: '/refdata/storehouse/add',
+    component: <AddStoreHouse />,
+    exact: true,
+  },
+  {
+    path: '/refdata/storehouse/:id',
+    component: <EditStoreHouse />,
     exact: true,
   },
   // gg

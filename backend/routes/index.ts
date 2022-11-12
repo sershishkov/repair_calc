@@ -20,6 +20,7 @@ import router__Contract from './refData/router__Contract';
 import router__Worker from './refData/router__Worker';
 import router__Product from './refData/router__Product';
 import router__ServiceWork from './refData/router__ServiceWork';
+import router__StoreHouse from './refData/router__StoreHouse';
 
 import router__SalaryPayment from './accounting/router__SalaryPayment';
 import router__Expense from './accounting/router__Expense';
@@ -45,6 +46,7 @@ router.use('/refdata/contract', router__Contract);
 router.use('/refdata/worker', router__Worker);
 router.use('/refdata/products', router__Product);
 router.use('/refdata/servicework', router__ServiceWork);
+router.use('/refdata/storehouse', router__StoreHouse);
 
 router.use('/accounting/salarypayment', router__SalaryPayment);
 router.use('/accounting/expense', router__Expense);

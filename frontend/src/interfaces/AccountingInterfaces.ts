@@ -163,6 +163,10 @@ export interface I_ServiceWork extends I_ClientRequest {
   products?: string[] | I_Product[];
   equipmentAndTools?: string[] | I_Product[];
 }
+export interface I_StoreHouse extends I_ClientRequest {
+  storeHouseName?: string;
+  address?: string;
+}
 
 //////////////////////////////////////////////////////////////
 

@@ -62,7 +62,7 @@ export const refData_links = [
   },
   {
     link: `${linkRefdata}/workerrole`,
-    caption: `${linkRefdata}/workerrole`,
+    caption: `workerrole`,
   },
   {
     link: `${linkRefdata}/contracttype`,
@@ -74,7 +74,7 @@ export const refData_links = [
   },
   {
     link: `${linkRefdata}/groupexpense`,
-    caption: `${linkRefdata}/groupexpense`,
+    caption: `groupexpense`,
   },
   {
     link: `${linkRefdata}/clienttype`,
@@ -103,6 +103,10 @@ export const refData_links = [
   {
     link: `${linkRefdata}/servicework`,
     caption: `servicework`,
+  },
+  {
+    link: `${linkRefdata}/storehouse`,
+    caption: `storehouse`,
   },
 ];
 

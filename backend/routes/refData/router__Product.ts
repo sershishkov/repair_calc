@@ -1,5 +1,6 @@
 import express from 'express';
 import { protect, authorize } from '../../middlewares/authMiddleware';
+import { seller_role } from '../../utils/constants';
 import {
   add__Product,
   update__Product,
@@ -10,9 +11,7 @@ import {
 
 const router = express.Router();
 router.use(protect);
-router.use(
-  authorize('seller', 'engineer', 'accountant', 'manager', 'boss', 'admin')
-);
+router.use(authorize(seller_role));
 
 router.route('/').get(getAll__Products).post(add__Product);
 

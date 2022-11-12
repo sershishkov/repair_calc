@@ -162,6 +162,11 @@ export interface I_ServiceWork {
   products?: Types.ObjectId[];
   equipmentAndTools?: Types.ObjectId[];
 }
+export interface I_StoreHouse {
+  _id?: string;
+  storeHouseName?: string;
+  address?: string;
+}
 //////////////////////////////////////////////////////////////
 
 export interface I_Expense {

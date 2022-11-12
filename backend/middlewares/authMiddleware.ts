@@ -48,7 +48,7 @@ export const protect = asyncHandler(
   }
 );
 
-export const authorize = (...roles: string[]) => {
+export const authorize = (roles: string[]) => {
   return asyncHandler(
     async (
       req: I_GetUserAuthInfoToRequest,
