@@ -200,6 +200,33 @@ export interface I_PaymentToSupplier {
   paymentSum?: number;
   paymentDate?: Date;
 }
+////////////////////////////
+////////////////////////////
+export interface I_DocumentNakladnaya {
+  _id?: string;
+  nakladnayaNumber: string;
+  nakladnayaDate: Date;
+  contract: Types.ObjectId;
+  products: [
+    {
+      product: Types.ObjectId;
+      additionalDescription?: string;
+      amount: number;
+      priceBuy: number;
+      priceSell: number;
+      rowSum: number;
+
+      priceSell_changed: number;
+      rowSum_changed: number;
+    }
+  ];
+  active: Boolean;
+  deleted: Boolean;
+  creator: Types.ObjectId;
+  incomingOrOutgoingDoc: string;
+}
+////////////////////////////
+////////////////////////////
 
 // export interface I_Report_Deal {
 //   _id?: string;
