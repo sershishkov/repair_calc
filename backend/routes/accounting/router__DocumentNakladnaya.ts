@@ -1,24 +1,27 @@
 import express from 'express';
 import { protect, authorize } from '../../middlewares/authMiddleware';
-import { accountant_role } from '../../utils/constants';
+import { seller_role } from '../../utils/constants';
 import {
-  add__BankIncome,
-  update__BankIncome,
-  getAll__BankIncomes,
-  getOne__BankIncome,
-  delete__BankIncome,
-} from '../../controllers/accounting/controller__BankIncome';
+  add__DocumentNakladnaya,
+  update__DocumentNakladnaya,
+  getAll__DocumentNakladnayas,
+  getOne__DocumentNakladnaya,
+  delete__DocumentNakladnaya,
+} from '../../controllers/accounting/controller__DocumentNakladnaya';
 
 const router = express.Router();
 router.use(protect);
-router.use(authorize(accountant_role));
+router.use(authorize(seller_role));
 
-router.route('/').get(getAll__BankIncomes).post(add__BankIncome);
+router
+  .route('/')
+  .get(getAll__DocumentNakladnayas)
+  .post(add__DocumentNakladnaya);
 
 router
   .route('/:id')
-  .get(getOne__BankIncome)
-  .put(update__BankIncome)
-  .delete(delete__BankIncome);
+  .get(getOne__DocumentNakladnaya)
+  .put(update__DocumentNakladnaya)
+  .delete(delete__DocumentNakladnaya);
 
 export default router;

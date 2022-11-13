@@ -18,7 +18,6 @@ interface NewObject {
   productName: string;
   unit: string;
   groupProduct: string;
-  priceBuy: string;
 }
 
 function ListProduct() {
@@ -34,15 +33,13 @@ function ListProduct() {
       productName: item.productName!,
       unit: typeof item.unit !== 'string' ? item.unit?.unitName! : item.unit!,
       groupProduct: all_Group?.join(', ')!,
-
-      priceBuy: item.priceBuy!.toString(),
     };
 
     return newObject;
   });
 
-  const headerFields = ['productName', 'unit', 'groupProduct', 'priceBuy'];
-  const tableFields = ['productName', 'unit', 'groupProduct', 'priceBuy'];
+  const headerFields = ['productName', 'unit', 'groupProduct'];
+  const tableFields = ['productName', 'unit', 'groupProduct'];
   return (
     <>
       <MyIconButtonAdd href={`${editLink}/add`} />

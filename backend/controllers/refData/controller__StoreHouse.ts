@@ -9,7 +9,7 @@ import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 //@access Private
 export const add__StoreHouse = asyncHandler(
   async (req: Request, res: Response) => {
-    const { storeHouseName, address } = req.body;
+    const { storeHouseName, address, products } = req.body;
 
     if (!storeHouseName || !address) {
       res.status(400);
@@ -26,6 +26,7 @@ export const add__StoreHouse = asyncHandler(
     const new__StoreHouse = await Model__StoreHouse.create({
       storeHouseName,
       address,
+      products,
     });
 
     if (!new__StoreHouse) {
@@ -45,7 +46,7 @@ export const add__StoreHouse = asyncHandler(
 //@access Private
 export const update__StoreHouse = asyncHandler(
   async (req: Request, res: Response) => {
-    const { storeHouseName, address } = req.body;
+    const { storeHouseName, address, products } = req.body;
 
     if (!req.body) {
       res.status(400);
@@ -55,6 +56,7 @@ export const update__StoreHouse = asyncHandler(
     const new__StoreHouse = {
       storeHouseName,
       address,
+      products,
     };
 
     const updated__StoreHouse = await Model__StoreHouse.findByIdAndUpdate(
@@ -90,6 +92,16 @@ export const getAll__StoreHouses = asyncHandler(
       .skip(skip)
       .sort({
         storeHouseName: 1,
+      })
+      .populate({
+        path: 'products.product',
+        select: 'productName',
+        populate: [
+          {
+            path: 'unit',
+            select: 'unitName',
+          },
+        ],
       });
 
     if (!all__StoreHouses) {
@@ -113,7 +125,18 @@ export const getAll__StoreHouses = asyncHandler(
 //@access Private
 export const getOne__StoreHouse = asyncHandler(
   async (req: Request, res: Response) => {
-    const one__StoreHouse = await Model__StoreHouse.findById(req.params.id);
+    const one__StoreHouse = await Model__StoreHouse.findById(
+      req.params.id
+    ).populate({
+      path: 'products.product',
+      select: 'productName',
+      populate: [
+        {
+          path: 'unit',
+          select: 'unitName',
+        },
+      ],
+    });
 
     if (!one__StoreHouse) {
       res.status(400);

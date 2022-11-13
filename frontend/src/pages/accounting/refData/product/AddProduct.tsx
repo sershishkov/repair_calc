@@ -41,8 +41,6 @@ const initState = {
   productName: '',
   unit: '',
   productType: '',
-  priceBuy: '',
-  priceSell: '',
   normPerOne: '',
   amountInPackage: '',
   weight: '',
@@ -86,8 +84,6 @@ function AddProduct() {
     productName,
     unit,
     productType,
-    priceBuy,
-    priceSell,
     normPerOne,
     amountInPackage,
     weight,
@@ -122,8 +118,6 @@ function AddProduct() {
       unit,
       groupProduct,
       productType,
-      priceBuy: Number(priceBuy),
-      priceSell: priceSell ? Number(priceSell) : 0,
       normPerOne: normPerOne ? Number(normPerOne) : 1,
       amountInPackage: amountInPackage ? Number(amountInPackage) : 1,
       weight: weight ? Number(weight) : 0,
@@ -291,36 +285,12 @@ function AddProduct() {
           </IconButton>
         </Stack>
       </Grid>
-      <Grid item>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='priceBuy'
-          label='priceBuy'
-          type='number'
-          id='priceBuy'
-          value={priceBuy}
-          onChange={onChange}
-        />
-      </Grid>
+
       <Grid item>
         <TextField
           margin='normal'
           // required
-          fullWidth
-          name='priceSell'
-          label='priceSell'
-          type='number'
-          id='priceSell'
-          value={priceSell}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid item>
-        <TextField
-          margin='normal'
-          // required
+
           fullWidth
           name='normPerOne'
           label='normPerOne'
@@ -328,6 +298,9 @@ function AddProduct() {
           id='normPerOne'
           value={normPerOne}
           onChange={onChange}
+          // inputProps={{
+          //   step: '.001',
+          // }}
         />
       </Grid>
       <Grid item>
@@ -413,9 +386,7 @@ function AddProduct() {
         <Button
           type='submit'
           fullWidth
-          disabled={
-            !productName || !unit || !groupProduct || !productType || !priceBuy
-          }
+          disabled={!productName || !unit || !groupProduct || !productType}
           variant='contained'
           sx={{ mt: 3, mb: 2 }}
         >

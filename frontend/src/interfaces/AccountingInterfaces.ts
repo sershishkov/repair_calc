@@ -141,8 +141,6 @@ export interface I_Product extends I_ClientRequest {
   groupProduct?: string[] | I_GroupProduct[];
   productType?: string | I_ProductType;
 
-  priceBuy?: number;
-  priceSell?: number;
   normPerOne?: number;
   amountInPackage?: number;
   weight?: number;

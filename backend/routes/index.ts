@@ -26,6 +26,7 @@ import router__SalaryPayment from './accounting/router__SalaryPayment';
 import router__Expense from './accounting/router__Expense';
 import router__BankIncome from './accounting/router__BankIncome';
 import router__PaymentToSupplier from './accounting/router__PaymentToSupplier';
+import router__DocumentNakladnaya from './accounting/router__DocumentNakladnaya';
 
 router.use('/auth', router__Auth);
 router.use('/user-admin', router__User);
@@ -52,5 +53,6 @@ router.use('/accounting/salarypayment', router__SalaryPayment);
 router.use('/accounting/expense', router__Expense);
 router.use('/accounting/bankincome', router__BankIncome);
 router.use('/accounting/paymenttosupplier', router__PaymentToSupplier);
+router.use('/accounting/documentnakladnaya', router__DocumentNakladnaya);
 
 export default router;

@@ -13,8 +13,6 @@ export const add__Product = asyncHandler(
       unit,
       groupProduct,
       productType,
-      priceBuy,
-      priceSell,
       normPerOne,
       amountInPackage,
       weight,
@@ -24,7 +22,7 @@ export const add__Product = asyncHandler(
       paintingArea,
     } = req.body;
 
-    if (!productName || !unit || !productType || !priceBuy) {
+    if (!productName || !unit || !productType) {
       res.status(400);
       throw new Error('Please add all fields');
     }
@@ -41,8 +39,6 @@ export const add__Product = asyncHandler(
       unit,
       groupProduct,
       productType,
-      priceBuy,
-      priceSell,
       normPerOne,
       amountInPackage,
       weight,
@@ -74,8 +70,6 @@ export const update__Product = asyncHandler(
       unit,
       groupProduct,
       productType,
-      priceBuy,
-      priceSell,
       normPerOne,
       amountInPackage,
       weight,
@@ -95,8 +89,6 @@ export const update__Product = asyncHandler(
       unit,
       groupProduct,
       productType,
-      priceBuy,
-      priceSell,
       normPerOne,
       amountInPackage,
       weight,

@@ -2,9 +2,10 @@ import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__DocumentNakladnaya from '../../models/accounting/Model__DocumentNakladnaya';
 import { MyRequestParams } from '../../interfaces/CommonInterfaces';
+import { I_GetUserAuthInfoToRequest } from '../../interfaces/UserInterface';
 
 //@desc   Add a __DocumentNakladnaya
-//@route  POST /api/accounting/bankincome
+//@route  POST /api/accounting/documentnakladnaya
 //@access Private
 export const add__DocumentNakladnaya = asyncHandler(
   async (req: Request, res: Response) => {
@@ -54,7 +55,7 @@ export const add__DocumentNakladnaya = asyncHandler(
 );
 
 //@desc   Updste a __DocumentNakladnaya
-//@route  PUT /api/accounting/bankincome/:id
+//@route  PUT /api/accounting/documentnakladnaya/:id
 //@access Private
 export const update__DocumentNakladnaya = asyncHandler(
   async (req: Request, res: Response) => {
@@ -101,7 +102,7 @@ export const update__DocumentNakladnaya = asyncHandler(
 );
 
 //@desc   Get All __DocumentNakladnayas
-//@route  GET /api/accounting/bankincome
+//@route  GET /api/accounting/documentnakladnaya
 //@access Private
 export const getAll__DocumentNakladnayas = asyncHandler(
   async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
@@ -113,7 +114,9 @@ export const getAll__DocumentNakladnayas = asyncHandler(
       pageSize === 0 ? total : Math.ceil(total / pageSize);
 
     // console.log(totalPages);
-    const all__DocumentNakladnayas = await Model__DocumentNakladnaya.find()
+    const all__DocumentNakladnayas = await Model__DocumentNakladnaya.find({
+      deleted: false,
+    })
       .limit(pageSize)
       .skip(skip)
       .sort({
@@ -126,6 +129,20 @@ export const getAll__DocumentNakladnayas = asyncHandler(
           {
             path: 'client',
             select: 'nameClientShort',
+          },
+          {
+            path: 'ourFirm',
+            select: 'nameClientShort',
+          },
+        ],
+      })
+      .populate({
+        path: 'products.product',
+        select: 'productName',
+        populate: [
+          {
+            path: 'unit',
+            select: 'unitName',
           },
         ],
       });
@@ -147,22 +164,37 @@ export const getAll__DocumentNakladnayas = asyncHandler(
 );
 
 //@desc   Get one __DocumentNakladnaya
-//@route  GET /api/accounting/bankincome/:id
+//@route  GET /api/accounting/documentnakladnaya/:id
 //@access Private
 export const getOne__DocumentNakladnaya = asyncHandler(
   async (req: Request, res: Response) => {
     const one__DocumentNakladnaya = await Model__DocumentNakladnaya.findById(
       req.params.id
-    ).populate({
-      path: 'contract',
-      select: 'contractNumber contractDescription',
-      populate: [
-        {
-          path: 'client',
-          select: 'nameClientShort',
-        },
-      ],
-    });
+    )
+      .populate({
+        path: 'contract',
+        select: 'contractNumber contractDescription',
+        populate: [
+          {
+            path: 'client',
+            select: 'nameClientShort',
+          },
+          {
+            path: 'ourFirm',
+            select: 'nameClientShort',
+          },
+        ],
+      })
+      .populate({
+        path: 'products.product',
+        select: 'productName',
+        populate: [
+          {
+            path: 'unit',
+            select: 'unitName',
+          },
+        ],
+      });
 
     if (!one__DocumentNakladnaya) {
       res.status(400);
@@ -177,21 +209,43 @@ export const getOne__DocumentNakladnaya = asyncHandler(
 );
 
 //@desc   DELETE one __DocumentNakladnaya
-//@route  DELETE /api/accounting/bankincome/:id
+//@route  DELETE /api/accounting/documentnakladnaya/:id
 //@access Private
 export const delete__DocumentNakladnaya = asyncHandler(
-  async (req: Request, res: Response) => {
-    const one__DocumentNakladnaya =
-      await Model__DocumentNakladnaya.findByIdAndDelete(req.params.id);
+  async (req: I_GetUserAuthInfoToRequest, res: Response) => {
+    if (req.user.role === 'admin') {
+      const one__DocumentNakladnaya =
+        await Model__DocumentNakladnaya.findByIdAndDelete(req.params.id);
 
-    if (!one__DocumentNakladnaya) {
-      res.status(400);
-      throw new Error('Нет  объекта с данным id');
+      if (!one__DocumentNakladnaya) {
+        res.status(400);
+        throw new Error('Нет  объекта с данным id');
+      }
+
+      res.status(200).json({
+        success: true,
+        my_data: one__DocumentNakladnaya._id,
+      });
+    } else {
+      const new__DocumentNakladnaya = {
+        active: false,
+        deleted: true,
+      };
+
+      const updated__DocumentNakladnaya =
+        await Model__DocumentNakladnaya.findByIdAndUpdate(
+          req.params.id,
+          new__DocumentNakladnaya,
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+
+      res.status(200).json({
+        success: true,
+        my_data: updated__DocumentNakladnaya?._id,
+      });
     }
-
-    res.status(200).json({
-      success: true,
-      my_data: one__DocumentNakladnaya._id,
-    });
   }
 );

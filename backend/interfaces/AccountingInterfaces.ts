@@ -140,8 +140,6 @@ export interface I_Product {
   groupProduct: Types.ObjectId[];
   productType: Types.ObjectId;
 
-  priceBuy: number;
-  priceSell?: number;
   normPerOne?: number;
   amountInPackage?: number;
   weight?: number;
@@ -164,8 +162,16 @@ export interface I_ServiceWork {
 }
 export interface I_StoreHouse {
   _id?: string;
-  storeHouseName?: string;
-  address?: string;
+  storeHouseName: string;
+  address: string;
+  products: [
+    {
+      product: Types.ObjectId;
+      amount: number;
+      priceBuy: number;
+      rowSum: number;
+    }
+  ];
 }
 //////////////////////////////////////////////////////////////
 
@@ -214,9 +220,9 @@ export interface I_DocumentNakladnaya {
       amount: number;
       priceBuy: number;
       priceSell: number;
-      rowSum: number;
-
       priceSell_changed: number;
+
+      rowSum: number;
       rowSum_changed: number;
     }
   ];

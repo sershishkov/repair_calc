@@ -44,8 +44,6 @@ const initState = {
   productName: '',
   unit: '',
   productType: '',
-  priceBuy: '',
-  priceSell: '',
   normPerOne: '',
   amountInPackage: '',
   weight: '',
@@ -91,8 +89,6 @@ function EditProduct() {
     productName,
     unit,
     productType,
-    priceBuy,
-    priceSell,
     normPerOne,
     amountInPackage,
     weight,
@@ -127,8 +123,6 @@ function EditProduct() {
             ? item.productType
             : item.productType?._id!,
 
-        priceBuy: item.priceBuy!.toString(),
-        priceSell: item.priceSell!.toString(),
         normPerOne: item.normPerOne!.toString(),
         amountInPackage: item.amountInPackage!.toString(),
         weight: item.weight!.toString(),
@@ -159,8 +153,6 @@ function EditProduct() {
       unit,
       groupProduct,
       productType,
-      priceBuy: Number(priceBuy),
-      priceSell: priceSell ? Number(priceSell) : 0,
       normPerOne: normPerOne ? Number(normPerOne) : 1,
       amountInPackage: amountInPackage ? Number(amountInPackage) : 1,
       weight: weight ? Number(weight) : 0,
@@ -328,32 +320,7 @@ function EditProduct() {
           </IconButton>
         </Stack>
       </Grid>
-      <Grid item>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          name='priceBuy'
-          label='priceBuy'
-          type='number'
-          id='priceBuy'
-          value={priceBuy}
-          onChange={onChange}
-        />
-      </Grid>
-      <Grid item>
-        <TextField
-          margin='normal'
-          // required
-          fullWidth
-          name='priceSell'
-          label='priceSell'
-          type='number'
-          id='priceSell'
-          value={priceSell}
-          onChange={onChange}
-        />
-      </Grid>
+
       <Grid item>
         <TextField
           margin='normal'
@@ -450,9 +417,7 @@ function EditProduct() {
         <Button
           type='submit'
           fullWidth
-          disabled={
-            !productName || !unit || !groupProduct || !productType || !priceBuy
-          }
+          disabled={!productName || !unit || !groupProduct || !productType}
           variant='contained'
           sx={{ mt: 3, mb: 2 }}
         >

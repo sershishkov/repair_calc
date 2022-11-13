@@ -39,7 +39,9 @@ const document_nakladnaya__Schema = new Schema<I_DocumentNakladnaya>(
         },
         rowSum: {
           type: Number,
-          required: [true, 'Введите сумму по строке'],
+          default: function () {
+            return (this.amount * this.priceSell).toFixed(2);
+          },
         },
         priceSell_changed: {
           type: Number,
@@ -47,7 +49,9 @@ const document_nakladnaya__Schema = new Schema<I_DocumentNakladnaya>(
         },
         rowSum_changed: {
           type: Number,
-          default: 0,
+          default: function () {
+            return (this.amount * this.priceSell_changed).toFixed(2);
+          },
         },
       },
     ],
