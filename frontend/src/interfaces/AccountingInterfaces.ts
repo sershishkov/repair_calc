@@ -140,7 +140,7 @@ export interface I_Product extends I_ClientRequest {
   unit?: string | I_Unit;
   groupProduct?: string[] | I_GroupProduct[];
   productType?: string | I_ProductType;
-
+  priceBuyRecommend?: number;
   normPerOne?: number;
   amountInPackage?: number;
   weight?: number;

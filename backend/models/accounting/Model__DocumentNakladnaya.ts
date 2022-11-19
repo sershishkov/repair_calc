@@ -6,6 +6,7 @@ const document_nakladnaya__Schema = new Schema<I_DocumentNakladnaya>(
   {
     nakladnayaNumber: {
       type: String,
+      unique: true,
       required: [true, 'Please add an nakladnayaNumber'],
     },
     nakladnayaDate: {
@@ -22,44 +23,41 @@ const document_nakladnaya__Schema = new Schema<I_DocumentNakladnaya>(
         product: {
           type: Schema.Types.ObjectId,
           ref: 'product',
+          // unique: true,
           required: [true, 'Please add a product id'],
         },
-        additionalDescription: String,
         amount: {
           type: Number,
           required: [true, 'Введите количество'],
         },
         priceBuy: {
           type: Number,
-          required: [true, 'Введите закупочную цену товара'],
+          default: 0,
         },
         priceSell: {
           type: Number,
-          required: [true, 'Введите продажную цену товара'],
+          default: 0,
         },
-        rowSum: {
+        rowSumBuy: {
+          type: Number,
+          default: function () {
+            return (this.amount * this.priceBuy).toFixed(2);
+          },
+        },
+        rowSumSell: {
           type: Number,
           default: function () {
             return (this.amount * this.priceSell).toFixed(2);
           },
         },
-        priceSell_changed: {
-          type: Number,
-          default: 0,
-        },
-        rowSum_changed: {
-          type: Number,
-          default: function () {
-            return (this.amount * this.priceSell_changed).toFixed(2);
-          },
-        },
       },
     ],
-    active: {
-      type: Boolean,
-      default: true,
+    storeHouse: {
+      type: Schema.Types.ObjectId,
+      ref: 'storehouse',
+      required: [true, 'Please add a storehouse id'],
     },
-    deleted: {
+    active: {
       type: Boolean,
       default: false,
     },
@@ -68,10 +66,19 @@ const document_nakladnaya__Schema = new Schema<I_DocumentNakladnaya>(
       ref: 'user',
       required: [true, 'Please add a user id'],
     },
-    incomingOrOutgoingDoc: {
+    typeNakl: {
       type: String,
-      enum: ['incoming', 'outgoing'],
-      default: 'outgoing',
+      enum: ['incoming', 'outgoing', 'returnFromBuyer', 'returnToSupplier'],
+    },
+
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
+
+    whoDeleted: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
     },
   },
   {
@@ -82,15 +89,15 @@ const document_nakladnaya__Schema = new Schema<I_DocumentNakladnaya>(
 );
 
 document_nakladnaya__Schema.virtual('totalNaklSums').get(function () {
-  let totalNaklSum = 0;
-  let totalNaklSumChanged = 0;
+  let totalNaklSumBuy = 0;
+  let totalNaklSumSell = 0;
   this.products.forEach((item) => {
-    totalNaklSum += item.amount * item.priceSell;
-    totalNaklSumChanged += item.amount * item.priceSell_changed;
+    totalNaklSumBuy += item.amount * item.priceBuy;
+    totalNaklSumSell += item.amount * item.priceSell;
   });
   return {
-    totalNaklSum: totalNaklSum.toFixed(2),
-    totalNaklSumChanged: totalNaklSumChanged.toFixed(2),
+    totalNaklSumBuy: totalNaklSumBuy.toFixed(2),
+    totalNaklSumSell: totalNaklSumSell.toFixed(2),
   };
 });
 

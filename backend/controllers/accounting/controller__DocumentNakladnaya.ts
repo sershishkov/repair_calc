@@ -1,22 +1,25 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Model__DocumentNakladnaya from '../../models/accounting/Model__DocumentNakladnaya';
+// import Model__StoreHouse from '../../models/refData/Model__StoreHouse';
+import Model__Product from '../../models/refData/Model__Product';
 import { MyRequestParams } from '../../interfaces/CommonInterfaces';
 import { I_GetUserAuthInfoToRequest } from '../../interfaces/UserInterface';
+// import { I_DocumentNakladnaya } from '../../interfaces/AccountingInterfaces';
 
 //@desc   Add a __DocumentNakladnaya
 //@route  POST /api/accounting/documentnakladnaya
 //@access Private
 export const add__DocumentNakladnaya = asyncHandler(
-  async (req: Request, res: Response) => {
+  async (req: I_GetUserAuthInfoToRequest, res: Response) => {
     const {
       nakladnayaNumber,
       nakladnayaDate,
       contract,
       products,
+      storeHouse,
       active,
-      creator,
-      incomingOrOutgoingDoc,
+      typeNakl,
     } = req.body;
 
     if (
@@ -24,9 +27,9 @@ export const add__DocumentNakladnaya = asyncHandler(
       !nakladnayaDate ||
       !contract ||
       !products ||
+      !storeHouse ||
       !active ||
-      !creator ||
-      !incomingOrOutgoingDoc
+      !typeNakl
     ) {
       res.status(400);
       throw new Error('Please add all fields');
@@ -37,20 +40,28 @@ export const add__DocumentNakladnaya = asyncHandler(
       nakladnayaDate,
       contract,
       products,
+      storeHouse,
       active,
-      creator,
-      incomingOrOutgoingDoc,
+      creator: req.user._id,
+      typeNakl,
     });
 
     if (!new__DocumentNakladnaya) {
       res.status(400);
       throw new Error('Invalid  data');
-    } else {
-      res.status(200).json({
-        succes: true,
-        my_data: new__DocumentNakladnaya,
-      });
     }
+    if (typeNakl === 'outgoing' || typeNakl === 'incoming') {
+      updateRecomendPriceInProducts([...products]);
+    }
+    //TODO:
+    // if (active) {
+    //   await saveProductsToStore(products, typeNakl, storeHouse, res);
+    // }
+
+    res.status(200).json({
+      succes: true,
+      my_data: new__DocumentNakladnaya,
+    });
   }
 );
 
@@ -64,9 +75,9 @@ export const update__DocumentNakladnaya = asyncHandler(
       nakladnayaDate,
       contract,
       products,
+      storeHouse,
       active,
-      creator,
-      incomingOrOutgoingDoc,
+      typeNakl,
     } = req.body;
 
     if (!req.body) {
@@ -79,9 +90,9 @@ export const update__DocumentNakladnaya = asyncHandler(
       nakladnayaDate,
       contract,
       products,
+      storeHouse,
       active,
-      creator,
-      incomingOrOutgoingDoc,
+      typeNakl,
     };
 
     const updated__DocumentNakladnaya =
@@ -93,6 +104,17 @@ export const update__DocumentNakladnaya = asyncHandler(
           runValidators: true,
         }
       );
+    if (typeNakl === 'outgoing' || typeNakl === 'incoming') {
+      updateRecomendPriceInProducts([...products]);
+    }
+    //TODO:
+    // await updateProductsInStore(
+    //   old__DocumentNakladnaya,
+    //   products,
+    //   typeNakl,
+    //   storeHouse,
+    //   res
+    // );
 
     res.status(200).json({
       success: true,
@@ -138,7 +160,7 @@ export const getAll__DocumentNakladnayas = asyncHandler(
       })
       .populate({
         path: 'products.product',
-        select: 'productName',
+        select: 'productName priceBuyRecommend normPerOne amountInPackage',
         populate: [
           {
             path: 'unit',
@@ -187,7 +209,7 @@ export const getOne__DocumentNakladnaya = asyncHandler(
       })
       .populate({
         path: 'products.product',
-        select: 'productName',
+        select: 'productName priceBuyRecommend normPerOne amountInPackage',
         populate: [
           {
             path: 'unit',
@@ -230,6 +252,7 @@ export const delete__DocumentNakladnaya = asyncHandler(
       const new__DocumentNakladnaya = {
         active: false,
         deleted: true,
+        whoDeleted: req.user._id,
       };
 
       const updated__DocumentNakladnaya =
@@ -249,3 +272,90 @@ export const delete__DocumentNakladnaya = asyncHandler(
     }
   }
 );
+///////////////////////////
+
+const updateRecomendPriceInProducts = async (products: any[]) => {
+  products.forEach(async (itemNakl) => {
+    await Model__Product.findByIdAndUpdate(itemNakl.product, {
+      priceBuyRecommend: itemNakl.priceBuy,
+    });
+  });
+};
+
+// const saveProductsToStore = async (
+//   products: any[],
+//   typeNakl: string,
+//   storeHouse: string,
+//   res: Response
+// ) => {
+//   const currentStore = await Model__StoreHouse.findById(storeHouse);
+//   const currProductsInStore = [...currentStore?.products!];
+//   const productsInNakl = [...products];
+
+//   if (typeNakl === 'incoming' || typeNakl === 'returnFromBuyer') {
+//     productsInNakl.forEach(async (itemNakl) => {
+//       const findIndexProductInStore = currProductsInStore?.findIndex(
+//         (item) => item.product === itemNakl.product
+//       );
+
+//       if (findIndexProductInStore === -1) {
+//         currProductsInStore.push({
+//           product: itemNakl.product,
+//           amount: itemNakl.amount,
+//           priceBuy_inStore: itemNakl.priceBuy,
+//         });
+//       } else {
+//         const oldProduct = currProductsInStore[findIndexProductInStore];
+//         const newProduct = {
+//           product: itemNakl.product,
+//           amount: itemNakl.amount + oldProduct.amount,
+//           priceBuy_inStore:
+//             (itemNakl.priceBuy * itemNakl.amount +
+//               oldProduct.amount * oldProduct.priceBuy_inStore) /
+//             (itemNakl.amount + oldProduct.amount),
+//         };
+
+//         currProductsInStore.splice(findIndexProductInStore, 1, newProduct);
+//       }
+//       if (typeNakl === 'incoming') {
+//         await Model__Product.findByIdAndUpdate(itemNakl.product, {
+//           priceBuy_recommend: itemNakl.priceBuy,
+//         });
+//       }
+//     });
+//   } else {
+//     productsInNakl.forEach((itemNakl) => {
+//       const findIndexProductInStore = currProductsInStore?.findIndex(
+//         (item) => item.product === itemNakl.product
+//       );
+
+//       if (findIndexProductInStore === -1) {
+//         res.status(400);
+//         throw new Error('Нет такого товара на складе');
+//       } else {
+//         const oldProduct = currProductsInStore[findIndexProductInStore];
+//         const newProduct = {
+//           product: itemNakl.product,
+//           amount: oldProduct.amount - itemNakl.amount,
+//           priceBuy_inStore: oldProduct.priceBuy_inStore,
+//         };
+
+//         currProductsInStore.splice(findIndexProductInStore, 1, newProduct);
+//       }
+//     });
+//   }
+//   await Model__StoreHouse.findByIdAndUpdate(storeHouse, {
+//     products: currProductsInStore,
+//   });
+// };
+
+//////////////////////////////////////
+// const updateProductsInStore = async (
+//   old__DocumentNakladnaya: I_DocumentNakladnaya,
+//   products: any[],
+//   typeNakl: string,
+//   storeHouse: string,
+//   res: Response
+// ) => {
+//   //TODO: Сделать реверс старой накладной а затем вызвать saveProductsToStore с новыми данными
+// };

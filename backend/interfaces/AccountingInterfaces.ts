@@ -38,7 +38,7 @@ export interface I_ContractType {
   // 'Сумма',
   // 'Сумма Кошторис',
   // 'Предоплата',
-  // 'Частичная предоплата',Бюджет, РемсервисКап, РемсервисПоточн,Покупка]
+  // 'Частичная предоплата''Частичная предоплата материал',Бюджет, РемсервисКап, РемсервисПоточн,Покупка]
 }
 export interface I_PaymentSource {
   _id?: string;
@@ -130,6 +130,15 @@ export interface I_Worker {
 
   telNumber?: string;
   email?: string;
+
+  equipmentAndTools?: [
+    {
+      product: Types.ObjectId;
+      amount: number;
+      priceBuy_inStore: number;
+      rowSum: number;
+    }
+  ];
 }
 
 export interface I_Product {
@@ -139,14 +148,14 @@ export interface I_Product {
   unit: Types.ObjectId;
   groupProduct: Types.ObjectId[];
   productType: Types.ObjectId;
-
-  normPerOne?: number;
-  amountInPackage?: number;
-  weight?: number;
-  height?: number;
-  width?: number;
-  length?: number;
-  paintingArea?: number;
+  priceBuyRecommend: number;
+  normPerOne: number;
+  amountInPackage: number;
+  weight: number;
+  height: number;
+  width: number;
+  length: number;
+  paintingArea: number;
 }
 
 export interface I_ServiceWork {
@@ -160,6 +169,7 @@ export interface I_ServiceWork {
   products?: Types.ObjectId[];
   equipmentAndTools?: Types.ObjectId[];
 }
+
 export interface I_StoreHouse {
   _id?: string;
   storeHouseName: string;
@@ -168,7 +178,7 @@ export interface I_StoreHouse {
     {
       product: Types.ObjectId;
       amount: number;
-      priceBuy: number;
+      priceBuy_inStore: number;
       rowSum: number;
     }
   ];
@@ -216,20 +226,20 @@ export interface I_DocumentNakladnaya {
   products: [
     {
       product: Types.ObjectId;
-      additionalDescription?: string;
       amount: number;
       priceBuy: number;
       priceSell: number;
-      priceSell_changed: number;
-
-      rowSum: number;
-      rowSum_changed: number;
+      rowSumBuy: number;
+      rowSumSell: number;
     }
   ];
+  storeHouse: Types.ObjectId;
   active: Boolean;
-  deleted: Boolean;
   creator: Types.ObjectId;
-  incomingOrOutgoingDoc: string;
+  typeNakl: string;
+
+  deleted: Boolean;
+  whoDeleted: Types.ObjectId;
 }
 ////////////////////////////
 ////////////////////////////

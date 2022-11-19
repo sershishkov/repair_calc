@@ -44,6 +44,7 @@ const initState = {
   productName: '',
   unit: '',
   productType: '',
+  priceBuyRecommend: '',
   normPerOne: '',
   amountInPackage: '',
   weight: '',
@@ -89,6 +90,7 @@ function EditProduct() {
     productName,
     unit,
     productType,
+    priceBuyRecommend,
     normPerOne,
     amountInPackage,
     weight,
@@ -123,6 +125,7 @@ function EditProduct() {
             ? item.productType
             : item.productType?._id!,
 
+        priceBuyRecommend: item.priceBuyRecommend!.toString(),
         normPerOne: item.normPerOne!.toString(),
         amountInPackage: item.amountInPackage!.toString(),
         weight: item.weight!.toString(),
@@ -153,6 +156,7 @@ function EditProduct() {
       unit,
       groupProduct,
       productType,
+      priceBuyRecommend: priceBuyRecommend ? Number(priceBuyRecommend) : 1,
       normPerOne: normPerOne ? Number(normPerOne) : 1,
       amountInPackage: amountInPackage ? Number(amountInPackage) : 1,
       weight: weight ? Number(weight) : 0,
@@ -213,7 +217,7 @@ function EditProduct() {
           label='productName'
           type='text'
           id='productName'
-          value={productName}
+          value={productName ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -326,11 +330,24 @@ function EditProduct() {
           margin='normal'
           // required
           fullWidth
+          name='priceBuyRecommend'
+          label='priceBuyRecommend'
+          type='number'
+          id='priceBuyRecommend'
+          value={priceBuyRecommend ?? ''}
+          onChange={onChange}
+        />
+      </Grid>
+      <Grid item>
+        <TextField
+          margin='normal'
+          // required
+          fullWidth
           name='normPerOne'
           label='normPerOne'
           type='number'
           id='normPerOne'
-          value={normPerOne}
+          value={normPerOne ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -343,7 +360,7 @@ function EditProduct() {
           label='amountInPackage'
           type='number'
           id='amountInPackage'
-          value={amountInPackage}
+          value={amountInPackage ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -356,7 +373,7 @@ function EditProduct() {
           label='weight'
           type='number'
           id='weight'
-          value={weight}
+          value={weight ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -369,7 +386,7 @@ function EditProduct() {
           label='height'
           type='number'
           id='height'
-          value={height}
+          value={height ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -382,7 +399,7 @@ function EditProduct() {
           label='width'
           type='number'
           id='width'
-          value={width}
+          value={width ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -395,7 +412,7 @@ function EditProduct() {
           label='length'
           type='number'
           id='length'
-          value={length}
+          value={length ?? ''}
           onChange={onChange}
         />
       </Grid>
@@ -408,7 +425,7 @@ function EditProduct() {
           label='paintingArea'
           type='number'
           id='paintingArea'
-          value={paintingArea}
+          value={paintingArea ?? ''}
           onChange={onChange}
         />
       </Grid>

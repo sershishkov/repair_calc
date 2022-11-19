@@ -41,6 +41,7 @@ const initState = {
   productName: '',
   unit: '',
   productType: '',
+  priceBuyRecommend: '',
   normPerOne: '',
   amountInPackage: '',
   weight: '',
@@ -84,6 +85,7 @@ function AddProduct() {
     productName,
     unit,
     productType,
+    priceBuyRecommend,
     normPerOne,
     amountInPackage,
     weight,
@@ -118,6 +120,7 @@ function AddProduct() {
       unit,
       groupProduct,
       productType,
+      priceBuyRecommend: priceBuyRecommend ? Number(priceBuyRecommend) : 1,
       normPerOne: normPerOne ? Number(normPerOne) : 1,
       amountInPackage: amountInPackage ? Number(amountInPackage) : 1,
       weight: weight ? Number(weight) : 0,
@@ -284,6 +287,23 @@ function AddProduct() {
             <AddIcon color='success' sx={{ fontSize: 30 }} />
           </IconButton>
         </Stack>
+      </Grid>
+      <Grid item>
+        <TextField
+          margin='normal'
+          // required
+
+          fullWidth
+          name='priceBuyRecommend'
+          label='priceBuyRecommend'
+          type='number'
+          id='priceBuyRecommend'
+          value={priceBuyRecommend}
+          onChange={onChange}
+          // inputProps={{
+          //   step: '.001',
+          // }}
+        />
       </Grid>
 
       <Grid item>

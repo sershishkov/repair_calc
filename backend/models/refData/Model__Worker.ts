@@ -52,6 +52,29 @@ const worker__Schema = new Schema<I_Worker>({
     ],
     // required: [true, 'Please add an email'],
   },
+  equipmentAndTools: [
+    {
+      product: {
+        type: Schema.Types.ObjectId,
+        ref: 'product',
+        required: [true, 'Please add a product id'],
+      },
+      amount: {
+        type: Number,
+        default: 0,
+      },
+      priceBuy_inStore: {
+        type: Number,
+        default: 0,
+      },
+      rowSum: {
+        type: Number,
+        default: function () {
+          return (this.amount * this.priceBuy_inStore).toFixed(2);
+        },
+      },
+    },
+  ],
 });
 
 export default model('worker', worker__Schema);

@@ -24,6 +24,10 @@ const product__Schema = new Schema<I_Product>({
     ref: 'product_type',
     required: [true, 'Please add a product_type id'],
   },
+  priceBuyRecommend: {
+    type: Number,
+    default: 1,
+  },
   normPerOne: {
     type: Number,
     default: 1,

@@ -24,14 +24,14 @@ const storehouse__Schema = new Schema<I_StoreHouse>(
           type: Number,
           default: 0,
         },
-        priceBuy: {
+        priceBuy_inStore: {
           type: Number,
           default: 0,
         },
         rowSum: {
           type: Number,
           default: function () {
-            return (this.amount * this.priceBuy).toFixed(2);
+            return (this.amount * this.priceBuy_inStore).toFixed(2);
           },
         },
       },
@@ -48,7 +48,7 @@ storehouse__Schema.virtual('totalStoreSum').get(function () {
   let totalStoreSum = 0;
 
   this.products.forEach((item) => {
-    totalStoreSum += item.amount * item.priceBuy;
+    totalStoreSum += item.amount * item.priceBuy_inStore;
   });
   return totalStoreSum.toFixed(2);
 });

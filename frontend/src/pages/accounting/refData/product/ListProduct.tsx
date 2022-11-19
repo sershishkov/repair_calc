@@ -17,6 +17,7 @@ interface NewObject {
   _id: string;
   productName: string;
   unit: string;
+  priceBuyRecommend: string;
   groupProduct: string;
 }
 
@@ -32,14 +33,25 @@ function ListProduct() {
       _id: item._id!,
       productName: item.productName!,
       unit: typeof item.unit !== 'string' ? item.unit?.unitName! : item.unit!,
+      priceBuyRecommend: item.priceBuyRecommend!.toString(),
       groupProduct: all_Group?.join(', ')!,
     };
 
     return newObject;
   });
 
-  const headerFields = ['productName', 'unit', 'groupProduct'];
-  const tableFields = ['productName', 'unit', 'groupProduct'];
+  const headerFields = [
+    'productName',
+    'unit',
+    'priceBuyRecommend',
+    'groupProduct',
+  ];
+  const tableFields = [
+    'productName',
+    'unit',
+    'priceBuyRecommend',
+    'groupProduct',
+  ];
   return (
     <>
       <MyIconButtonAdd href={`${editLink}/add`} />
