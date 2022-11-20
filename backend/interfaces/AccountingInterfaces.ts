@@ -183,6 +183,19 @@ export interface I_StoreHouse {
     }
   ];
 }
+export interface I_GroupThirdPartyService {
+  _id?: string;
+  groupThirdPartyServiceName: string;
+}
+
+export interface I_ThirdPartyService {
+  _id?: string;
+  thirdPartyServiceName: string;
+
+  unit: Types.ObjectId;
+  groupThirdPartyService: Types.ObjectId[];
+  priceBuyRecommend: number;
+}
 //////////////////////////////////////////////////////////////
 
 export interface I_Expense {

@@ -21,6 +21,8 @@ import router__Worker from './refData/router__Worker';
 import router__Product from './refData/router__Product';
 import router__ServiceWork from './refData/router__ServiceWork';
 import router__StoreHouse from './refData/router__StoreHouse';
+import router__GroupThirdPartyService from './refData/router__GroupThirdPartyService';
+import router__ThirdPartyService from './refData/router__ThirdPartyService';
 
 import router__SalaryPayment from './accounting/router__SalaryPayment';
 import router__Expense from './accounting/router__Expense';
@@ -48,6 +50,8 @@ router.use('/refdata/worker', router__Worker);
 router.use('/refdata/products', router__Product);
 router.use('/refdata/servicework', router__ServiceWork);
 router.use('/refdata/storehouse', router__StoreHouse);
+router.use('/refdata/group-thirdparty-service', router__GroupThirdPartyService);
+router.use('/refdata/thirdparty-service', router__ThirdPartyService);
 
 router.use('/accounting/salarypayment', router__SalaryPayment);
 router.use('/accounting/expense', router__Expense);

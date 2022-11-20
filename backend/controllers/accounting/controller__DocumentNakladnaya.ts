@@ -4,7 +4,10 @@ import Model__DocumentNakladnaya from '../../models/accounting/Model__DocumentNa
 // import Model__StoreHouse from '../../models/refData/Model__StoreHouse';
 import Model__Product from '../../models/refData/Model__Product';
 import { MyRequestParams } from '../../interfaces/CommonInterfaces';
-import { I_GetUserAuthInfoToRequest } from '../../interfaces/UserInterface';
+import {
+  I_GetUserAuthInfoToRequest,
+  I_GetUserAndParams,
+} from '../../interfaces/UserInterface';
 // import { I_DocumentNakladnaya } from '../../interfaces/AccountingInterfaces';
 
 //@desc   Add a __DocumentNakladnaya
@@ -127,18 +130,23 @@ export const update__DocumentNakladnaya = asyncHandler(
 //@route  GET /api/accounting/documentnakladnaya
 //@access Private
 export const getAll__DocumentNakladnayas = asyncHandler(
-  async (req: Request<{}, {}, {}, MyRequestParams>, res: Response) => {
+  async (req: I_GetUserAndParams, res: Response) => {
     const page: number = parseInt(req.query.page) || 0;
     const pageSize: number = parseInt(req.query.limit) || 0;
     const skip = (page - 1) * pageSize;
     const total: number = await Model__DocumentNakladnaya.countDocuments({});
     const totalPages: number =
       pageSize === 0 ? total : Math.ceil(total / pageSize);
-
+    const filterObject =
+      req.user.role === 'admin'
+        ? {}
+        : {
+            deleted: false,
+          };
     // console.log(totalPages);
-    const all__DocumentNakladnayas = await Model__DocumentNakladnaya.find({
-      deleted: false,
-    })
+    const all__DocumentNakladnayas = await Model__DocumentNakladnaya.find(
+      filterObject
+    )
       .limit(pageSize)
       .skip(skip)
       .sort({
