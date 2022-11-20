@@ -39,8 +39,8 @@ import AddIcon from '@mui/icons-material/Add';
 const initState = {
   serviceWorkName: '',
   unit: '',
-  priceWorker: '',
-  priceClient: '',
+  priceWorkerRecommend: '',
+  priceClientRecommend: '',
 };
 
 const ITEM_HEIGHT = 48;
@@ -79,7 +79,8 @@ function AddServiceWork() {
     []
   );
 
-  const { serviceWorkName, unit, priceWorker, priceClient } = formData;
+  const { serviceWorkName, unit, priceWorkerRecommend, priceClientRecommend } =
+    formData;
 
   useEffect(() => {
     dispatch(unit__get_all({ page: `0`, limit: `0` }));
@@ -104,8 +105,12 @@ function AddServiceWork() {
     const created__Data = {
       serviceWorkName,
       unit,
-      priceWorker: priceWorker ? Number(priceWorker) : 0,
-      priceClient: priceClient ? Number(priceClient) : 0,
+      priceWorkerRecommend: priceWorkerRecommend
+        ? Number(priceWorkerRecommend)
+        : 0,
+      priceClientRecommend: priceClientRecommend
+        ? Number(priceClientRecommend)
+        : 0,
       groupWork,
       products,
       equipmentAndTools,
@@ -226,11 +231,11 @@ function AddServiceWork() {
           margin='normal'
           required
           fullWidth
-          name='priceWorker'
-          label='priceWorker'
+          name='priceWorkerRecommend'
+          label='priceWorkerRecommend'
           type='number'
-          id='priceWorker'
-          value={priceWorker}
+          id='priceWorkerRecommend'
+          value={priceWorkerRecommend}
           onChange={onChange}
         />
       </Grid>
@@ -239,11 +244,11 @@ function AddServiceWork() {
           margin='normal'
           // required
           fullWidth
-          name='priceClient'
-          label='priceClient'
+          name='priceClientRecommend'
+          label='priceClientRecommend'
           type='number'
-          id='priceClient'
-          value={priceClient}
+          id='priceClientRecommend'
+          value={priceClientRecommend}
           onChange={onChange}
         />
       </Grid>
@@ -385,7 +390,10 @@ function AddServiceWork() {
           type='submit'
           fullWidth
           disabled={
-            !serviceWorkName || !unit || groupWork.length === 0 || !priceWorker
+            !serviceWorkName ||
+            !unit ||
+            groupWork.length === 0 ||
+            !priceWorkerRecommend
           }
           variant='contained'
           sx={{ mt: 3, mb: 2 }}

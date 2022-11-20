@@ -38,7 +38,7 @@ export interface I_ContractType extends I_ClientRequest {
   // 'Сумма',
   // 'Сумма Кошторис',
   // 'Предоплата',
-  // 'Частичная предоплата',Бюджет, РемсервисКап, РемсервисПоточн,Покупка]
+  // 'Частичная предоплата',Бюджет, РемсервисКап, РемсервисПоточн, Покупка, Входящая услуга]
 }
 
 export interface I_PaymentSource extends I_ClientRequest {
@@ -131,6 +131,15 @@ export interface I_Worker extends I_ClientRequest {
 
   telNumber?: string;
   email?: string;
+
+  equipmentAndTools?: [
+    {
+      product: string;
+      amount: number;
+      priceBuy_inStore: number;
+      rowSum: number;
+    }
+  ];
 }
 
 export interface I_Product extends I_ClientRequest {
@@ -155,8 +164,8 @@ export interface I_ServiceWork extends I_ClientRequest {
   serviceWorkName?: string;
   unit?: string | I_Unit;
   groupWork?: string[] | I_GroupWork[];
-  priceWorker?: number;
-  priceClient?: number;
+  priceWorkerRecommend?: number;
+  priceClientRecommend?: number;
 
   products?: string[] | I_Product[];
   equipmentAndTools?: string[] | I_Product[];

@@ -42,8 +42,8 @@ import AddIcon from '@mui/icons-material/Add';
 const initState = {
   serviceWorkName: '',
   unit: '',
-  priceWorker: '',
-  priceClient: '',
+  priceWorkerRecommend: '',
+  priceClientRecommend: '',
 };
 
 const ITEM_HEIGHT = 48;
@@ -83,7 +83,8 @@ function EditServiceWork() {
     []
   );
 
-  const { serviceWorkName, unit, priceWorker, priceClient } = formData;
+  const { serviceWorkName, unit, priceWorkerRecommend, priceClientRecommend } =
+    formData;
 
   useEffect(() => {
     if (id) {
@@ -104,8 +105,8 @@ function EditServiceWork() {
       setFormdata({
         serviceWorkName: item.serviceWorkName!,
         unit: typeof item.unit! === 'string' ? item.unit : item.unit?._id!,
-        priceWorker: item.priceWorker!.toString(),
-        priceClient: item.priceClient!.toString(),
+        priceWorkerRecommend: item.priceWorkerRecommend!.toString(),
+        priceClientRecommend: item.priceClientRecommend!.toString(),
       });
 
       const arrToSet_groupWork = item.groupWork!.map((item) => {
@@ -136,8 +137,12 @@ function EditServiceWork() {
       _id: id,
       serviceWorkName,
       unit,
-      priceWorker: priceWorker ? Number(priceWorker) : 0,
-      priceClient: priceClient ? Number(priceClient) : 0,
+      priceWorkerRecommend: priceWorkerRecommend
+        ? Number(priceWorkerRecommend)
+        : 0,
+      priceClientRecommend: priceClientRecommend
+        ? Number(priceClientRecommend)
+        : 0,
       groupWork,
       products,
       equipmentAndTools,
@@ -258,11 +263,11 @@ function EditServiceWork() {
           margin='normal'
           required
           fullWidth
-          name='priceWorker'
-          label='priceWorker'
+          name='priceWorkerRecommend'
+          label='priceWorkerRecommend'
           type='number'
-          id='priceWorker'
-          value={priceWorker}
+          id='priceWorkerRecommend'
+          value={priceWorkerRecommend}
           onChange={onChange}
         />
       </Grid>
@@ -271,11 +276,11 @@ function EditServiceWork() {
           margin='normal'
           // required
           fullWidth
-          name='priceClient'
-          label='priceClient'
+          name='priceClientRecommend'
+          label='priceClientRecommend'
           type='number'
-          id='priceClient'
-          value={priceClient}
+          id='priceClientRecommend'
+          value={priceClientRecommend}
           onChange={onChange}
         />
       </Grid>
@@ -417,7 +422,10 @@ function EditServiceWork() {
           type='submit'
           fullWidth
           disabled={
-            !serviceWorkName || !unit || groupWork.length === 0 || !priceWorker
+            !serviceWorkName ||
+            !unit ||
+            groupWork.length === 0 ||
+            !priceWorkerRecommend
           }
           variant='contained'
           sx={{ mt: 3, mb: 2 }}

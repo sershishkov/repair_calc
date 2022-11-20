@@ -18,7 +18,7 @@ interface NewObject {
   serviceWorkName: string;
   unit: string;
   groupWork: string;
-  priceWorker: string;
+  priceWorkerRecommend: string;
 }
 
 function ListServiceWork() {
@@ -35,14 +35,24 @@ function ListServiceWork() {
       serviceWorkName: item.serviceWorkName!,
       unit: typeof item.unit !== 'string' ? item.unit?.unitName! : item.unit!,
       groupWork: allGroupeWorks?.join(', ')!,
-      priceWorker: item.priceWorker!.toString(),
+      priceWorkerRecommend: item.priceWorkerRecommend!.toString(),
     };
 
     return newObject;
   });
 
-  const headerFields = ['serviceWorkName', 'unit', 'groupWork', 'priceWorker'];
-  const tableFields = ['serviceWorkName', 'unit', 'groupWork', 'priceWorker'];
+  const headerFields = [
+    'serviceWorkName',
+    'unit',
+    'groupWork',
+    'priceWorkerRecommend',
+  ];
+  const tableFields = [
+    'serviceWorkName',
+    'unit',
+    'groupWork',
+    'priceWorkerRecommend',
+  ];
   return (
     <>
       <MyIconButtonAdd href={`${editLink}/add`} />

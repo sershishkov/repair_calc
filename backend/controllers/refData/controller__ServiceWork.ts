@@ -12,13 +12,13 @@ export const add__ServiceWork = asyncHandler(
       serviceWorkName,
       unit,
       groupWork,
-      priceWorker,
-      priceClient,
+      priceWorkerRecommend,
+      priceClientRecommend,
       products,
       equipmentAndTools,
     } = req.body;
 
-    if (!serviceWorkName || !unit || !groupWork || !priceWorker) {
+    if (!serviceWorkName || !unit || !groupWork || !priceWorkerRecommend) {
       res.status(400);
       throw new Error('Please add all fields');
     }
@@ -36,8 +36,8 @@ export const add__ServiceWork = asyncHandler(
       serviceWorkName,
       unit,
       groupWork,
-      priceWorker,
-      priceClient,
+      priceWorkerRecommend,
+      priceClientRecommend,
       products,
       equipmentAndTools,
     });
@@ -63,8 +63,8 @@ export const update__ServiceWork = asyncHandler(
       serviceWorkName,
       unit,
       groupWork,
-      priceWorker,
-      priceClient,
+      priceWorkerRecommend,
+      priceClientRecommend,
       products,
       equipmentAndTools,
     } = req.body;
@@ -78,8 +78,8 @@ export const update__ServiceWork = asyncHandler(
       serviceWorkName,
       unit,
       groupWork,
-      priceWorker,
-      priceClient,
+      priceWorkerRecommend,
+      priceClientRecommend,
       products,
       equipmentAndTools,
     };

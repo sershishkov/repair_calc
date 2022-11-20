@@ -18,11 +18,11 @@ const service_work__Schema = new Schema<I_ServiceWork>({
     ref: 'group_work',
     required: [true, 'Please add a group_work id'],
   },
-  priceWorker: {
+  priceWorkerRecommend: {
     type: Number,
     required: [true, 'Please add a priceWorker'],
   },
-  priceClient: {
+  priceClientRecommend: {
     type: Number,
     // required: [true, 'Please add a priceWorker'],
   },

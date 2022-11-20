@@ -163,8 +163,8 @@ export interface I_ServiceWork {
   serviceWorkName: string;
   unit: Types.ObjectId;
   groupWork: Types.ObjectId[];
-  priceWorker: number;
-  priceClient?: number;
+  priceWorkerRecommend: number;
+  priceClientRecommend?: number;
 
   products?: Types.ObjectId[];
   equipmentAndTools?: Types.ObjectId[];
@@ -247,6 +247,41 @@ export interface I_DocumentNakladnaya {
     }
   ];
   storeHouse: Types.ObjectId;
+  active: Boolean;
+  creator: Types.ObjectId;
+  typeNakl: string;
+
+  deleted: Boolean;
+  whoDeleted: Types.ObjectId;
+}
+export interface I_DocumentAktOfWork {
+  _id?: string;
+  aktOfWorkNumber: string;
+  aktOfWorkDate: Date;
+  contract: Types.ObjectId;
+  thirdPartyServices: [
+    {
+      thirdPartyService: Types.ObjectId;
+      amount: number;
+      priceServiceEntered: number;
+      priceServiceSell: number;
+      rowSumServiceEntered: number;
+      rowSumServiceSell: number;
+      enteredContract: Types.ObjectId;
+    }
+  ];
+  serviceWorks: [
+    {
+      serviceWork: Types.ObjectId;
+      amount: number;
+      priceWorkWoker: number;
+      priceWorkSell: number;
+      rowSumWorkWoker: number;
+      rowSumWorkSell: number;
+      worker: Types.ObjectId;
+    }
+  ];
+
   active: Boolean;
   creator: Types.ObjectId;
   typeNakl: string;
