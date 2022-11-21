@@ -1,7 +1,9 @@
 import dayjs from 'dayjs';
 import { I_ClientRequest } from './CommonInterfaces';
+import { I_AuthRequest } from './UserInterfaces';
 
 export interface I_Unit extends I_ClientRequest {
+  _id?: string;
   unitName?: string;
 }
 
@@ -134,7 +136,7 @@ export interface I_Worker extends I_ClientRequest {
 
   equipmentAndTools?: [
     {
-      product: string;
+      product: string | I_Product;
       amount: number;
       priceBuy_inStore: number;
       rowSum: number;
@@ -173,6 +175,28 @@ export interface I_ServiceWork extends I_ClientRequest {
 export interface I_StoreHouse extends I_ClientRequest {
   storeHouseName?: string;
   address?: string;
+  products?: [
+    {
+      product: string | I_Product;
+      amount: number;
+      priceBuy_inStore: number;
+      rowSum: number;
+    }
+  ];
+}
+
+export interface I_GroupThirdPartyService extends I_ClientRequest {
+  _id?: string;
+  groupThirdPartyServiceName?: string;
+}
+
+export interface I_ThirdPartyService extends I_ClientRequest {
+  _id?: string;
+  thirdPartyServiceName: string;
+
+  unit: string | I_Unit;
+  groupThirdPartyService: string[] | I_GroupThirdPartyService[];
+  priceBuyRecommend: number;
 }
 
 //////////////////////////////////////////////////////////////
@@ -208,6 +232,70 @@ export interface I_PaymentToSupplier extends I_ClientRequest {
   paymentSum?: number;
   paymentDate?: dayjs.Dayjs | null;
 }
+
+////////////////////////////
+////////////////////////////
+export interface I_DocumentNakladnaya extends I_ClientRequest {
+  _id?: string;
+  nakladnayaNumber: string;
+  nakladnayaDate: dayjs.Dayjs | null;
+  contract: string | I_Contract;
+  products: [
+    {
+      product: string | I_Product;
+      amount: number;
+      priceBuy: number;
+      priceSell: number;
+      rowSumBuy: number;
+      rowSumSell: number;
+    }
+  ];
+  storeHouse: string | I_StoreHouse;
+  active: Boolean;
+  creator: string | I_AuthRequest;
+  typeNakl: string;
+
+  deleted: Boolean;
+  whoDeleted: string | I_AuthRequest;
+}
+
+export interface I_DocumentAktOfWork extends I_ClientRequest {
+  _id?: string;
+  aktOfWorkNumber: string;
+  aktOfWorkDate: dayjs.Dayjs | null;
+  contract: string | I_Contract;
+  thirdPartyServices: [
+    {
+      thirdPartyService: string | I_ThirdPartyService;
+      amount: number;
+      priceServiceEntered: number;
+      priceServiceSell: number;
+      rowSumServiceEntered: number;
+      rowSumServiceSell: number;
+      enteredContract: string | I_Contract;
+    }
+  ];
+  serviceWorks: [
+    {
+      serviceWork: string | I_ServiceWork;
+      amount: number;
+      priceWorkWoker: number;
+      priceWorkSell: number;
+      rowSumWorkWoker: number;
+      rowSumWorkSell: number;
+      worker: string | I_Worker;
+    }
+  ];
+
+  active: Boolean;
+  creator: string | I_AuthRequest;
+  typeNakl: string;
+
+  deleted: Boolean;
+  whoDeleted: string | I_AuthRequest;
+}
+////////////////////////////
+////////////////////////////
 
 // export interface I_Deal extends I_ClientRequest {
 //   _id?: string;

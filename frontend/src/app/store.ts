@@ -20,11 +20,15 @@ import worker__Slice from '../features/accounting/refData/worker/worker__Slice';
 import product__Slice from '../features/accounting/refData/product/product__Slice';
 import servicework__Slice from '../features/accounting/refData/servicework/servicework__Slice';
 import storehouse__Slice from '../features/accounting/refData/storehouse/storehouse__Slice';
+import grThirdpartyService__Slice from '../features/accounting/refData/group-thirdparty-service/grThirdpartyService__Slice';
+import thirdpartyService__Slice from '../features/accounting/refData/thirdparty-service/thirdpartyService__Slice';
 
 import bankincome__Slice from '../features/accounting/accountant/bankincome/bankincome__Slice';
 import expense__Slice from '../features/accounting/accountant/expense/expense__Slice';
 import paymenttosupplier__Slice from '../features/accounting/accountant/paymenttosupplier/paymenttosupplier__Slice';
 import salarypayment__Slice from '../features/accounting/accountant/salarypayment/salarypayment__Slice';
+import documentaktofwork__Slice from '../features/accounting/accountant/documentaktofwork/documentaktofwork__Slice';
+import documentnakladnaya__Slice from '../features/accounting/accountant/documentnakladnaya/documentnakladnaya__Slice';
 
 export const store = configureStore({
   reducer: {
@@ -44,6 +48,8 @@ export const store = configureStore({
     clienttype__state: clienttype__Slice,
     producttype__state: producttype__Slice,
     storehouse__state: storehouse__Slice,
+    grThirdpartyService__state: grThirdpartyService__Slice,
+    thirdpartyService__state: thirdpartyService__Slice,
 
     client__state: client__Slice,
     contract__state: contract__Slice,
@@ -54,6 +60,8 @@ export const store = configureStore({
     expense__state: expense__Slice,
     paymenttosupplier__state: paymenttosupplier__Slice,
     salarypayment__state: salarypayment__Slice,
+    documentaktofwork__state: documentaktofwork__Slice,
+    documentnakladnaya__state: documentnakladnaya__Slice,
   },
 });
 
