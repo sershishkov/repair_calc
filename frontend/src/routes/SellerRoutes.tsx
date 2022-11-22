@@ -171,6 +171,38 @@ const ListStoreHouse = React.lazy(
   () => import('../pages/accounting/refData/storehouse/ListStoreHouse')
 );
 
+const AddGrThPartyServ = React.lazy(
+  () =>
+    import(
+      '../pages/accounting/refData/group-thirdparty-service/AddGrThPartyServ'
+    )
+);
+const EditGrThPartyServ = React.lazy(
+  () =>
+    import(
+      '../pages/accounting/refData/group-thirdparty-service/EditGrThPartyServ'
+    )
+);
+const ListGrThPartyServ = React.lazy(
+  () =>
+    import(
+      '../pages/accounting/refData/group-thirdparty-service/ListGrThPartyServ'
+    )
+);
+
+const AddThirdPartyServ = React.lazy(
+  () =>
+    import('../pages/accounting/refData/thirdparty-service/AddThirdPartyServ')
+);
+const EditThirdPartyServ = React.lazy(
+  () =>
+    import('../pages/accounting/refData/thirdparty-service/EditThirdPartyServ')
+);
+const ListThirdPartyServ = React.lazy(
+  () =>
+    import('../pages/accounting/refData/thirdparty-service/ListThirdPartyServ')
+);
+
 export const SellerRoutes = [
   { path: '/dashboard', component: <Dashboard /> },
   // gg
@@ -387,6 +419,35 @@ export const SellerRoutes = [
   {
     path: '/refdata/storehouse/:id',
     component: <EditStoreHouse />,
+    exact: true,
+  },
+  // gg
+  // gg
+  {
+    path: '/refdata/group-thirdparty-service',
+    component: <ListGrThPartyServ />,
+  },
+  {
+    path: '/refdata/group-thirdparty-service/add',
+    component: <AddGrThPartyServ />,
+    exact: true,
+  },
+  {
+    path: '/refdata/group-thirdparty-service/:id',
+    component: <EditGrThPartyServ />,
+    exact: true,
+  },
+  // gg
+  // gg
+  { path: '/refdata/thirdparty-service', component: <ListThirdPartyServ /> },
+  {
+    path: '/refdata/thirdparty-service/add',
+    component: <AddThirdPartyServ />,
+    exact: true,
+  },
+  {
+    path: '/refdata/thirdparty-service/:id',
+    component: <EditThirdPartyServ />,
     exact: true,
   },
   // gg

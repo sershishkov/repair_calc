@@ -192,11 +192,11 @@ export interface I_GroupThirdPartyService extends I_ClientRequest {
 
 export interface I_ThirdPartyService extends I_ClientRequest {
   _id?: string;
-  thirdPartyServiceName: string;
+  thirdPartyServiceName?: string;
 
-  unit: string | I_Unit;
-  groupThirdPartyService: string[] | I_GroupThirdPartyService[];
-  priceBuyRecommend: number;
+  unit?: string | I_Unit;
+  groupThirdPartyService?: string[] | I_GroupThirdPartyService[];
+  priceBuyRecommend?: number;
 }
 
 //////////////////////////////////////////////////////////////
@@ -237,10 +237,10 @@ export interface I_PaymentToSupplier extends I_ClientRequest {
 ////////////////////////////
 export interface I_DocumentNakladnaya extends I_ClientRequest {
   _id?: string;
-  nakladnayaNumber: string;
-  nakladnayaDate: dayjs.Dayjs | null;
-  contract: string | I_Contract;
-  products: [
+  nakladnayaNumber?: string;
+  nakladnayaDate?: dayjs.Dayjs | null;
+  contract?: string | I_Contract;
+  products?: [
     {
       product: string | I_Product;
       amount: number;
@@ -250,21 +250,21 @@ export interface I_DocumentNakladnaya extends I_ClientRequest {
       rowSumSell: number;
     }
   ];
-  storeHouse: string | I_StoreHouse;
-  active: Boolean;
-  creator: string | I_AuthRequest;
-  typeNakl: string;
+  storeHouse?: string | I_StoreHouse;
+  active?: Boolean;
+  // creator?: string | I_AuthRequest;
+  typeNakl?: string;
 
-  deleted: Boolean;
-  whoDeleted: string | I_AuthRequest;
+  deleted?: Boolean;
+  whoDeleted?: string | I_AuthRequest;
 }
 
 export interface I_DocumentAktOfWork extends I_ClientRequest {
   _id?: string;
-  aktOfWorkNumber: string;
-  aktOfWorkDate: dayjs.Dayjs | null;
-  contract: string | I_Contract;
-  thirdPartyServices: [
+  aktOfWorkNumber?: string;
+  aktOfWorkDate?: dayjs.Dayjs | null;
+  contract?: string | I_Contract;
+  thirdPartyServices?: [
     {
       thirdPartyService: string | I_ThirdPartyService;
       amount: number;
@@ -275,7 +275,7 @@ export interface I_DocumentAktOfWork extends I_ClientRequest {
       enteredContract: string | I_Contract;
     }
   ];
-  serviceWorks: [
+  serviceWorks?: [
     {
       serviceWork: string | I_ServiceWork;
       amount: number;
@@ -287,12 +287,12 @@ export interface I_DocumentAktOfWork extends I_ClientRequest {
     }
   ];
 
-  active: Boolean;
-  creator: string | I_AuthRequest;
-  typeNakl: string;
+  active?: Boolean;
+  // creator?: string | I_AuthRequest;
+  typeNakl?: string;
 
-  deleted: Boolean;
-  whoDeleted: string | I_AuthRequest;
+  deleted?: Boolean;
+  whoDeleted?: string | I_AuthRequest;
 }
 ////////////////////////////
 ////////////////////////////

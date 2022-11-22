@@ -108,6 +108,14 @@ export const refData_links = [
     link: `${linkRefdata}/storehouse`,
     caption: `storehouse`,
   },
+  {
+    link: `${linkRefdata}/group-thirdparty-service`,
+    caption: `group-thirdparty-service`,
+  },
+  {
+    link: `${linkRefdata}/thirdparty-service`,
+    caption: `thirdparty-service`,
+  },
 ];
 
 const linkAccounting = '/accounting';
@@ -128,6 +136,14 @@ export const accounting_links = [
   {
     link: `${linkAccounting}/paymenttosupplier`,
     caption: `paymenttosupplier`,
+  },
+  {
+    link: `${linkAccounting}/documentnakladnaya`,
+    caption: `documentnakladnaya`,
+  },
+  {
+    link: `${linkAccounting}/documentaktofwork`,
+    caption: `documentaktofwork`,
   },
 ];
 
