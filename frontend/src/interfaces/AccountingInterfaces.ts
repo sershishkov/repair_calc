@@ -245,11 +245,16 @@ export interface I_DocumentNakladnaya extends I_ClientRequest {
       product: string | I_Product;
       amount: number;
       priceBuy: number;
-      priceSell: number;
-      rowSumBuy: number;
-      rowSumSell: number;
+      priceSell?: number;
+      rowSumBuy?: number;
+      rowSumSell?: number;
     }
   ];
+  totalNaklSums: {
+    totalNaklSumBuy?: number;
+    totalNaklSumSell?: number;
+    incomeWithTax?: number;
+  };
   storeHouse?: string | I_StoreHouse;
   active?: Boolean;
   // creator?: string | I_AuthRequest;
@@ -269,10 +274,10 @@ export interface I_DocumentAktOfWork extends I_ClientRequest {
       thirdPartyService: string | I_ThirdPartyService;
       amount: number;
       priceServiceEntered: number;
-      priceServiceSell: number;
-      rowSumServiceEntered: number;
-      rowSumServiceSell: number;
-      enteredContract: string | I_Contract;
+      priceServiceSell?: number;
+      rowSumServiceEntered?: number;
+      rowSumServiceSell?: number;
+      enteredContract?: string | I_Contract;
     }
   ];
   serviceWorks?: [
@@ -280,9 +285,9 @@ export interface I_DocumentAktOfWork extends I_ClientRequest {
       serviceWork: string | I_ServiceWork;
       amount: number;
       priceWorkWoker: number;
-      priceWorkSell: number;
-      rowSumWorkWoker: number;
-      rowSumWorkSell: number;
+      priceWorkSell?: number;
+      rowSumWorkWoker?: number;
+      rowSumWorkSell?: number;
       worker: string | I_Worker;
     }
   ];

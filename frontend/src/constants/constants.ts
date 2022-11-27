@@ -38,6 +38,7 @@ export const roles = [
 ];
 
 const linkRefdata = '/refdata';
+const linkAccounting = '/accounting';
 
 export const refData_links = [
   {
@@ -116,9 +117,15 @@ export const refData_links = [
     link: `${linkRefdata}/thirdparty-service`,
     caption: `thirdparty-service`,
   },
+  {
+    link: `${linkAccounting}/documentnakladnaya`,
+    caption: `documentnakladnaya`,
+  },
+  {
+    link: `${linkAccounting}/documentaktofwork`,
+    caption: `documentaktofwork`,
+  },
 ];
-
-const linkAccounting = '/accounting';
 
 export const accounting_links = [
   {
@@ -136,14 +143,6 @@ export const accounting_links = [
   {
     link: `${linkAccounting}/paymenttosupplier`,
     caption: `paymenttosupplier`,
-  },
-  {
-    link: `${linkAccounting}/documentnakladnaya`,
-    caption: `documentnakladnaya`,
-  },
-  {
-    link: `${linkAccounting}/documentaktofwork`,
-    caption: `documentaktofwork`,
   },
 ];
 

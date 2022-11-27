@@ -98,6 +98,7 @@ document_nakladnaya__Schema.virtual('totalNaklSums').get(function () {
   return {
     totalNaklSumBuy: totalNaklSumBuy.toFixed(2),
     totalNaklSumSell: totalNaklSumSell.toFixed(2),
+    incomeWithTax: (totalNaklSumSell - totalNaklSumBuy).toFixed(2),
   };
 });
 

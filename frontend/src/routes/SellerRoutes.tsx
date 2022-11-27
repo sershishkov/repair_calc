@@ -203,6 +203,16 @@ const ListThirdPartyServ = React.lazy(
     import('../pages/accounting/refData/thirdparty-service/ListThirdPartyServ')
 );
 
+const AddDocNakl = React.lazy(
+  () => import('../pages/accounting/accountant/documentnakladnaya/AddDocNakl')
+);
+const EditDocNakl = React.lazy(
+  () => import('../pages/accounting/accountant/documentnakladnaya/EditDocNakl')
+);
+const ListDocNakl = React.lazy(
+  () => import('../pages/accounting/accountant/documentnakladnaya/ListDocNakl')
+);
+
 export const SellerRoutes = [
   { path: '/dashboard', component: <Dashboard /> },
   // gg
@@ -448,6 +458,19 @@ export const SellerRoutes = [
   {
     path: '/refdata/thirdparty-service/:id',
     component: <EditThirdPartyServ />,
+    exact: true,
+  },
+  // gg
+  // gg
+  { path: '/accounting/documentnakladnaya', component: <ListDocNakl /> },
+  {
+    path: '/accounting/documentnakladnaya/add',
+    component: <AddDocNakl />,
+    exact: true,
+  },
+  {
+    path: '/accounting/documentnakladnaya/:id',
+    component: <EditDocNakl />,
     exact: true,
   },
   // gg
