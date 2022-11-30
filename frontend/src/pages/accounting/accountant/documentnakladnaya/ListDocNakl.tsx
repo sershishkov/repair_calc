@@ -41,10 +41,10 @@ function ListDocNakl() {
             ? item.contract?.client?.nameClientShort!
             : item.contract?.client
           : item.contract!,
-      totalNaklSumBuy: item.totalNaklSums.totalNaklSumBuy!.toString(),
-      totalNaklSumSell: item.totalNaklSums.totalNaklSumSell!.toString(),
-      incomeWithTax: item.totalNaklSums.incomeWithTax!.toString(),
-      isActive: item._id! ? 'проведено' : 'не проведено',
+      totalNaklSumBuy: item.totalNaklSums!.totalNaklSumBuy!.toString(),
+      totalNaklSumSell: item.totalNaklSums!.totalNaklSumSell!.toString(),
+      incomeWithTax: item.totalNaklSums!.incomeWithTax!.toString(),
+      isActive: item.active! ? 'проведено' : 'не проведено',
       typeNakl: item.typeNakl!,
     };
 

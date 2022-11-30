@@ -31,7 +31,6 @@ export const add__DocumentNakladnaya = asyncHandler(
       !contract ||
       !products ||
       !storeHouse ||
-      !active ||
       !typeNakl
     ) {
       res.status(400);

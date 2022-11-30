@@ -235,22 +235,22 @@ export interface I_PaymentToSupplier extends I_ClientRequest {
 
 ////////////////////////////
 ////////////////////////////
+export interface I_ProductInNakl {
+  product: string | I_Product;
+  amount: number;
+  priceBuy: number;
+  priceSell?: number;
+  rowSumBuy?: number;
+  rowSumSell?: number;
+}
+
 export interface I_DocumentNakladnaya extends I_ClientRequest {
   _id?: string;
   nakladnayaNumber?: string;
   nakladnayaDate?: dayjs.Dayjs | null;
   contract?: string | I_Contract;
-  products?: [
-    {
-      product: string | I_Product;
-      amount: number;
-      priceBuy: number;
-      priceSell?: number;
-      rowSumBuy?: number;
-      rowSumSell?: number;
-    }
-  ];
-  totalNaklSums: {
+  products?: I_ProductInNakl[];
+  totalNaklSums?: {
     totalNaklSumBuy?: number;
     totalNaklSumSell?: number;
     incomeWithTax?: number;
