@@ -266,7 +266,7 @@ const AddDocNakl = () => {
                 typeof option.client !== 'string'
                   ? option.client?.nameClientShort!
                   : option.client
-              }, ${option.contractDescription} `;
+              }, ${option.contractDescription}, ${option.workAddress} `;
             }}
             isOptionEqualToValue={(option, value) => option._id === value._id}
             id='contract-controlled'
