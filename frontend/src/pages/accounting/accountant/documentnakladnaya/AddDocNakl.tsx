@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import dayjs, { Dayjs } from 'dayjs';
+import { uuid } from 'uuidv4';
 
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { RootState } from '../../../../app/store';
@@ -18,6 +19,7 @@ import { generateDocNumber } from '../../../../utils/helperFunction';
 import {
   I_Contract,
   I_StoreHouse,
+  I_ProductRow,
   // I_Product,
   // I_ProductInNakl,
   // I_DocumentNakladnaya,
@@ -42,11 +44,29 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Autocomplete from '@mui/material/Autocomplete';
 
+import TableContainer from '@mui/material/TableContainer';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableFooter from '@mui/material/TableFooter';
+import TableRow from '@mui/material/TableRow';
+
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
+import PlusOneIcon from '@mui/icons-material/PlusOne';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+
 const initState = {
   nakladnayaNumber: '',
   // products: [],
   storeHouse: '',
   typeNakl: '',
+  taxPercent: '7',
+  marginPercent: '20',
+  marginSum: '',
 };
 
 const AddDocNakl = () => {
@@ -73,12 +93,16 @@ const AddDocNakl = () => {
   const [active, set_active] = useState(false);
   const [inputContractValue, setInputContractValue] = useState('');
   const [contractObject, setContractObject] = useState<I_Contract | null>(null); //for using autocomplete
+  const [tableRows, set_tableRows] = useState<I_ProductRow[]>([]);
 
   const {
     nakladnayaNumber,
     // products,
     storeHouse,
     typeNakl,
+    taxPercent,
+    marginPercent,
+    marginSum,
   } = formData;
 
   useEffect(() => {
@@ -117,10 +141,9 @@ const AddDocNakl = () => {
       ...prevState,
       nakladnayaNumber: `BH-${generateDocNumber()}`,
     }));
-    const inputFocus = document.getElementById('nakladnayaNumber');
+    const inputFocus = document.getElementById('storeHouse');
     inputFocus?.focus();
-    // console.log(nakladnayaNumber);
-  }, [nakladnayaNumber]);
+  }, []);
 
   const handleChangeSelects = (event: SelectChangeEvent) => {
     setFormdata((prevState) => ({
@@ -140,6 +163,32 @@ const AddDocNakl = () => {
     navigate(link);
   };
 
+  const addTableRow = () => {
+    const newItem = {
+      row_id: uuid(),
+      product: '',
+      parameter: 0,
+      normPerOne: 0,
+      calcAmount: 0,
+      amountInPackage: 0,
+      amount: 0,
+      unit: '',
+      priceBuy: 0,
+      rowSumBuy: 0,
+      priceSell: 0,
+      rowSumSell: 0,
+      deltaPerOne: 0,
+      deltaPerRow: 0,
+    };
+
+    set_tableRows([...tableRows, newItem]);
+  };
+
+  const deleteTableRow = (rowID: string) => {
+    const newArr = [...tableRows].filter((item) => item.row_id !== rowID);
+    set_tableRows(newArr);
+  };
+
   if (isLoading) {
     return <CircularProgress />;
   }
@@ -155,9 +204,10 @@ const AddDocNakl = () => {
     >
       <Grid item className='item item-heading'>
         <Typography variant='h3' align='center'>
-          Добавить
+          Создать накладную
         </Typography>
       </Grid>
+
       <Grid item>
         <Stack
           direction='row'
@@ -236,6 +286,42 @@ const AddDocNakl = () => {
               >{`Возврат Продавцу`}</MenuItem>
             </Select>
           </FormControl>
+        </Stack>
+      </Grid>
+      <Grid item>
+        <Stack
+          direction='row'
+          spacing={2}
+          justifyContent='flex-start'
+          alignItems='center'
+
+          // direction={{ xs: 'column', sm: 'row' }}
+        >
+          <TextField
+            margin='normal'
+            required
+            // fullWidth
+            name='taxPercent'
+            label='taxPercent'
+            type='number'
+            id='taxPercent'
+            value={taxPercent ?? ''}
+            onChange={onChange}
+            sx={{ width: 200, mt: 1 }}
+          />
+          <TextField
+            margin='normal'
+            required
+            // fullWidth
+            name='marginPercent'
+            label='marginPercent'
+            type='number'
+            id='marginPercent'
+            value={marginPercent ?? ''}
+            onChange={onChange}
+            sx={{ width: 200, mt: 1 }}
+          />
+
           <FormControlLabel
             sx={{ fontSize: '1rem' }}
             control={
@@ -246,9 +332,12 @@ const AddDocNakl = () => {
                 color='success'
               />
             }
-            labelPlacement='bottom'
-            label={active ? 'Активно' : 'Нет'}
+            labelPlacement='end'
+            label={active ? 'Активно' : 'Не активно'}
           />
+          <Typography variant='h3' align='center'>
+            Разница по накладной {marginSum}
+          </Typography>
         </Stack>
       </Grid>
 
@@ -288,6 +377,110 @@ const AddDocNakl = () => {
             <AddIcon color='success' sx={{ fontSize: 30 }} />
           </IconButton>
         </Stack>
+      </Grid>
+
+      <Grid item sx={{ mb: 2 }}>
+        <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
+          <Table
+            stickyHeader
+            sx={{
+              maxWidth: 1200,
+              width: '100%',
+              minWidth: 900,
+            }}
+          >
+            <TableHead>
+              <TableRow>
+                <IconButton onClick={addTableRow}>
+                  <PlusOneIcon color='success' sx={{ fontSize: 30 }} />
+                </IconButton>
+              </TableRow>
+              <TableRow>
+                <TableCell align='center' style={{ width: 25 }}>
+                  №
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Товар
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Параметр для расчета
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Норма на …
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Расчетное Кол-во
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Упаковка
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Едениц
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Ед.изм
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Цена Закуп
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Сумма Закупки
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Цена Продажи
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Сумма продажи
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  разн на единице
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Разница Всего
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Удалить строку
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Вверх
+                </TableCell>
+                <TableCell align='center' style={{ width: 25 }}>
+                  Вниз
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tableRows.length > 0 &&
+                tableRows.map((row, rowIndex) => (
+                  <TableRow key={row.row_id}>
+                    <TableCell align='center'>{`${rowIndex + 1}`}</TableCell>
+                    <TableCell align='center'>{`product`}</TableCell>
+                    <TableCell align='center'>{`parameter`}</TableCell>
+                    <TableCell align='center'>{`normPerOne`}</TableCell>
+                    <TableCell align='center'>{`calcAmount`}</TableCell>
+                    <TableCell align='center'>{`amountInPackage`}</TableCell>
+                    <TableCell align='center'>{`amount`}</TableCell>
+                    <TableCell align='center'>{`unit`}</TableCell>
+                    <TableCell align='center'>{`rowSumBuy`}</TableCell>
+                    <TableCell align='center'>{`priceSell`}</TableCell>
+                    <TableCell align='center'>{`rowSumSell`}</TableCell>
+                    <TableCell align='center'>{`deltaPerOne`}</TableCell>
+                    <TableCell align='center'>{`deltaPerRow`}</TableCell>
+                    <TableCell align='center'>
+                      <IconButton onClick={() => deleteTableRow(row.row_id!)}>
+                        <DeleteForeverIcon
+                          color='error'
+                          sx={{ fontSize: 30 }}
+                        />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell align='center'>{`rowGoUp`}</TableCell>
+                    <TableCell align='center'>{`rowGoDown`}</TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Grid>
 
       <Grid item>

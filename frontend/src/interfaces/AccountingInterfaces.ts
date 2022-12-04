@@ -236,12 +236,32 @@ export interface I_PaymentToSupplier extends I_ClientRequest {
 ////////////////////////////
 ////////////////////////////
 export interface I_ProductInNakl {
+  id?: string;
+  _id?: string;
   product: string | I_Product;
   amount: number;
   priceBuy: number;
   priceSell?: number;
   rowSumBuy?: number;
   rowSumSell?: number;
+}
+
+export interface I_ProductRow {
+  row_id?: string;
+  _id?: string;
+  product?: string | I_Product;
+  parameter?: number;
+  normPerOne?: number;
+  calcAmount?: number;
+  amountInPackage?: number;
+  amount?: number;
+  unit?: string;
+  priceBuy?: number;
+  rowSumBuy?: number;
+  priceSell?: number;
+  rowSumSell?: number;
+  deltaPerOne?: number;
+  deltaPerRow?: number;
 }
 
 export interface I_DocumentNakladnaya extends I_ClientRequest {

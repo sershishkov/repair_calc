@@ -161,7 +161,7 @@ function TableSimple({
   }
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
       <Table
         stickyHeader
         sx={{
