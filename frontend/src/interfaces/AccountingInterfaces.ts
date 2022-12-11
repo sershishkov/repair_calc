@@ -240,7 +240,7 @@ export interface I_ProductInNakl {
   _id?: string;
   product: string | I_Product;
   amount: number;
-  priceBuy: number;
+  priceBuyRecommend: number;
   priceSell?: number;
   rowSumBuy?: number;
   rowSumSell?: number;
@@ -249,14 +249,14 @@ export interface I_ProductInNakl {
 export interface I_ProductRow {
   row_id?: string;
   _id?: string;
-  product?: string | I_Product;
+  product?: string;
   parameter?: number;
   normPerOne?: number;
   calcAmount?: number;
   amountInPackage?: number;
   amount?: number;
   unit?: string;
-  priceBuy?: number;
+  priceBuyRecommend?: number;
   rowSumBuy?: number;
   priceSell?: number;
   rowSumSell?: number;

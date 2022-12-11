@@ -212,10 +212,6 @@ const EditDocNakl = React.lazy(
 const ListDocNakl = React.lazy(
   () => import('../pages/accounting/accountant/documentnakladnaya/ListDocNakl')
 );
-const AddDocNaklcopy = React.lazy(
-  () =>
-    import('../pages/accounting/accountant/documentnakladnaya/AddDocNaklcopy')
-);
 
 export const SellerRoutes = [
   { path: '/dashboard', component: <Dashboard /> },
@@ -477,9 +473,5 @@ export const SellerRoutes = [
     component: <EditDocNakl />,
     exact: true,
   },
-  // gg
-  // gg
-  { path: '/accounting/mytable', component: <AddDocNaklcopy /> },
-
   // gg
 ];
