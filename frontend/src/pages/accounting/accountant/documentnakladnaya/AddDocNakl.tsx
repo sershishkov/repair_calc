@@ -71,8 +71,9 @@ const initState = {
   typeNakl: '',
   taxPercent: '7',
   marginPercent: '20',
-  marginSum: '',
-  naklSum: '',
+  marginSum: 0,
+  naklSumSell: 0,
+  naklSumBuy: 0,
 };
 
 const AddDocNakl = () => {
@@ -109,7 +110,8 @@ const AddDocNakl = () => {
     taxPercent,
     marginPercent,
     marginSum,
-    naklSum,
+    naklSumSell,
+    naklSumBuy,
   } = formData;
 
   useEffect(() => {
@@ -193,7 +195,7 @@ const AddDocNakl = () => {
     set_tableRows(tempRows);
   };
 
-  const handleonChangeInputsInRow = (
+  const handleChangeInputsInRow = (
     rowID: string,
     fieldName: string,
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -260,6 +262,76 @@ const AddDocNakl = () => {
     set_tableRows(tempArr);
   };
 
+  const recalcAllTable = () => {
+    let temp_naklSumBuy: number = 0;
+    let temp_naklSumSell: number = 0;
+    let temp_marginSum: number = 0;
+    const tempRows = [...tableRows];
+    tempRows.forEach((item) => {
+      console.log(item);
+      temp_naklSumBuy += Number(item.rowSumBuy ?? '0');
+      temp_naklSumSell += Number(item.rowSumSell ?? '0');
+      temp_marginSum += Number(item.deltaPerRow ?? '0');
+    });
+
+    setFormdata((prevState) => ({
+      ...prevState,
+      naklSumBuy: temp_naklSumBuy,
+      naklSumSell: temp_naklSumSell,
+      marginSum: temp_marginSum,
+    }));
+  };
+  console.log(tableRows);
+  const recalcRow = (
+    rowID: string,
+    fieldName: string,
+    clearParametr = false
+  ) => {
+    const tempRows = [...tableRows];
+    const findRowIndex = tempRows.findIndex((item) => item.row_id === rowID);
+    const findedRow = tempRows[findRowIndex];
+
+    // if (clearParametr) {
+    //   findedRow.parameter = '0';
+    // }
+    const temp_calcAmount =
+      Number(findedRow.parameter) * Number(findedRow.normPerOne);
+    const temp_amount = Math.ceil(
+      temp_calcAmount / Number(findedRow.amountInPackage)
+    );
+    const temp_rowSumBuy = temp_amount * Number(findedRow.priceBuyRecommend);
+
+    const priceWithMarginPercent =
+      Number(findedRow.priceBuyRecommend) +
+      (Number(findedRow.priceBuyRecommend) * Number(marginPercent)) / 100;
+
+    const temp_priceSell =
+      Number(priceWithMarginPercent) +
+      (Number(priceWithMarginPercent) * Number(taxPercent)) / 100;
+
+    const temp_rowSumSell = temp_priceSell * temp_amount;
+    const temp_deltaPerOne =
+      priceWithMarginPercent - Number(findedRow.priceBuyRecommend);
+
+    const temp_deltaPerRow = temp_deltaPerOne * temp_amount;
+
+    const updatedRow = {
+      ...findedRow,
+      calcAmount: `${temp_calcAmount.toFixed(2)}`,
+      amount: `${temp_amount}`,
+      rowSumBuy: `${temp_rowSumBuy.toFixed(2)}`,
+      priceSell: `${temp_priceSell.toFixed(2)}`,
+      rowSumSell: `${temp_rowSumSell.toFixed(2)}`,
+
+      deltaPerOne: `${temp_deltaPerOne.toFixed(2)}`,
+      deltaPerRow: `${temp_deltaPerRow.toFixed(2)}`,
+    };
+
+    tempRows.splice(findRowIndex, 1, updatedRow);
+    set_tableRows(tempRows);
+    recalcAllTable();
+  };
+
   if (isLoading) {
     return <CircularProgress />;
   }
@@ -322,7 +394,7 @@ const AddDocNakl = () => {
             <DesktopDatePicker
               label='Календарь'
               inputFormat='DD-MM-YYYY'
-              value={nakladnayaDate}
+              value={nakladnayaDate ?? null}
               onChange={handleChangeDate}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -340,7 +412,7 @@ const AddDocNakl = () => {
                 labelId='storeHouse-label'
                 id='storeHouse'
                 name='storeHouse'
-                value={storeHouse}
+                value={storeHouse ?? ''}
                 label='storeHouse'
                 onChange={handleChangeSelects}
               >
@@ -431,12 +503,12 @@ const AddDocNakl = () => {
             labelPlacement='end'
             label={active ? 'Активно' : 'Не активно'}
           />
-          <Typography variant='subtitle1' align='center'>
+          {/* <Typography variant='subtitle1' align='center'>
             Разница по накладной:{`${marginSum}`}
           </Typography>
           <Typography variant='subtitle1' align='center'>
             Сумма по накладной {`${naklSum}`}
-          </Typography>
+          </Typography> */}
         </Stack>
       </Grid>
 
@@ -519,11 +591,23 @@ const AddDocNakl = () => {
                   </IconButton>
                 </TableCell>
                 <TableCell colSpan={8}></TableCell>
-                <TableCell align='center'>50</TableCell>
+                <TableCell align='center'>
+                  <Typography variant='subtitle1' align='center'>
+                    {`${naklSumBuy.toFixed(2)}`}
+                  </Typography>
+                </TableCell>
                 <TableCell></TableCell>
-                <TableCell align='center'>80</TableCell>
+                <TableCell align='center'>
+                  <Typography variant='subtitle1' align='center'>
+                    {`${naklSumSell.toFixed(2)}`}
+                  </Typography>
+                </TableCell>
                 <TableCell></TableCell>
-                <TableCell align='center'>90</TableCell>
+                <TableCell align='center'>
+                  <Typography variant='subtitle1' align='center'>
+                    {`${marginSum.toFixed(2)}`}
+                  </Typography>
+                </TableCell>
                 <TableCell colSpan={3} align='center'>
                   ff
                 </TableCell>
@@ -674,7 +758,12 @@ const AddDocNakl = () => {
                 ></TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody
+            // sx={{
+            //   padding: 0,
+            //   border: '1px solid red',
+            // }}
+            >
               {tableRows.length > 0 &&
                 tableRows.map((row, rowIndex) => (
                   <TableRow
@@ -682,38 +771,39 @@ const AddDocNakl = () => {
                     sx={{
                       padding: 0,
                       // border: '1px solid red',
+                      margin: 0,
                     }}
                   >
                     <TableCell
                       align='center'
                       sx={{
-                        fontSize: '0.75rem',
                         width: '0.5rem',
-                        border: '1px solid red',
+                        // border: '1px solid red',
                         padding: 0,
                       }}
-                    >{`${rowIndex + 1}`}</TableCell>
+                    >
+                      <Typography variant='subtitle1' align='center'>
+                        {`${rowIndex + 1}`}
+                      </Typography>
+                    </TableCell>
                     <TableCell
                       align='center'
                       sx={{ width: 200, padding: '0 1px' }}
                     >
-                      {/* <FormControl
-                      //  sx={{ width: 200 }}
-                      > */}
-                      {/* <InputLabel id={`${row.row_id}-product-label`}>
-                          товар
-                        </InputLabel> */}
                       <Select
                         fullWidth
-                        sx={{ padding: 0, mt: 0.5 }}
-                        // labelId={`${row.row_id}-product-label`}
+                        sx={{
+                          padding: 0,
+                          // border: '1px solid blue',
+                        }}
                         id={`${row.row_id}-product`}
                         name={`${row.row_id}-product`}
                         value={row.product}
                         // label='product'
-                        onChange={(e) =>
-                          handleChangeSelectsInRow(row.row_id!, e)
-                        }
+                        onChange={(e) => {
+                          handleChangeSelectsInRow(row.row_id!, e);
+                          // recalcRow(row.row_id!, 'parameter', true);
+                        }}
                       >
                         {arr__Products?.map((item: I_Product) => (
                           <MenuItem key={item._id} value={item._id}>
@@ -731,8 +821,9 @@ const AddDocNakl = () => {
                         id={`${row.row_id}-parameter`}
                         value={row.parameter ?? ''}
                         onChange={(e) =>
-                          handleonChangeInputsInRow(row.row_id!, 'parameter', e)
+                          handleChangeInputsInRow(row.row_id!, 'parameter', e)
                         }
+                        onBlur={() => recalcRow(row.row_id!, 'parameter')}
                         // sx={{ width: 50 }}
                       />
                     </TableCell>
@@ -745,14 +836,18 @@ const AddDocNakl = () => {
                         id={`${row.row_id}-normPerOne`}
                         value={row.normPerOne ?? ''}
                         onChange={(e) =>
-                          handleonChangeInputsInRow(
-                            row.row_id!,
-                            'normPerOne',
-                            e
-                          )
+                          handleChangeInputsInRow(row.row_id!, 'normPerOne', e)
                         }
-                        // sx={{ textAlign: 'center !important' }}
-                        inputProps={{ textAlign: 'center !important' }}
+                        inputProps={{
+                          min: 0,
+                          step: 0.001,
+                        }}
+                        disabled={
+                          Number(row.parameter) <= 0 || row.parameter === ''
+                        }
+                        // InputProps={{
+                        //   min: '0',
+                        // }}
                       />
                       {/* <Typography variant='subtitle1' align='center'>
                         {`${row.normPerOne}`}
@@ -767,11 +862,10 @@ const AddDocNakl = () => {
                         id={`${row.row_id}-calcAmount`}
                         value={row.calcAmount ?? ''}
                         onChange={(e) =>
-                          handleonChangeInputsInRow(
-                            row.row_id!,
-                            'calcAmount',
-                            e
-                          )
+                          handleChangeInputsInRow(row.row_id!, 'calcAmount', e)
+                        }
+                        disabled={
+                          Number(row.parameter) <= 0 || row.parameter === ''
                         }
                         // sx={{ width: 200, mt: 1 }}
                       />
@@ -785,11 +879,14 @@ const AddDocNakl = () => {
                         id={`${row.row_id}-amountInPackage`}
                         value={row.amountInPackage ?? ''}
                         onChange={(e) =>
-                          handleonChangeInputsInRow(
+                          handleChangeInputsInRow(
                             row.row_id!,
                             'amountInPackage',
                             e
                           )
+                        }
+                        disabled={
+                          Number(row.parameter) <= 0 || row.parameter === ''
                         }
                         // sx={{ width: 200, mt: 1 }}
                       />
@@ -806,7 +903,7 @@ const AddDocNakl = () => {
                         id={`${row.row_id}-amount`}
                         value={row.amount ?? ''}
                         onChange={(e) =>
-                          handleonChangeInputsInRow(row.row_id!, 'amount', e)
+                          handleChangeInputsInRow(row.row_id!, 'amount', e)
                         }
                         // sx={{ width: 200, mt: 1 }}
                       />
@@ -825,7 +922,7 @@ const AddDocNakl = () => {
                         id={`${row.row_id}-priceBuyRecommend`}
                         value={row.priceBuyRecommend ?? ''}
                         onChange={(e) =>
-                          handleonChangeInputsInRow(
+                          handleChangeInputsInRow(
                             row.row_id!,
                             'priceBuyRecommend',
                             e
@@ -842,7 +939,7 @@ const AddDocNakl = () => {
                     <TableCell
                       align='center'
                       sx={{ padding: '0 1px' }}
-                    >{`priceSell`}</TableCell>
+                    >{`${row.priceSell}`}</TableCell>
                     <TableCell align='center' sx={{ padding: '0 1px' }}>
                       <Typography variant='subtitle1' align='center'>
                         {`${row.rowSumSell}`}
@@ -925,7 +1022,8 @@ const AddDocNakl = () => {
             !inputContractValue ||
             !nakladnayaDate ||
             !storeHouse ||
-            !typeNakl
+            !typeNakl ||
+            tableRows.length < 1
           }
           variant='contained'
           sx={{ mt: 3, mb: 2 }}
