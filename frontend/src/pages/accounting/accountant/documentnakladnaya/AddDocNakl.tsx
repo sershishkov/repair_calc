@@ -144,13 +144,20 @@ const AddDocNakl = () => {
   };
 
   useEffect(() => {
+    const customStoreId = arr__StoreHouses?.find(
+      (item) => item.storeHouseName === 'Склад основной'
+    )?._id;
+
     setFormdata((prevState) => ({
       ...prevState,
       nakladnayaNumber: `BH-${generateDocNumber()}`,
+      storeHouse: customStoreId!,
+      typeNakl: `outgoing`,
     }));
-    const inputFocus = document.getElementById('storeHouse');
+
+    const inputFocus = document.getElementById('contract-controlled');
     inputFocus?.focus();
-  }, []);
+  }, [arr__StoreHouses]);
 
   const handleChangeSelects = (event: SelectChangeEvent) => {
     setFormdata((prevState) => ({
@@ -176,13 +183,31 @@ const AddDocNakl = () => {
     const newRow = {
       ...findRow,
       product: event.target.value as string,
-      normPerOne: findProduct?.normPerOne,
-      amountInPackage: findProduct?.amountInPackage,
+      normPerOne: `${findProduct?.normPerOne}`,
+      amountInPackage: `${findProduct?.amountInPackage}`,
       unit: productUnit,
-      priceBuyRecommend: findProduct?.priceBuyRecommend,
+      priceBuyRecommend: `${findProduct?.priceBuyRecommend}`,
     };
 
     tempRows.splice(findRowIndex, 1, newRow);
+    set_tableRows(tempRows);
+  };
+
+  const handleonChangeInputsInRow = (
+    rowID: string,
+    fieldName: string,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const tempRows = [...tableRows];
+    const findRowIndex = tempRows.findIndex((item) => item.row_id === rowID);
+    const findedRow = tempRows[findRowIndex];
+
+    const updatedRow = {
+      ...findedRow,
+      [fieldName]: event.target.value,
+    };
+
+    tempRows.splice(findRowIndex, 1, updatedRow);
     set_tableRows(tempRows);
   };
 
@@ -201,18 +226,18 @@ const AddDocNakl = () => {
     const newItem = {
       row_id: uuidv4(),
       product: '',
-      parameter: 0,
-      normPerOne: 0,
-      calcAmount: 0,
-      amountInPackage: 0,
-      amount: 0,
+      parameter: '',
+      normPerOne: '',
+      calcAmount: '',
+      amountInPackage: '',
+      amount: '',
       unit: '',
-      priceBuy: 0,
-      rowSumBuy: 0,
-      priceSell: 0,
-      rowSumSell: 0,
-      deltaPerOne: 0,
-      deltaPerRow: 0,
+      priceBuy: '',
+      rowSumBuy: '',
+      priceSell: '',
+      rowSumSell: '',
+      deltaPerOne: '',
+      deltaPerRow: '',
     };
 
     set_tableRows([...tableRows, newItem]);
@@ -656,6 +681,7 @@ const AddDocNakl = () => {
                     key={row.row_id}
                     sx={{
                       padding: 0,
+                      // border: '1px solid red',
                     }}
                   >
                     <TableCell
@@ -663,69 +689,171 @@ const AddDocNakl = () => {
                       sx={{
                         fontSize: '0.75rem',
                         width: '0.5rem',
-                        // border: '1px solid red',
+                        border: '1px solid red',
                         padding: 0,
                       }}
                     >{`${rowIndex + 1}`}</TableCell>
-                    <TableCell align='center'>
-                      <FormControl sx={{ width: 200 }}>
-                        <InputLabel id={`${row.row_id}-product-label`}>
+                    <TableCell
+                      align='center'
+                      sx={{ width: 200, padding: '0 1px' }}
+                    >
+                      {/* <FormControl
+                      //  sx={{ width: 200 }}
+                      > */}
+                      {/* <InputLabel id={`${row.row_id}-product-label`}>
                           товар
-                        </InputLabel>
-                        <Select
-                          labelId={`${row.row_id}-product-label`}
-                          id={`${row.row_id}-product`}
-                          name={`${row.row_id}-product`}
-                          value={row.product}
-                          label='product'
-                          onChange={(e) =>
-                            handleChangeSelectsInRow(row.row_id!, e)
-                          }
-                        >
-                          {arr__Products?.map((item: I_Product) => (
-                            <MenuItem key={item._id} value={item._id}>
-                              {item.productName}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                        </InputLabel> */}
+                      <Select
+                        fullWidth
+                        sx={{ padding: 0, mt: 0.5 }}
+                        // labelId={`${row.row_id}-product-label`}
+                        id={`${row.row_id}-product`}
+                        name={`${row.row_id}-product`}
+                        value={row.product}
+                        // label='product'
+                        onChange={(e) =>
+                          handleChangeSelectsInRow(row.row_id!, e)
+                        }
+                      >
+                        {arr__Products?.map((item: I_Product) => (
+                          <MenuItem key={item._id} value={item._id}>
+                            {item.productName}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      {/* </FormControl> */}
                     </TableCell>
-                    <TableCell align='center'>{`parameter`}</TableCell>
-                    <TableCell align='center'>
-                      <Typography variant='subtitle1' align='center'>
+                    <TableCell align='center' sx={{ padding: '0 1px' }}>
+                      <TextField
+                        margin='dense'
+                        name='parameter'
+                        type='number'
+                        id={`${row.row_id}-parameter`}
+                        value={row.parameter ?? ''}
+                        onChange={(e) =>
+                          handleonChangeInputsInRow(row.row_id!, 'parameter', e)
+                        }
+                        // sx={{ width: 50 }}
+                      />
+                    </TableCell>
+                    <TableCell align='center' sx={{ padding: '0 1px' }}>
+                      <TextField
+                        margin='dense'
+                        name='normPerOne'
+                        // label='normPerOne'
+                        type='number'
+                        id={`${row.row_id}-normPerOne`}
+                        value={row.normPerOne ?? ''}
+                        onChange={(e) =>
+                          handleonChangeInputsInRow(
+                            row.row_id!,
+                            'normPerOne',
+                            e
+                          )
+                        }
+                        // sx={{ textAlign: 'center !important' }}
+                        inputProps={{ textAlign: 'center !important' }}
+                      />
+                      {/* <Typography variant='subtitle1' align='center'>
                         {`${row.normPerOne}`}
-                      </Typography>
+                      </Typography> */}
                     </TableCell>
-                    <TableCell align='center'>{`calcAmount`}</TableCell>
-                    <TableCell align='center'>
-                      <Typography variant='subtitle1' align='center'>
+                    <TableCell align='center' sx={{ padding: '0 1px' }}>
+                      <TextField
+                        margin='dense'
+                        name='calcAmount'
+                        // label='calcAmount'
+                        type='number'
+                        id={`${row.row_id}-calcAmount`}
+                        value={row.calcAmount ?? ''}
+                        onChange={(e) =>
+                          handleonChangeInputsInRow(
+                            row.row_id!,
+                            'calcAmount',
+                            e
+                          )
+                        }
+                        // sx={{ width: 200, mt: 1 }}
+                      />
+                    </TableCell>
+                    <TableCell align='center' sx={{ padding: '0 1px' }}>
+                      <TextField
+                        margin='dense'
+                        name='amountInPackage'
+                        // label='amountInPackage'
+                        type='number'
+                        id={`${row.row_id}-amountInPackage`}
+                        value={row.amountInPackage ?? ''}
+                        onChange={(e) =>
+                          handleonChangeInputsInRow(
+                            row.row_id!,
+                            'amountInPackage',
+                            e
+                          )
+                        }
+                        // sx={{ width: 200, mt: 1 }}
+                      />
+                      {/* <Typography variant='subtitle1' align='center'>
                         {`${row.amountInPackage}`}
-                      </Typography>
+                      </Typography> */}
                     </TableCell>
-                    <TableCell align='center'>{`amount`}</TableCell>
-                    <TableCell align='center'>
+                    <TableCell align='center' sx={{ padding: '0 1px' }}>
+                      <TextField
+                        margin='dense'
+                        name='amount'
+                        // label='amount'
+                        type='number'
+                        id={`${row.row_id}-amount`}
+                        value={row.amount ?? ''}
+                        onChange={(e) =>
+                          handleonChangeInputsInRow(row.row_id!, 'amount', e)
+                        }
+                        // sx={{ width: 200, mt: 1 }}
+                      />
+                    </TableCell>
+                    <TableCell align='center' sx={{ padding: '0 1px' }}>
                       <Typography variant='subtitle1' align='center'>
                         {`${row.unit}`}
                       </Typography>
                     </TableCell>
-                    <TableCell align='center'>{`priceBuyRecommend`}</TableCell>
-                    <TableCell align='center'>
+                    <TableCell align='center' sx={{ padding: '0 1px' }}>
+                      <TextField
+                        margin='dense'
+                        name='priceBuyRecommend'
+                        // label='priceBuyRecommend'
+                        type='number'
+                        id={`${row.row_id}-priceBuyRecommend`}
+                        value={row.priceBuyRecommend ?? ''}
+                        onChange={(e) =>
+                          handleonChangeInputsInRow(
+                            row.row_id!,
+                            'priceBuyRecommend',
+                            e
+                          )
+                        }
+                        // sx={{ width: 200, mt: 1 }}
+                      />
+                    </TableCell>
+                    <TableCell align='center' sx={{ padding: '0 1px' }}>
                       <Typography variant='subtitle1' align='center'>
                         {`${row.rowSumBuy}`}
                       </Typography>
                     </TableCell>
-                    <TableCell align='center'>{`priceSell`}</TableCell>
-                    <TableCell align='center'>
+                    <TableCell
+                      align='center'
+                      sx={{ padding: '0 1px' }}
+                    >{`priceSell`}</TableCell>
+                    <TableCell align='center' sx={{ padding: '0 1px' }}>
                       <Typography variant='subtitle1' align='center'>
                         {`${row.rowSumSell}`}
                       </Typography>
                     </TableCell>
-                    <TableCell align='center'>
+                    <TableCell align='center' sx={{ padding: '0 1px' }}>
                       <Typography variant='subtitle1' align='center'>
                         {`${row.deltaPerOne}`}
                       </Typography>
                     </TableCell>
-                    <TableCell align='center'>
+                    <TableCell align='center' sx={{ padding: '0 1px' }}>
                       <Typography variant='subtitle1' align='center'>
                         {`${row.deltaPerRow}`}
                       </Typography>
@@ -735,7 +863,7 @@ const AddDocNakl = () => {
                       sx={{
                         width: '0.5rem',
                         // border: '1px solid red',
-                        padding: 0,
+                        padding: '0 1px',
                       }}
                     >
                       <IconButton onClick={() => deleteTableRow(row.row_id!)}>
@@ -750,7 +878,7 @@ const AddDocNakl = () => {
                       sx={{
                         width: '0.5rem',
                         // border: '1px solid red',
-                        padding: 0,
+                        padding: '0 1px',
                       }}
                     >
                       <IconButton
@@ -768,7 +896,7 @@ const AddDocNakl = () => {
                       sx={{
                         width: '0.5rem',
                         // border: '1px solid red',
-                        padding: 0,
+                        padding: '0 1px',
                       }}
                     >
                       <IconButton

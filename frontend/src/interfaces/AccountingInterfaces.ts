@@ -250,18 +250,18 @@ export interface I_ProductRow {
   row_id?: string;
   _id?: string;
   product?: string;
-  parameter?: number;
-  normPerOne?: number;
-  calcAmount?: number;
-  amountInPackage?: number;
-  amount?: number;
+  parameter?: string;
+  normPerOne?: string;
+  calcAmount?: string;
+  amountInPackage?: string;
+  amount?: string;
   unit?: string;
-  priceBuyRecommend?: number;
-  rowSumBuy?: number;
-  priceSell?: number;
-  rowSumSell?: number;
-  deltaPerOne?: number;
-  deltaPerRow?: number;
+  priceBuyRecommend?: string;
+  rowSumBuy?: string;
+  priceSell?: string;
+  rowSumSell?: string;
+  deltaPerOne?: string;
+  deltaPerRow?: string;
 }
 
 export interface I_DocumentNakladnaya extends I_ClientRequest {
