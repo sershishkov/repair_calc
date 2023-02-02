@@ -235,33 +235,14 @@ export interface I_PaymentToSupplier extends I_ClientRequest {
 
 ////////////////////////////
 ////////////////////////////
-export interface I_ProductInNakl {
-  id?: string;
-  _id?: string;
-  product: string | I_Product;
-  amount: number;
-  priceBuyRecommend: number;
-  priceSell?: number;
-  rowSumBuy?: number;
-  rowSumSell?: number;
-}
-
-export interface I_ProductRow {
+export interface I_Nakl_Row {
   row_id?: string;
   _id?: string;
-  product?: string;
-  parameter?: string;
-  normPerOne?: string;
-  calcAmount?: string;
-  amountInPackage?: string;
-  amount?: string;
-  unit?: string;
-  priceBuyRecommend?: string;
-  rowSumBuy?: string;
-  priceSell?: string;
-  rowSumSell?: string;
-  deltaPerOne?: string;
-  deltaPerRow?: string;
+  product: string;
+  unit: string | I_Unit;
+  amount: string;
+  priceSell: string;
+  rowSumSell: string;
 }
 
 export interface I_DocumentNakladnaya extends I_ClientRequest {
@@ -269,12 +250,9 @@ export interface I_DocumentNakladnaya extends I_ClientRequest {
   nakladnayaNumber?: string;
   nakladnayaDate?: dayjs.Dayjs | null;
   contract?: string | I_Contract;
-  products?: I_ProductInNakl[];
-  totalNaklSums?: {
-    totalNaklSumBuy?: number;
-    totalNaklSumSell?: number;
-    incomeWithTax?: number;
-  };
+  naklRows?: I_Nakl_Row[];
+  naklSumSell?: string;
+  totalNaklSum?: string;
   storeHouse?: string | I_StoreHouse;
   active?: Boolean;
   // creator?: string | I_AuthRequest;

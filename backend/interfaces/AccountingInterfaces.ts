@@ -240,9 +240,7 @@ export interface I_DocumentNakladnaya {
     {
       product: Types.ObjectId;
       amount: number;
-      priceBuy: number;
       priceSell: number;
-      rowSumBuy: number;
       rowSumSell: number;
     }
   ];

@@ -19,9 +19,7 @@ interface NewObject {
   nakladnayaNumber: string;
   nakladnayaDate: string;
   clientName: string;
-  totalNaklSumBuy: string;
-  totalNaklSumSell: string;
-  incomeWithTax: string;
+  totalNaklSum: string;
   isActive: string;
   typeNakl: string;
 }
@@ -41,9 +39,9 @@ function ListDocNakl() {
             ? item.contract?.client?.nameClientShort!
             : item.contract?.client
           : item.contract!,
-      totalNaklSumBuy: item.totalNaklSums!.totalNaklSumBuy!.toString(),
-      totalNaklSumSell: item.totalNaklSums!.totalNaklSumSell!.toString(),
-      incomeWithTax: item.totalNaklSums!.incomeWithTax!.toString(),
+
+      totalNaklSum: item.totalNaklSum!,
+
       isActive: item.active! ? 'проведено' : 'не проведено',
       typeNakl: item.typeNakl!,
     };
@@ -55,9 +53,9 @@ function ListDocNakl() {
     'nakladnayaNumber',
     'nakladnayaDate',
     'clientName',
-    'totalNaklSumBuy',
-    'totalNaklSumSell',
-    'incomeWithTax',
+
+    'totalNaklSum',
+
     'isActive',
     'typeNakl',
   ];
@@ -65,9 +63,9 @@ function ListDocNakl() {
     'nakladnayaNumber',
     'nakladnayaDate',
     'clientName',
-    'totalNaklSumBuy',
-    'totalNaklSumSell',
-    'incomeWithTax',
+
+    'totalNaklSum',
+
     'isActive',
     'typeNakl',
   ];

@@ -149,7 +149,7 @@ export const getAll__DocumentNakladnayas = asyncHandler(
       .limit(pageSize)
       .skip(skip)
       .sort({
-        paymentDate: -1,
+        nakladnayaDate: -1,
       })
       .populate({
         path: 'contract',
